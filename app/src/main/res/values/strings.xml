@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">தினம் ஒரு திருக்குறள்</string>
+    <string name="todays_kural">இன்றைய திருக்குறள்</string>
+    <string name="thirukural">திருக்குறள்</string>
+    <string name="kuraliyal">குறள் இயல்: </string>
+    <string name="kuralno">குறள் எண்: </string>
+    <string name="athigaram">அதிகாரம்: </string>
+    <string name="urai">உரை: </string>
+    <string name="arathupal">அறத்துப்பால்</string>
+    <string name="soloman_urai"><u>சாலமன் பாப்பையா உரை:</u></string>
+    <string name="mk_urai"><u>கலைஞர் மு.கருணாநிதி உரை:</u></string>
+    <string name="varathu_urai"><u>மு.வரதராசனார் உரை:</u></string>
+    <string name="parimal_urai"><u>பரிமேலழகர் உரை:</u></string>
+    <string name="manakudavar_urai"><u>மணக்குடவர் உரை:</u></string>
+    <string name="munusami_urai"><u>வீ. முனிசாமி உரை:</u></string>
+    <string name="eng_exp"><u>English Explanation:</u></string>
+</resources>
