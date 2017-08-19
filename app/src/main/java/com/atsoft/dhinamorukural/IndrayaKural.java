@@ -11,14 +11,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,15 +23,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AlertDialog extends Activity {
+public class IndrayaKural extends Activity {
 
     Button expbtn, sharebtn;
     EditText greet;
@@ -99,12 +92,12 @@ public class AlertDialog extends Activity {
         getPreviosValue();
         setValue();
 
-        System.out.println("Syso AlertDialog call");
+        System.out.println("Syso IndrayaKural call");
 
         fab_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.this.finish();
+                IndrayaKural.this.finish();
             }
         });
 
@@ -124,18 +117,20 @@ public class AlertDialog extends Activity {
         expbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AlertDialog.this, MainActivity.class);
+                Intent intent = new Intent(IndrayaKural.this, MainActivity.class);
                 intent.putExtra("todayKural", ""+currentNo);
+                intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+                intent.putExtra("fromactivity", "ad");
                 startActivity(intent);
-                AlertDialog.this.finish();
+                IndrayaKural.this.finish();
             }
         });
     }
 
     private void getPreviosValue() {
-        String preno = sharedPrefs.getString("preno", "");
+        String todaykuralno = sharedPrefs.getString("todaykuralno", "");
         kuralnoarr = new ArrayList<>();
-        if (preno.equalsIgnoreCase("")) {
+        if (todaykuralno.equalsIgnoreCase("")) {
             for (int i = 0; i < 4; i++)
                 kuralnoarr.add(String.valueOf(i));
             Collections.shuffle(kuralnoarr);
@@ -153,7 +148,7 @@ public class AlertDialog extends Activity {
                 Set<String> set = new HashSet<>();
                 set.addAll(kuralnoarr);
                 editor.putStringSet("kural_no_set", set);
-                editor.putString("preno", String.valueOf(currentNo));
+                editor.putString("todaykuralno", String.valueOf(currentNo));
                 editor.commit();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,17 +167,17 @@ public class AlertDialog extends Activity {
                     Collections.shuffle(kuralnoarr);
                 }
                 SharedPreferences.Editor editor = sharedPrefs.edit();
-                try {
+                /*try {
                     editor.clear();
                     editor.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
                 try {
                     Set<String> set = new HashSet<>();
                     set.addAll(kuralnoarr);
                     editor.putStringSet("kural_no_set", set);
-                    editor.putString("preno", String.valueOf(currentNo));
+                    editor.putString("todaykuralno", String.valueOf(currentNo));
                     editor.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -281,7 +276,7 @@ public class AlertDialog extends Activity {
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "Share Thirukural"));
-            //AlertDialog.this.finish();
+            //IndrayaKural.this.finish();
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getApplicationContext(), "No App Available", Toast.LENGTH_SHORT).show();
         }

@@ -21,25 +21,20 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-
-
-        <!--<TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/thirukural"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:textStyle="bold" />-->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="wrap_content"
             android:id="@+id/kural_ll"
+            android:orientation="horizontal">
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="275dp"
             android:padding="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -117,17 +112,19 @@
                 android:gravity="center" />
 
         </LinearLayout>
-
+</ScrollView>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="75dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
             android:background="@android:color/holo_blue_dark"/>
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1">
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -278,6 +275,8 @@
             </LinearLayout>
 
         </ScrollView>
+</LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
@@ -290,7 +289,7 @@
             android:scaleType="center"
             app:fabSize="mini"
             app:layout_anchor="@id/kural_ll"
-            app:layout_anchorGravity="bottom|start|left"/>
+            app:layout_anchorGravity="center|start|left"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_next"
@@ -302,7 +301,7 @@
             android:scaleType="center"
             app:fabSize="mini"
             app:layout_anchor="@id/kural_ll"
-            app:layout_anchorGravity="bottom|right|end"/>
+            app:layout_anchorGravity="center|right|end"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </android.support.constraint.ConstraintLayout>

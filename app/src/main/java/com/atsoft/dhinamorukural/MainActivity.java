@@ -2,20 +2,17 @@ package com.atsoft.dhinamorukural;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton pre, next;
     SharedPreferences sharedPrefs;
+    static String fromactivity = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +57,25 @@ public class MainActivity extends AppCompatActivity {
         pre = (FloatingActionButton) findViewById(R.id.fab_previous);
         next = (FloatingActionButton) findViewById(R.id.fab_next);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
-        getPreviosValue();
+        //getPreviosValue();
         try {
             Bundle bundle = getIntent().getExtras();
-            String xxx = bundle.getString("todayKural");
-            if (!xxx.equalsIgnoreCase("")) {
-                todayKural = Integer.parseInt(xxx);
-                //setValue(todayKural);
-            } else {
-                todayKural = currentNo;
-            }
+            todayKural = Integer.parseInt(bundle.getString("todayKural"));
+            currentNo = Integer.parseInt(bundle.getString("preread"));
+            fromactivity = bundle.getString("fromactivity");
         } catch (Exception e) {
-            todayKural = currentNo;
             e.printStackTrace();
         }
 
-        setValue(todayKural);
+        if (fromactivity.equalsIgnoreCase("ss")) {
+            next.setVisibility(View.VISIBLE);
+            pre.setVisibility(View.VISIBLE);
+            setValue(currentNo);
+        } else {
+            next.setVisibility(View.INVISIBLE);
+            pre.setVisibility(View.INVISIBLE);
+            setValue(todayKural);
+        }
         //showNotification();
         setAlerm();
 
@@ -97,9 +98,46 @@ public class MainActivity extends AppCompatActivity {
         thirukural.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AlertDialog.class));
+                startActivity(new Intent(MainActivity.this, IndrayaKural.class));
+                MainActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!fromactivity.equalsIgnoreCase("ss")) {
+            startActivity(new Intent(MainActivity.this, SplashScreen.class));
+            MainActivity.this.finish();
+        } else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.app_name);
+            builder.setIcon(R.drawable.mini_icon_42);
+            builder.setMessage("நீங்கள் வெளியேற விரும்புகிறீர்களா?");
+            builder.setPositiveButton("வெளியேறு", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    try {
+                        editor.putString("prereadno", String.valueOf(currentNo));
+                        editor.commit();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    MainActivity.this.finish();
+                }
+            })
+                .setNegativeButton("ரத்து செய் ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+        }
     }
 
     private void getPreviosValue() {
@@ -121,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             try {
                 currentNo = Integer.parseInt(prereadno);
-                todayKural = Integer.parseInt(sharedPrefs.getString("preno", "0"));
+                todayKural = Integer.parseInt(sharedPrefs.getString("todaykuralno", "0"));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (Exception ee) {
@@ -167,14 +205,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showButton (int getInt) {
-        if (getInt==0)
-            pre.setVisibility(View.INVISIBLE);
-        else
-            pre.setVisibility(View.VISIBLE);
-        if (getInt==3)
-            next.setVisibility(View.INVISIBLE);
-        else
-            next.setVisibility(View.VISIBLE);
+        if (fromactivity.equalsIgnoreCase("ss")) {
+            if (getInt == 0)
+                pre.setVisibility(View.INVISIBLE);
+            else
+                pre.setVisibility(View.VISIBLE);
+            if (getInt == 3)
+                next.setVisibility(View.INVISIBLE);
+            else
+                next.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setAlerm() {
@@ -201,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, PopUpReceiver.class);
 
         PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.set(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), sender);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
     }
 
     private void getAllPermission() {
