@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
@@ -110,6 +111,9 @@ public class IndrayaKural extends Activity {
                 btnll.setVisibility(View.INVISIBLE);
                 ss = getScreenShot(rootView);
                 store(ss, filename);
+                greet.setVisibility(View.VISIBLE);
+                fab_close.setVisibility(View.VISIBLE);
+                btnll.setVisibility(View.VISIBLE);
                 shareImage(new File(dirPath, filename));
             }
         });
@@ -131,7 +135,7 @@ public class IndrayaKural extends Activity {
         String todaykuralno = sharedPrefs.getString("todaykuralno", "");
         kuralnoarr = new ArrayList<>();
         if (todaykuralno.equalsIgnoreCase("")) {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 10; i++)
                 kuralnoarr.add(String.valueOf(i));
             Collections.shuffle(kuralnoarr);
             System.out.println("Syso : Arrray create : "+kuralnoarr);
@@ -162,7 +166,7 @@ public class IndrayaKural extends Activity {
                 System.out.println("Syso : Arrray : "+kuralnoarr);
                 kuralnoarr.remove(0);
                 if (kuralnoarr.size() == 0) {
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 10; i++)
                         kuralnoarr.add(String.valueOf(i));
                     Collections.shuffle(kuralnoarr);
                 }
@@ -246,8 +250,8 @@ public class IndrayaKural extends Activity {
     }
 
     public void store(Bitmap bm, String fileName){
-//        dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Thirukural/Screenshots";
-        dirPath = getFilesDir().getAbsolutePath() + "/Thirukural/Screenshots";
+        dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Thirukural/Screenshots";
+//        dirPath = getFilesDir().getAbsolutePath() + "/Thirukural/Screenshots";
         System.out.println("Syso dir path : "+dirPath);
         File dir = new File(dirPath);
         if(!dir.exists())
