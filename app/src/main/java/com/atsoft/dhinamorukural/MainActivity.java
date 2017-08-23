@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 pre.setVisibility(View.INVISIBLE);
             else
                 pre.setVisibility(View.VISIBLE);
-            if (getInt == 3)
+            if (getInt == 9)
                 next.setVisibility(View.INVISIBLE);
             else
                 next.setVisibility(View.VISIBLE);
