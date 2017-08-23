@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -89,7 +91,7 @@ public class IndrayaKural extends Activity {
 
 //        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
 //        datestr = df.format(calendar.getTime());
-        datestr = cdate + "-" + month + "-" + year;
+        datestr = new DecimalFormat("00").format(cdate) + "-" + new DecimalFormat("00").format(month) + "-" + year;
         getPreviosValue();
         setValue();
 
@@ -135,7 +137,7 @@ public class IndrayaKural extends Activity {
         String todaykuralno = sharedPrefs.getString("todaykuralno", "");
         kuralnoarr = new ArrayList<>();
         if (todaykuralno.equalsIgnoreCase("")) {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
                 kuralnoarr.add(String.valueOf(i));
             Collections.shuffle(kuralnoarr);
             System.out.println("Syso : Arrray create : "+kuralnoarr);
@@ -166,7 +168,7 @@ public class IndrayaKural extends Activity {
                 System.out.println("Syso : Arrray : "+kuralnoarr);
                 kuralnoarr.remove(0);
                 if (kuralnoarr.size() == 0) {
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < 20; i++)
                         kuralnoarr.add(String.valueOf(i));
                     Collections.shuffle(kuralnoarr);
                 }
@@ -224,13 +226,33 @@ public class IndrayaKural extends Activity {
         System.out.println("Syso Today kural : "+todayKural);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getBaseContext())
-                        .setSmallIcon(R.drawable.mini_icon_42)
+                        .setSmallIcon(R.mipmap.notify_sml_icon)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.mini2_icon_42))
                         .setContentTitle(getResources().getString(R.string.todays_kural))
                         .setContentText(todayKural)
+                        .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_DEFAULT);
 
+        /* Add Big View Specific Configuration */
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        String[] events = todayKural.split("\n");
+
+        // Sets a title for the Inbox style big view
+        inboxStyle.setBigContentTitle(getResources().getString(R.string.todays_kural));
+
+        // Moves events into the big view
+        for (int i=0; i < events.length; i++) {
+            inboxStyle.addLine(events[i]);
+        }
+
+        mBuilder.setStyle(inboxStyle);
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
+        notificationIntent.putExtra("todayKural", ""+currentNo);
+        notificationIntent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+        notificationIntent.putExtra("fromactivity", "ad");
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(contentIntent);
@@ -238,6 +260,11 @@ public class IndrayaKural extends Activity {
         // Add as notification
         NotificationManager manager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         manager.notify(0, mBuilder.build());
+    }
+
+    private int getNotificationIcon() {
+        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return useWhiteIcon ? R.drawable.mini_icon_13 : R.mipmap.ic_launcher;
     }
 
     public static Bitmap getScreenShot(View view) {

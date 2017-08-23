@@ -25,11 +25,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/kural_ll"
+            android:weightSum="2"
             android:orientation="horizontal">
             <ScrollView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2">
+                android:layout_weight="1">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="275dp"
@@ -88,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:gravity="center"
+                android:gravity="left"
                 android:paddingLeft="15dp"
                 android:paddingBottom="5dp"
                 android:paddingRight="5dp"
@@ -108,8 +109,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:padding="5dp"
-                android:layout_gravity="center"
-                android:gravity="center" />
+                android:layout_gravity="left"
+                android:gravity="left" />
 
         </LinearLayout>
 </ScrollView>
@@ -118,164 +119,167 @@
             android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:background="@android:color/holo_blue_dark"/>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_weight="1">
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/soloman_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_salamon_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="10dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mk_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/soloman_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_mk_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_salamon_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/varathu_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/mk_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_varathu_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_mk_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/parimal_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/varathu_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_pari_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_varathu_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/manakudavar_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/parimal_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_manakuavar_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_pari_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/munusami_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/manakudavar_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_munusami_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_manakuavar_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@android:color/darker_gray"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/eng_exp"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/munusami_urai"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_english_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/exp_munusami_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/eng_exp"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/exp_english_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                </ScrollView>
             </LinearLayout>
-
-        </ScrollView>
-</LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

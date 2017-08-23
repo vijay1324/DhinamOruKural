@@ -118,13 +118,6 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("வெளியேறு", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    try {
-                        editor.putString("prereadno", String.valueOf(currentNo));
-                        editor.commit();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     MainActivity.this.finish();
                 }
             })
@@ -202,6 +195,14 @@ public class MainActivity extends AppCompatActivity {
         exp_manakudavar.setText("\t\t"+manakadavurarr[getInt]);
         exp_munusami.setText("\t\t"+munusamiarr[getInt]);
         exp_english.setText("\t\t"+engkuralarr[getInt]);
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        try {
+            editor.putString("prereadno", String.valueOf(currentNo));
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showButton (int getInt) {
@@ -210,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 pre.setVisibility(View.INVISIBLE);
             else
                 pre.setVisibility(View.VISIBLE);
-            if (getInt == 9)
+            if (getInt == 19)
                 next.setVisibility(View.INVISIBLE);
             else
                 next.setVisibility(View.VISIBLE);
