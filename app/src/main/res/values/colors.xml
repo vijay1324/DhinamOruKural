@@ -4,4 +4,13 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="blue">#0000FF</color>
+    <color name="Red">#ff0000</color>
+    <color name="Green">#00ff00</color>
+    <color name="Black">#000000</color>
+    <color name="White">#ffffff</color>
+    <color name="Gray">#BBB8BF</color>
+    <color name="HeaderColor">#D64F4F</color>
+    <color name="LiteHeaderColor">#E0D7DA</color>
+    <color name="pressed_color">#4d90fe</color>
+    <color name="default_color">#E3D968</color>
 </resources>
