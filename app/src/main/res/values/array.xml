@@ -239,4 +239,52 @@
         <item>If it be said that the duties of life cannot be discharged by any person without water, so without rain there cannot be the flowing of water.</item>
 
     </array>
+
+
+    <array name="nav_pal">
+        <item>அறத்துப்பால்</item>
+        <item>பொருட்பால்</item>
+        <item>காமத்துப்பால்</item>
+    </array>
+
+    <array name="nav_iyal">
+        <item>பாயிரவியல்</item>
+        <item>இல்லறவியல்</item>
+        <item>துறவறவியல்</item>
+        <item>ஊழியல்</item>
+
+        <item>அரசியல்</item>
+        <item>அமைச்சியல்</item>
+        <item>அரணியல்</item>
+        <item>கூழியல்</item>
+        <item>படையில்</item>
+        <item>நட்பியல்</item>
+        <item>குடியியல்</item>
+
+        <item>களவியல்</item>
+        <item>கற்பியல்</item>
+    </array>
+
+    <array name="nav_pal_iyal1">
+        <item>பாயிரவியல்</item>
+        <item>இல்லறவியல்</item>
+        <item>துறவறவியல்</item>
+        <item>ஊழியல்</item>
+    </array>
+
+    <array name="nav_pal_iyal2">
+        <item>அரசியல்</item>
+        <item>அமைச்சியல்</item>
+        <item>அரணியல்</item>
+        <item>கூழியல்</item>
+        <item>படையில்</item>
+        <item>நட்பியல்</item>
+        <item>குடியியல்</item>
+    </array>
+
+    <array name="nav_pal_iyal3">
+        <item>களவியல்</item>
+        <item>கற்பியல்</item>
+    </array>
+
 </resources>

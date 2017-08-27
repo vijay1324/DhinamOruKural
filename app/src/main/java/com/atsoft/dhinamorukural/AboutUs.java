@@ -12,11 +12,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class AboutUs extends AppCompatActivity {
 
     TextView weblink;
     Button rate, share;
+
+    private static final String TAG = "AboutUS";
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,7 @@ public class AboutUs extends AppCompatActivity {
         View bg = findViewById(R.id.aboutus_top_ll);
         Drawable backround = bg.getBackground();
         backround.setAlpha(80);
+        FirebaseApp.initializeApp(this);
         weblink = (TextView) findViewById(R.id.weblinktv);
         rate = (Button) findViewById(R.id.ratebtn);
         share = (Button) findViewById(R.id.sharebtn);
@@ -33,6 +42,9 @@ public class AboutUs extends AppCompatActivity {
         String text = "<a href='http://www.thirukkural.com'> www.thirukkural.com </a>";
         weblink.setText(Html.fromHtml(text));
 
+        mAdView = (AdView) findViewById(R.id.about_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 

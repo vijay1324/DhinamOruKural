@@ -16,12 +16,18 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +37,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class IndrayaKural extends Activity {
 
@@ -48,6 +57,9 @@ public class IndrayaKural extends Activity {
     SharedPreferences sharedPrefs;
     ArrayList<String> kuralnoarr;
 
+    private static final String TAG = "IndrayaKural";
+    private InterstitialAd mInterstitialAd;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +68,13 @@ public class IndrayaKural extends Activity {
         View bg = findViewById(R.id.popup_ll);
         Drawable backround = bg.getBackground();
         backround.setAlpha(60);
+        FirebaseApp.initializeApp(this);
+        mAdView = (AdView) findViewById(R.id.dk_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         rootView = getWindow().getDecorView().findViewById(R.id.shared_ll);
         expbtn = (Button) findViewById(R.id.exp_btn);
         sharebtn = (Button) findViewById(R.id.share_btn);
@@ -97,10 +116,31 @@ public class IndrayaKural extends Activity {
 
         System.out.println("Syso IndrayaKural call");
 
+        mInterstitialAd.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                if (mInterstitialAd.isLoaded())
+                    mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                IndrayaKural.this.finish();
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
+
         fab_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IndrayaKural.this.finish();
+                if (mInterstitialAd.isLoaded()) {
+                    Log.d("Syso TAG ", "The interstitial was loaded yet.");
+                    mInterstitialAd.show();
+                } else {
+                    IndrayaKural.this.finish();
+                    Log.d("Syso TAG", "The interstitial wasn't loaded yet.");
+                }
             }
         });
 
@@ -149,6 +189,7 @@ public class IndrayaKural extends Activity {
                 editor.commit();
             } catch (Exception e) {
                 e.printStackTrace();
+                FirebaseCrash.report(e);
             }
             try {
                 Set<String> set = new HashSet<>();
@@ -158,6 +199,7 @@ public class IndrayaKural extends Activity {
                 editor.commit();
             } catch (Exception e) {
                 e.printStackTrace();
+                FirebaseCrash.report(e);
             }
         } else {
             try {
@@ -187,9 +229,11 @@ public class IndrayaKural extends Activity {
                     editor.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    FirebaseCrash.report(e);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                FirebaseCrash.report(e);
             }
         }
     }
@@ -293,6 +337,7 @@ public class IndrayaKural extends Activity {
             System.out.println("Syso store success");
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseCrash.report(e);
         }
     }
 
@@ -309,6 +354,7 @@ public class IndrayaKural extends Activity {
             startActivity(Intent.createChooser(intent, "Share Thirukural"));
             //IndrayaKural.this.finish();
         } catch (ActivityNotFoundException e) {
+            FirebaseCrash.report(e);
             Toast.makeText(getApplicationContext(), "No App Available", Toast.LENGTH_SHORT).show();
         }
     }

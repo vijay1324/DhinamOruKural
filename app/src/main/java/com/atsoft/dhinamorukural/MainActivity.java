@@ -35,10 +35,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crash.FirebaseCrash;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Exchanger;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
     static int alarmHour = 8;
 
+    private static final String TAG = "MainActivity";
+
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
         Drawable backround = bg.getBackground();
         backround.setAlpha(80);
         getAllPermission();
+        FirebaseApp.initializeApp(this);
+        FirebaseCrash.log("Activity created");
+        /*try {
+            thirukural.getText();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            FirebaseCrash.logcat(Log.ERROR, "Syso Firebase Error : ", "NPE caught");
+            FirebaseCrash.report(ex);
+        }*/
+
         ActionBar actionBar = getSupportActionBar();
         //actionBar.setLogo(R.drawable.ic_drawer);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -90,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
         next = (FloatingActionButton) findViewById(R.id.fab_next);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.mylistview);
+        mAdView = (AdView) findViewById(R.id.main_adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
         //getPreviosValue();
         try {
@@ -99,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             fromactivity = bundle.getString("fromactivity");
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseCrash.report(e);
         }
 
         adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
@@ -459,6 +483,7 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseCrash.report(e);
         }
     }
 
