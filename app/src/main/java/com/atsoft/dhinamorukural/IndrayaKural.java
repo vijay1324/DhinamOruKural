@@ -6,16 +6,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -122,8 +126,8 @@ public class IndrayaKural extends Activity {
 
             @Override
             public void onAdLoaded() {
-                if (mInterstitialAd.isLoaded())
-                    mInterstitialAd.show();
+                /*if (mInterstitialAd.isLoaded())
+                    mInterstitialAd.show();*/
             }
 
             @Override
@@ -149,18 +153,36 @@ public class IndrayaKural extends Activity {
         sharebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                greetingmsg = greet.getText().toString().trim();
-                greet.setVisibility(View.INVISIBLE);
-                fab_close.setVisibility(View.INVISIBLE);
-                btnll.setVisibility(View.INVISIBLE);
-                mAdView.setVisibility(View.INVISIBLE);
-                ss = getScreenShot(rootView);
-                store(ss, filename);
-                greet.setVisibility(View.VISIBLE);
-                fab_close.setVisibility(View.VISIBLE);
-                btnll.setVisibility(View.VISIBLE);
-                mAdView.setVisibility(View.VISIBLE);
-                shareImage(new File(dirPath, filename));
+                ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                if (netInfo == null){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IndrayaKural.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Connect Internet");
+                    builder.setIcon(android.R.drawable.presence_offline);
+                    builder.setMessage("Turn on wifi or Mobile data.");
+                    builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    // Create the AlertDialog object and return it
+                    builder.create().show();
+                } else {
+                    greetingmsg = greet.getText().toString().trim();
+                    greet.setVisibility(View.INVISIBLE);
+                    fab_close.setVisibility(View.INVISIBLE);
+                    btnll.setVisibility(View.INVISIBLE);
+                    mAdView.setVisibility(View.INVISIBLE);
+                    ss = getScreenShot(rootView);
+                    store(ss, filename);
+                    greet.setVisibility(View.VISIBLE);
+                    fab_close.setVisibility(View.VISIBLE);
+                    btnll.setVisibility(View.VISIBLE);
+                    mAdView.setVisibility(View.VISIBLE);
+                    shareImage(new File(dirPath, filename));
+                }
             }
         });
 
@@ -384,7 +406,7 @@ public class IndrayaKural extends Activity {
         intent.setType("image/*");
 
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.todays_kural));
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, greetingmsg);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, greetingmsg+"\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "Share Thirukural"));
