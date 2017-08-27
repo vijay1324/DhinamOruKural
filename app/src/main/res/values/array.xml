@@ -287,4 +287,176 @@
         <item>கற்பியல்</item>
     </array>
 
+    <array name="nav_iyal_adthgaram1">
+        <item>கடவுள் வாழ்த்து</item>
+        <item>வான்சிறப்பு</item>
+        <item>நீத்தார் பெருமை</item>
+        <item>அறன் வலியுறுத்தல்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram2">
+        <item>இல்வாழ்க்கை</item>
+        <item>வாழ்க்கைத் துணைநலம்</item>
+        <item>மக்கட்பேறு / புதல்வரைப் பெறுதல்</item>
+        <item>அன்புடைமை</item>
+        <item>விருந்தோம்பல்</item>
+        <item>இனியவைகூறல்</item>
+        <item>செய்ந்நன்றி அறிதல்</item>
+        <item>நடுவு நிலைமை</item>
+        <item>அடக்கமுடைமை</item>
+        <item>ஒழுக்கமுடைமை</item>
+        <item>பிறனில் விழையாமை</item>
+        <item>பொறையுடைமை</item>
+        <item>அழுக்காறாமை</item>
+        <item>வெஃகாமை</item>
+        <item>புறங்கூறாமை</item>
+        <item>பயனில சொல்லாமை</item>
+        <item>தீவினையச்சம்</item>
+        <item>ஒப்புரவறிதல்</item>
+        <item>ஈகை</item>
+        <item>புகழ்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram3">
+        <item>அருளுடைமை</item>
+        <item>புலான்மறுத்தல்</item>
+        <item>தவம்</item>
+        <item>கூடாவொழுக்கம்</item>
+        <item>கள்ளாமை</item>
+        <item>வாய்மை</item>
+        <item>வெகுளாமை</item>
+        <item>இன்னாசெய்யாமை</item>
+        <item>கொல்லாமை</item>
+        <item>நிலையாமை</item>
+        <item>துறவு</item>
+        <item>மெய்யுணர்தல்</item>
+        <item>அவாவறுத்தல்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram4">
+        <item>ஊழ்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram5">
+        <item>இறைமாட்சி</item>
+        <item>கல்வி</item>
+        <item>கல்லாமை</item>
+        <item>கேள்வி</item>
+        <item>அறிவுடைமை</item>
+        <item>குற்றங்கடிதல்</item>
+        <item>பெரியாரைத் துணைக்கோடல்</item>
+        <item>சிற்றினஞ்சேராமை</item>
+        <item>தெரிந்துசெயல்வகை</item>
+        <item>வலியறிதல்</item>
+        <item>காலமறிதல்</item>
+        <item>இடனறிதல்</item>
+        <item>தெரிந்துதெளிதல்</item>
+        <item>தெரிந்துவினையாடல்</item>
+        <item>சுற்றந்தழால்</item>
+        <item>பொச்சாவாமை</item>
+        <item>செங்கோன்மை</item>
+        <item>கொடுங்கோன்மை</item>
+        <item>வெருவந்தசெய்யாமை</item>
+        <item>கண்ணோட்டம்</item>
+        <item>ஒற்றாடல்</item>
+        <item>ஊக்கமுடைமை</item>
+        <item>மடியின்மை</item>
+        <item>ஆள்வினையுடைமை</item>
+        <item>இடுக்கணழியாமை</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram6">
+        <item>அமைச்சு</item>
+        <item>சொல்வன்மை</item>
+        <item>வினைத்தூய்மை</item>
+        <item>வினைத்திட்பம்</item>
+        <item>வினைசெயல்வகை</item>
+        <item>தூது</item>
+        <item>மன்னரைச் சேர்ந்தொழுதல்</item>
+        <item>குறிப்பறிதல்</item>
+        <item>அவையறிதல்</item>
+        <item>அவையஞ்சாமை</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram7">
+        <item>நாடு</item>
+        <item>அரண்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram8">
+        <item>பொருள்செயல்வகை</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram9">
+        <item>படைமாட்சி</item>
+        <item>படைச்செருக்கு</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram10">
+        <item>நட்பு</item>
+        <item>நட்பாராய்தல்</item>
+        <item>பழைமை</item>
+        <item>தீ நட்பு</item>
+        <item>கூடாநட்பு</item>
+        <item>பேதைமை</item>
+        <item>புல்லறிவாண்மை</item>
+        <item>இகல்</item>
+        <item>பகைமாட்சி</item>
+        <item>பகைத்திறந்தெரிதல்</item>
+        <item>உட்பகை</item>
+        <item>பெரியாரைப் பிழையாமை</item>
+        <item>பெண்வழிச்சேறல்</item>
+        <item>வரைவின்மகளிர்</item>
+        <item>கள்ளுண்ணாமை</item>
+        <item>சூது</item>
+        <item>மருந்து</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram11">
+        <item>குடிமை</item>
+        <item>மானம்</item>
+        <item>பெருமை</item>
+        <item>சான்றாண்மை</item>
+        <item>பண்புடைமை</item>
+        <item>நன்றியில்செல்வம்</item>
+        <item>நாணுடைமை</item>
+        <item>குடிசெயல்வகை</item>
+        <item>உழவு</item>
+        <item>நல்குரவு</item>
+        <item>இரவு</item>
+        <item>இரவச்சம்</item>
+        <item>கயமை</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram12">
+        <item>தகையணங்குறுத்தல்</item>
+        <item>குறிப்பறிதல்</item>
+        <item>புணர்ச்சிமகிழ்தல்</item>
+        <item>நலம்புனைந்துரைத்தல்</item>
+        <item>காதற்சிறப்புரைத்தல்</item>
+        <item>நாணுத்துறவுரைத்தல்</item>
+        <item>அலரறிவுறுத்தல்</item>
+    </array>
+
+    <array name="nav_iyal_adthgaram13">
+        <item>பிரிவாற்றாமை</item>
+        <item>படர்மெலிந்திரங்கல்</item>
+        <item>கண்விதுப்பழிதல்</item>
+        <item>பசப்புறுபருவரல்</item>
+        <item>தனிப்படர்மிகுதி</item>
+        <item>நினைந்தவர்புலம்பல்</item>
+        <item>கனவுநிலையுரைத்தல்</item>
+        <item>பொழுதுகண்டிரங்கல்</item>
+        <item>உறுப்புநலனழிதல்</item>
+        <item>நெஞ்சொடுகிளத்தல்</item>
+        <item>நிறையழிதல்</item>
+        <item>அவர்வயின்விதும்பல்</item>
+        <item>குறிப்பறிவுறுத்தல்</item>
+        <item>புணர்ச்சிவிதும்பல்</item>
+        <item>நெஞ்சொடுபுலத்தல்</item>
+        <item>புலவி</item>
+        <item>புலவி நுணுக்கம்</item>
+        <item>ஊடலுவகை</item>
+    </array>
+
 </resources>

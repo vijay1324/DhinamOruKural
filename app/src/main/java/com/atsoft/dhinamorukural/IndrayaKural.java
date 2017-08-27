@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -69,6 +70,7 @@ public class IndrayaKural extends Activity {
         Drawable backround = bg.getBackground();
         backround.setAlpha(60);
         FirebaseApp.initializeApp(this);
+        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         mAdView = (AdView) findViewById(R.id.dk_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -151,11 +153,13 @@ public class IndrayaKural extends Activity {
                 greet.setVisibility(View.INVISIBLE);
                 fab_close.setVisibility(View.INVISIBLE);
                 btnll.setVisibility(View.INVISIBLE);
+                mAdView.setVisibility(View.INVISIBLE);
                 ss = getScreenShot(rootView);
                 store(ss, filename);
                 greet.setVisibility(View.VISIBLE);
                 fab_close.setVisibility(View.VISIBLE);
                 btnll.setVisibility(View.VISIBLE);
+                mAdView.setVisibility(View.VISIBLE);
                 shareImage(new File(dirPath, filename));
             }
         });
@@ -169,6 +173,38 @@ public class IndrayaKural extends Activity {
                 intent.putExtra("fromactivity", "ad");
                 startActivity(intent);
                 IndrayaKural.this.finish();
+            }
+        });
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                FirebaseCrash.log("onAdOpened");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                FirebaseCrash.log("onAdLoaded");
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                FirebaseCrash.log("onAdClicked");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                FirebaseCrash.log("onAdFailedToLoad : "+i);
+            }
+
+            @Override
+            public void onAdImpression() {
+                super.onAdImpression();
+                FirebaseCrash.log("onAdImpression");
             }
         });
     }

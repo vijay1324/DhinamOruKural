@@ -35,6 +35,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         getAllPermission();
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
+        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         /*try {
             thirukural.getText();
         } catch (Exception ex) {
@@ -192,14 +195,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
                         fromactivity = "ad";
                         next.setVisibility(View.INVISIBLE);
                         pre.setVisibility(View.INVISIBLE);
                         setValue(todayKural);
                         break;
                     case 1:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
                         LayoutInflater inflater = MainActivity.this.getLayoutInflater();
                         final View dialogView = inflater.inflate(R.layout.edittext_dialog, null);
@@ -264,13 +265,33 @@ public class MainActivity extends AppCompatActivity {
                         b.show();
                         break;
                     case 2:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
+                        searhByPal();
                         break;
                     case 3:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
+                        iyal_builderSingle.setIcon(R.drawable.mini2_icon_42);
+                        iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
+
+                        String[] iyalarr = getResources().getStringArray(R.array.nav_iyal);
+
+                        final ArrayAdapter<String> iyalarrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, iyalarr);
+
+                        iyal_builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        iyal_builderSingle.setAdapter(iyalarrayAdapter, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int posision) {
+                                searchByIyal(posision);
+                            }
+                        });
+                        iyal_builderSingle.show();
                         break;
                     case 4:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
                         builderSingle.setIcon(R.drawable.mini2_icon_42);
                         builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
@@ -296,7 +317,6 @@ public class MainActivity extends AppCompatActivity {
                         builderSingle.show();
                         break;
                     case 5:
-                        Toast.makeText(getApplicationContext(), drawContent[i], Toast.LENGTH_LONG).show();
                         AlertDialog.Builder set_dialogBuilder = new AlertDialog.Builder(MainActivity.this);
                         LayoutInflater set_inflater = MainActivity.this.getLayoutInflater();
                         final View set_dialogView = set_inflater.inflate(R.layout.edittext_dialog, null);
@@ -381,6 +401,183 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                FirebaseCrash.log("onAdOpened");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                FirebaseCrash.log("onAdLoaded");
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                FirebaseCrash.log("onAdClicked");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                FirebaseCrash.log("onAdFailedToLoad : "+i);
+            }
+
+            @Override
+            public void onAdImpression() {
+                super.onAdImpression();
+                FirebaseCrash.log("onAdImpression");
+            }
+        });
+    }
+
+    private void searhByPal () {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+        builderSingle.setIcon(R.drawable.mini2_icon_42);
+        builderSingle.setTitle("பாலை தேர்ந்தெடு:-");
+
+        String[] palarr = getResources().getStringArray(R.array.nav_pal);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, palarr);
+
+        builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int posision) {
+                final String[] iyalarr;
+                switch (posision) {
+                    case 0:
+                        iyalarr = getResources().getStringArray(R.array.nav_pal_iyal1);
+                        break;
+                    case 1:
+                        iyalarr = getResources().getStringArray(R.array.nav_pal_iyal2);
+                        break;
+                    case 3:
+                        iyalarr = getResources().getStringArray(R.array.nav_pal_iyal3);
+                        break;
+                    default:
+                        iyalarr = getResources().getStringArray(R.array.nav_iyal);
+                        break;
+                }
+
+                AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
+                iyal_builderSingle.setIcon(R.drawable.mini2_icon_42);
+                iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
+
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, iyalarr);
+
+                iyal_builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                iyal_builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int posision) {
+                       String[] fulliyal = getResources().getStringArray(R.array.nav_iyal);
+                        for (int i = 0; i < fulliyal.length; i++) {
+                            if (fulliyal[i].equals(iyalarr[posision])) {
+                                searchByIyal(i);
+                                break;
+                            }
+                        }
+
+                    }
+                });
+                iyal_builderSingle.show();
+
+            }
+        });
+        builderSingle.show();
+    }
+
+    private void searchByIyal(int getPos) {
+        final String[] athigaramarr;
+        switch (getPos) {
+            case 0:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram1);
+                break;
+            case 1:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram2);
+                break;
+            case 2:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram3);
+                break;
+            case 3:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram4);
+                break;
+            case 4:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram5);
+                break;
+            case 5:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram6);
+                break;
+            case 6:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram7);
+                break;
+            case 7:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram8);
+                break;
+            case 8:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram9);
+                break;
+            case 9:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram10);
+                break;
+            case 10:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram11);
+                break;
+            case 11:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram12);
+                break;
+            case 12:
+                athigaramarr = getResources().getStringArray(R.array.nav_iyal_adthgaram13);
+                break;
+            default:
+                athigaramarr = getResources().getStringArray(R.array.athigaram);
+                break;
+        }
+
+        AlertDialog.Builder Athigaram_builderSingle = new AlertDialog.Builder(MainActivity.this);
+        Athigaram_builderSingle.setIcon(R.drawable.mini2_icon_42);
+        Athigaram_builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, athigaramarr);
+
+        Athigaram_builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        Athigaram_builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int posision) {
+                String[] fullathigaram = getResources().getStringArray(R.array.athigaram);
+                for (int i = 0; i < fullathigaram.length; i++) {
+                    if (fullathigaram[i].equals(athigaramarr[posision])) {
+                        String strName = i + "1";
+                        setValue(Integer.parseInt(strName) - 1);
+                        break;
+                    }
+                }
+
+            }
+        });
+        Athigaram_builderSingle.show();
     }
 
     @Override
@@ -443,6 +640,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setValue(int getInt) throws IndexOutOfBoundsException {
+        currentNo = getInt;
         showButton(getInt);
         kuralarr = getResources().getStringArray(R.array.kural);
         engkuralarr = getResources().getStringArray(R.array.english_trans);
@@ -539,6 +737,10 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.EXPAND_STATUS_BAR) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat
                     .requestPermissions(MainActivity.this, new String[]{Manifest.permission.EXPAND_STATUS_BAR}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat
+                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, 1);
         }
     }
 

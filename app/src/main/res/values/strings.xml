@@ -16,6 +16,9 @@
     <string name="eng_exp"><u>English Explanation:</u></string>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-</resources>
+    <string name="YOUR_ADMOB_APP_ID">ca-app-pub-7239546305821659~2626039592</string>
+   <string name="banner_ad_unit_id">ca-app-pub-7239546305821659/7223760152</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
+    <!--> Test Unit ID <-->
+    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
+    </resources>
