@@ -52,8 +52,8 @@ public class IndrayaKural extends Activity {
     EditText greet;
     TextView thirukural, pal, iyal, athigaram, kuralno, exp, date;
     static int currentNo = 0;
-    static int currentAgarathi = 0;
-    String[] kuralarr, iyalarr, athigaramarr, exparr;
+    static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
+    String[] kuralarr, iyalarr, athigaramarr, exparr, palarr;
     FloatingActionButton fab_close;
     View rootView;
     Bitmap ss;
@@ -74,7 +74,7 @@ public class IndrayaKural extends Activity {
         Drawable backround = bg.getBackground();
         backround.setAlpha(60);
         FirebaseApp.initializeApp(this);
-        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
+        MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         mAdView = (AdView) findViewById(R.id.dk_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -117,7 +117,11 @@ public class IndrayaKural extends Activity {
 //        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
 //        datestr = df.format(calendar.getTime());
         datestr = new DecimalFormat("00").format(cdate) + "-" + new DecimalFormat("00").format(month) + "-" + year;
-        getPreviosValue();
+        String todaydate = sharedPrefs.getString("todaydate", "");
+        if (!todaydate.equalsIgnoreCase(datestr) && todaydate.equalsIgnoreCase(""))
+            getPreviosValue();
+        else
+            currentNo = Integer.parseInt(sharedPrefs.getString("todaykuralno", "0"));
         setValue();
 
         System.out.println("Syso IndrayaKural call");
@@ -231,11 +235,29 @@ public class IndrayaKural extends Activity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        mAdView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mAdView.resume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAdView.destroy();
+        super.onDestroy();
+    }
+
     private void getPreviosValue() {
         String todaykuralno = sharedPrefs.getString("todaykuralno", "");
         kuralnoarr = new ArrayList<>();
         if (todaykuralno.equalsIgnoreCase("")) {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 1330; i++)
                 kuralnoarr.add(String.valueOf(i));
             Collections.shuffle(kuralnoarr);
             System.out.println("Syso : Arrray create : "+kuralnoarr);
@@ -254,6 +276,7 @@ public class IndrayaKural extends Activity {
                 set.addAll(kuralnoarr);
                 editor.putStringSet("kural_no_set", set);
                 editor.putString("todaykuralno", String.valueOf(currentNo));
+                editor.putString("todaydate", datestr);
                 editor.commit();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -268,7 +291,7 @@ public class IndrayaKural extends Activity {
                 System.out.println("Syso : Arrray : "+kuralnoarr);
                 kuralnoarr.remove(0);
                 if (kuralnoarr.size() == 0) {
-                    for (int i = 0; i < 20; i++)
+                    for (int i = 0; i < 1330; i++)
                         kuralnoarr.add(String.valueOf(i));
                     Collections.shuffle(kuralnoarr);
                 }
@@ -284,6 +307,7 @@ public class IndrayaKural extends Activity {
                     set.addAll(kuralnoarr);
                     editor.putStringSet("kural_no_set", set);
                     editor.putString("todaykuralno", String.valueOf(currentNo));
+                    editor.putString("todaydate", datestr);
                     editor.commit();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -302,8 +326,9 @@ public class IndrayaKural extends Activity {
     }
 
     private void setValue() throws IndexOutOfBoundsException {
+        palarr = getResources().getStringArray(R.array.nav_pal);
         kuralarr = getResources().getStringArray(R.array.kural);
-        iyalarr = getResources().getStringArray(R.array.iyal);
+        iyalarr = getResources().getStringArray(R.array.nav_iyal);
         athigaramarr = getResources().getStringArray(R.array.athigaram);
         exparr = getResources().getStringArray(R.array.explain_salaman);
         String kuralnostr = String.valueOf(currentNo+1);
@@ -314,9 +339,44 @@ public class IndrayaKural extends Activity {
             currentAgarathi  = currentNo / 10;
         }
 
+        if (currentNo < 381)
+            currentPal = 0;
+        else if (currentNo < 1081)
+            currentPal = 1;
+        else
+            currentPal = 2;
+
+        if (currentNo < 41)
+            currentIyal = 0;
+        else if (currentNo < 241)
+            currentIyal = 1;
+        else if (currentNo < 371)
+            currentIyal = 2;
+        else if (currentNo < 381)
+            currentIyal = 3;
+        else if (currentNo < 631)
+            currentIyal = 4;
+        else if (currentNo < 731)
+            currentIyal = 5;
+        else if (currentNo < 751)
+            currentIyal = 6;
+        else if (currentNo < 761)
+            currentIyal = 7;
+        else if (currentNo < 781)
+            currentIyal = 8;
+        else if (currentNo < 951)
+            currentIyal = 9;
+        else if (currentNo < 1081)
+            currentIyal = 10;
+        else if (currentNo < 1151)
+            currentIyal = 11;
+        else
+            currentIyal = 12;
+
+
         thirukural.setText(kuralarr[currentNo]);
-        pal.setText(R.string.arathupal);
-        iyal.setText(iyalarr[currentAgarathi]);
+        pal.setText(palarr[currentPal]);
+        iyal.setText(iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
         kuralno.setText(kuralnostr);
         exp.setText(exparr[currentNo]);

@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_munusami, exp_english;
     static int currentNo = 0;
-    static int currentAgarathi = 0;
+    static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
     static int todayKural = 0;
-    String[] kuralarr, engkuralarr, iyalarr, athigaramarr,solomanarr, mkarr, varathuarr, parimalarr, manakadavurarr, munusamiarr, englisharr;
+    String[] kuralarr, engkuralarr, iyalarr, athigaramarr,solomanarr, mkarr, varathuarr, parimalarr, manakadavurarr, munusamiarr, englisharr,palarr;
 
     FloatingActionButton pre, next;
     SharedPreferences sharedPrefs;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         getAllPermission();
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
-        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
+        //MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         /*try {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
         System.out.println("Syso devise id : "+android_id);
-//        AdRequest adRequest = new AdRequest.Builder().addTestDevice(android_id).addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
@@ -200,10 +200,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        fromactivity = "ad";
+                        /*fromactivity = "ad";
                         next.setVisibility(View.INVISIBLE);
                         pre.setVisibility(View.INVISIBLE);
-                        setValue(todayKural);
+                        setValue(todayKural);*/
+                        startActivity(new Intent(MainActivity.this, IndrayaKural.class));
+                        MainActivity.this.finish();
                         break;
                     case 1:
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -440,6 +442,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        mAdView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mAdView.resume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAdView.destroy();
+        super.onDestroy();
+    }
+
     private void searhByPal () {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
         builderSingle.setIcon(R.drawable.mini2_icon_42);
@@ -647,9 +667,10 @@ public class MainActivity extends AppCompatActivity {
     private void setValue(int getInt) throws IndexOutOfBoundsException {
         currentNo = getInt;
         showButton(getInt);
+        palarr = getResources().getStringArray(R.array.nav_pal);
         kuralarr = getResources().getStringArray(R.array.kural);
         engkuralarr = getResources().getStringArray(R.array.english_trans);
-        iyalarr = getResources().getStringArray(R.array.iyal);
+        iyalarr = getResources().getStringArray(R.array.nav_iyal);
         athigaramarr = getResources().getStringArray(R.array.athigaram);
         solomanarr = getResources().getStringArray(R.array.explain_salaman);
         mkarr = getResources().getStringArray(R.array.explain_mk);
@@ -666,10 +687,44 @@ public class MainActivity extends AppCompatActivity {
             currentAgarathi  = getInt / 10;
         }
 
+        if (getInt < 381)
+            currentPal = 0;
+        else if (getInt < 1081)
+            currentPal = 1;
+        else
+            currentPal = 2;
+
+        if (getInt < 41)
+            currentIyal = 0;
+        else if (getInt < 241)
+            currentIyal = 1;
+        else if (getInt < 371)
+            currentIyal = 2;
+        else if (getInt < 381)
+            currentIyal = 3;
+        else if (getInt < 631)
+            currentIyal = 4;
+        else if (getInt < 731)
+            currentIyal = 5;
+        else if (getInt < 751)
+            currentIyal = 6;
+        else if (getInt < 761)
+            currentIyal = 7;
+        else if (getInt < 781)
+            currentIyal = 8;
+        else if (getInt < 951)
+            currentIyal = 9;
+        else if (getInt < 1081)
+            currentIyal = 10;
+        else if (getInt < 1151)
+            currentIyal = 11;
+        else
+            currentIyal = 12;
+
         thirukural.setText(kuralarr[getInt]);
         englishkural.setText(engkuralarr[getInt]);
-        pal.setText(R.string.arathupal);
-        iyal.setText("குறள் இயல்: "+ iyalarr[currentAgarathi]);
+        pal.setText(palarr[currentPal]);
+        iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
         kuralno.setText("குறள் "+kuralnostr);
         exp_varathan.setText("\t\t"+varathuarr[getInt]);
@@ -696,7 +751,7 @@ public class MainActivity extends AppCompatActivity {
                 pre.setVisibility(View.INVISIBLE);
             else
                 pre.setVisibility(View.VISIBLE);
-            if (getInt == 19)
+            if (getInt == 1329)
                 next.setVisibility(View.INVISIBLE);
             else
                 next.setVisibility(View.VISIBLE);

@@ -43,7 +43,7 @@ public class AboutUs extends AppCompatActivity {
         rate = (Button) findViewById(R.id.ratebtn);
         share = (Button) findViewById(R.id.sharebtn);
         FirebaseApp.initializeApp(this);
-        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
+        //MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         weblink.setClickable(true);
         weblink.setMovementMethod(LinkMovementMethod.getInstance());
         String text = "<a href='http://www.thirukkural.com'> www.thirukkural.com </a>";

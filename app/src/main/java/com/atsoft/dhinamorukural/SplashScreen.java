@@ -28,7 +28,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         mAdView = (AdView) findViewById(R.id.ss_adView);
         FirebaseApp.initializeApp(this);
-        MobileAds.initialize(this, String.valueOf(R.string.YOUR_ADMOB_APP_ID));
+        MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
@@ -74,6 +74,6 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(intent);
                 SplashScreen.this.finish();
             }
-        }, 3000);
+        }, 5000);
     }
 }

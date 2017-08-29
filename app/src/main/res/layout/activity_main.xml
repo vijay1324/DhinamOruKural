@@ -23,20 +23,6 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-
-
-        <!--<TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/thirukural"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:textStyle="bold" />-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="275dp"
@@ -130,7 +116,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,16 +144,6 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/darker_gray"/>
-
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/main_adView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="@string/banner_ad_unit_id">
-                </com.google.android.gms.ads.AdView>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -290,6 +267,17 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/main_adView"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id_main" />
+
     </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

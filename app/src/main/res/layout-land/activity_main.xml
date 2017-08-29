@@ -25,7 +25,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:id="@+id/kural_ll"
             android:weightSum="2"
             android:orientation="horizontal">
@@ -35,8 +36,9 @@
                 android:layout_weight="1">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="275dp"
+            android:layout_height="wrap_content"
             android:padding="10dp"
+            android:layout_marginLeft="25dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -158,16 +160,6 @@
                             android:layout_height="1dp"
                             android:layout_marginLeft="15dp"
                             android:background="@android:color/darker_gray" />
-
-                        <com.google.android.gms.ads.AdView
-                            android:id="@+id/main_adView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentBottom="true"
-                            ads:adSize="BANNER"
-                            ads:adUnitId="@string/banner_ad_unit_id">
-                        </com.google.android.gms.ads.AdView>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -293,6 +285,16 @@
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/main_adView"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id_main"/>
     </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
