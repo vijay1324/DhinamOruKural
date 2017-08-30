@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                                 //do something with edt.getText().toString();
                                 try {
                                     int kuralno = Integer.parseInt(edt.getText().toString().trim());
-                                    if (kuralno < 20) {
+                                    if (kuralno < 1331) {
                                         if (drawerLayout.isDrawerOpen(Gravity.LEFT))
                                             drawerLayout.closeDrawer(Gravity.LEFT);
                                         setValue(kuralno - 1);
