@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         iyalarr = getResources().getStringArray(R.array.nav_pal_iyal2);
                         break;
-                    case 3:
+                    case 2:
                         iyalarr = getResources().getStringArray(R.array.nav_pal_iyal3);
                         break;
                     default:
