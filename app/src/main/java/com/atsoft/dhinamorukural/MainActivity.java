@@ -51,11 +51,11 @@ import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_munusami, exp_english;
+    TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_english;
     static int currentNo = 0;
     static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
     static int todayKural = 0;
-    String[] kuralarr, engkuralarr, iyalarr, athigaramarr,solomanarr, mkarr, varathuarr, parimalarr, manakadavurarr, munusamiarr, englisharr,palarr;
+    String[] kuralarr, engkuralarr, iyalarr, athigaramarr,solomanarr, mkarr, varathuarr, parimalarr, manakadavurarr, englisharr,palarr;
 
     FloatingActionButton pre, next;
     SharedPreferences sharedPrefs;
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         exp_varathan = (TextView) findViewById(R.id.exp_varathu_tv);
         exp_parimel = (TextView) findViewById(R.id.exp_pari_tv);
         exp_manakudavar = (TextView) findViewById(R.id.exp_manakuavar_tv);
-        exp_munusami = (TextView) findViewById(R.id.exp_munusami_tv);
         exp_english = (TextView) findViewById(R.id.exp_english_tv);
         pre = (FloatingActionButton) findViewById(R.id.fab_previous);
         next = (FloatingActionButton) findViewById(R.id.fab_next);
@@ -187,13 +186,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        thirukural.setOnClickListener(new View.OnClickListener() {
+        /*thirukural.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, IndrayaKural.class));
                 MainActivity.this.finish();
             }
-        });
+        });*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -677,7 +676,6 @@ public class MainActivity extends AppCompatActivity {
         varathuarr = getResources().getStringArray(R.array.explain_varatharasanar);
         parimalarr = getResources().getStringArray(R.array.explain_parimelagar);
         manakadavurarr = getResources().getStringArray(R.array.explain_manakudavar);
-        munusamiarr = getResources().getStringArray(R.array.explain_munisami);
         englisharr = getResources().getStringArray(R.array.explain_english);
 
         String kuralnostr = String.valueOf(getInt+1);
@@ -732,7 +730,6 @@ public class MainActivity extends AppCompatActivity {
         exp_mk.setText("\t\t"+mkarr[getInt]);
         exp_parimel.setText("\t\t"+parimalarr[getInt]);
         exp_manakudavar.setText("\t\t"+manakadavurarr[getInt]);
-        exp_munusami.setText("\t\t"+munusamiarr[getInt]);
         exp_english.setText("\t\t"+engkuralarr[getInt]);
 
         SharedPreferences.Editor editor = sharedPrefs.edit();

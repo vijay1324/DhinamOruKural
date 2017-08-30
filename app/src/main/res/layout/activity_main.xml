@@ -231,21 +231,6 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/munusami_urai"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:padding="5dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/exp_munusami_tv"
-                    android:padding="5dp"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="15dp"
                     android:background="@android:color/darker_gray"/>

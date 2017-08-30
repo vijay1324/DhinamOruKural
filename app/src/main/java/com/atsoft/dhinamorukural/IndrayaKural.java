@@ -118,7 +118,7 @@ public class IndrayaKural extends Activity {
 //        datestr = df.format(calendar.getTime());
         datestr = new DecimalFormat("00").format(cdate) + "-" + new DecimalFormat("00").format(month) + "-" + year;
         String todaydate = sharedPrefs.getString("todaydate", "");
-        if (!todaydate.equalsIgnoreCase(datestr) && todaydate.equalsIgnoreCase(""))
+        if (!todaydate.equalsIgnoreCase(datestr) || todaydate.equalsIgnoreCase(""))
             getPreviosValue();
         else
             currentNo = Integer.parseInt(sharedPrefs.getString("todaykuralno", "0"));
