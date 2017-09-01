@@ -12,8 +12,6 @@ public class PopUpReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         //throw new UnsupportedOperationException("Not yet implemented");
-        //Toast.makeText(context, "Alerm Set", Toast.LENGTH_LONG).show();
-        System.out.println("Syso Set alerm receiver");
         Intent intent1 = new Intent(context, IndrayaKural.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent1);

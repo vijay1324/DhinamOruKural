@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">தினம் ஒரு திருக்குறள்</string>
     <string name="todays_kural">இன்றைய திருக்குறள்</string>
-    <string name="thirukural">திருக்குறள்</string>
     <string name="kuraliyal">குறள் இயல்: </string>
     <string name="kuralno">குறள் எண்: </string>
     <string name="athigaram">அதிகாரம்: </string>
@@ -15,27 +14,13 @@
     <string name="eng_exp"><u>English Explanation:</u></string>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
-    <string name="Lenova_Device_ID">4c2da3293cd5f88b</string>
     <string name="YOUR_ADMOB_APP_ID">ca-app-pub-7239546305821659~2626039592</string>
     <!--<string name="banner_ad_unit_id">ca-app-pub-7239546305821659/7223760152</string>-->
+    <string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
     <string name="banner_ad_unit_id_main">ca-app-pub-7239546305821659/7223760152</string>
     <string name="banner_ad_unit_id_ss">ca-app-pub-7239546305821659/5262158830</string>
     <string name="banner_ad_unit_id_it">ca-app-pub-7239546305821659/6253954103</string>
     <string name="banner_ad_unit_aboutus">ca-app-pub-7239546305821659/2336612596</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
-    <string name="native_ad_unit_id">ca-app-pub-7239546305821659/3624539887</string>
     <!--> Test Unit ID <-->
    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
-    <!--<string name="banner_ad_unit_id_main">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="banner_ad_unit_id_ss">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="banner_ad_unit_id_it">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="banner_ad_unit_aboutus">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
-    <!-->Same Key Main<-->
-    <!--<string name="banner_ad_unit_id_main">ca-app-pub-7239546305821659/7223760152</string>
-    <string name="banner_ad_unit_id_ss">ca-app-pub-7239546305821659/7223760152</string>
-    <string name="banner_ad_unit_id_it">ca-app-pub-7239546305821659/7223760152</string>
-    <string name="banner_ad_unit_aboutus">ca-app-pub-7239546305821659/7223760152</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/7223760152</string>-->
-    <!--<string name="native_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
     </resources>

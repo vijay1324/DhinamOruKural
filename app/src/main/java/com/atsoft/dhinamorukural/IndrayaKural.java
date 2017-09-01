@@ -56,7 +56,7 @@ public class IndrayaKural extends Activity {
     TextView thirukural, pal, iyal, athigaram, kuralno, exp, date;
     static int currentNo = 0;
     static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
-    String[] kuralarr, iyalarr, athigaramarr, exparr, palarr;
+    String[] iyalarr, athigaramarr, palarr;
     FloatingActionButton fab_close;
     View rootView;
     Bitmap ss;
@@ -65,7 +65,6 @@ public class IndrayaKural extends Activity {
     SharedPreferences sharedPrefs;
     ArrayList<String> kuralnoarr;
 
-    private static final String TAG = "IndrayaKural";
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
 
@@ -118,8 +117,6 @@ public class IndrayaKural extends Activity {
         else
             greet.setText("இனிய இரவு");
 
-//        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
-//        datestr = df.format(calendar.getTime());
         datestr = new DecimalFormat("00").format(cdate) + "-" + new DecimalFormat("00").format(month) + "-" + year;
         String todaydate = sharedPrefs.getString("todaydate", "");
         if (!todaydate.equalsIgnoreCase(datestr) || todaydate.equalsIgnoreCase(""))
@@ -134,8 +131,7 @@ public class IndrayaKural extends Activity {
 
             @Override
             public void onAdLoaded() {
-                /*if (mInterstitialAd.isLoaded())
-                    mInterstitialAd.show();*/
+
             }
 
             @Override
@@ -302,12 +298,6 @@ public class IndrayaKural extends Activity {
                     Collections.shuffle(kuralnoarr);
                 }
                 SharedPreferences.Editor editor = sharedPrefs.edit();
-                /*try {
-                    editor.clear();
-                    editor.commit();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
                 try {
                     Set<String> set = new HashSet<>();
                     set.addAll(kuralnoarr);
@@ -402,7 +392,6 @@ public class IndrayaKural extends Activity {
     }
 
     private void showNotification(String todayKural) {
-        System.out.println("Syso Today kural : "+todayKural);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getBaseContext())
                         .setSmallIcon(R.mipmap.notify_sml_icon)
@@ -441,36 +430,27 @@ public class IndrayaKural extends Activity {
         manager.notify(0, mBuilder.build());
     }
 
-    private int getNotificationIcon() {
-        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
-        return useWhiteIcon ? R.drawable.mini_icon_13 : R.mipmap.ic_launcher;
-    }
-
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
         screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, view.getHeight());
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);
-        System.out.println("Syso SS Finish");
         return bitmap;
     }
 
     public void store(Bitmap bm, String fileName){
         dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Thirukural/Screenshots";
 //        dirPath = getFilesDir().getAbsolutePath() + "/Thirukural/Screenshots";
-        System.out.println("Syso dir path : "+dirPath);
         File dir = new File(dirPath);
         if(!dir.exists())
             dir.mkdirs();
         File file = new File(dirPath, fileName);
-        System.out.println("Syso fileName : "+fileName);
         try {
             FileOutputStream fOut = new FileOutputStream(file);
             bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
-            System.out.println("Syso store success");
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);

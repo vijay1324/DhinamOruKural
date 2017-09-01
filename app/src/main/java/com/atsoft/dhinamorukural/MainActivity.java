@@ -1,23 +1,17 @@
 package com.atsoft.dhinamorukural;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -34,29 +28,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.NativeExpressAdView;
-import com.google.android.gms.ads.VideoController;
-import com.google.android.gms.ads.VideoOptions;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.Exchanger;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -67,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     static int currentNo = 0;
     static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
     static int todayKural = 0;
-    String[] kuralarr, engkuralarr, iyalarr, athigaramarr,solomanarr, mkarr, varathuarr, parimalarr, manakadavurarr, englisharr,palarr;
+    String[] iyalarr, athigaramarr,palarr;
 
     FloatingActionButton pre, next;
     SharedPreferences sharedPrefs;
@@ -81,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     static int alarmHour = 8;
 
-    private static final String TAG = "MainActivity";
 
     private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
     //NativeExpressAdView adView;
 
     DBController controller;
@@ -101,16 +83,8 @@ public class MainActivity extends AppCompatActivity {
         //MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        /*try {
-            thirukural.getText();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            FirebaseCrash.logcat(Log.ERROR, "Syso Firebase Error : ", "NPE caught");
-            FirebaseCrash.report(ex);
-        }*/
 
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setLogo(R.drawable.ic_drawer);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -131,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         System.out.println("Syso devise id : "+android_id);
         //adView = (NativeExpressAdView)findViewById(R.id.main_adView);
 
@@ -155,16 +133,20 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
+        System.out.println("Syso Current No : "+currentNo);
         //getPreviosValue();
         try {
             Bundle bundle = getIntent().getExtras();
             todayKural = Integer.parseInt(bundle.getString("todayKural"));
             currentNo = Integer.parseInt(bundle.getString("preread"));
             fromactivity = bundle.getString("fromactivity");
+            System.out.println("Syso Get value");
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
+        currentNo = Integer.parseInt(sharedPrefs.getString("prereadno", "0"));
+        System.out.println("Syso Current No : "+currentNo);
 
         adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
         listView.setAdapter(adapter);
@@ -220,23 +202,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*thirukural.setOnClickListener(new View.OnClickListener() {
+
+
+        mInterstitialAd.setAdListener(new AdListener() {
+
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, IndrayaKural.class));
-                MainActivity.this.finish();
+            public void onAdLoaded() {
+
             }
-        });*/
+
+            @Override
+            public void onAdClosed() {
+                MainActivity.this.finish();
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        /*fromactivity = "ad";
-                        next.setVisibility(View.INVISIBLE);
-                        pre.setVisibility(View.INVISIBLE);
-                        setValue(todayKural);*/
                         startActivity(new Intent(MainActivity.this, IndrayaKural.class));
                         MainActivity.this.finish();
                         break;
@@ -604,7 +590,13 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("வெளியேறு", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    MainActivity.this.finish();
+                    if (mInterstitialAd.isLoaded()) {
+                        Log.d("Syso TAG ", "The interstitial was loaded yet.");
+                        mInterstitialAd.show();
+                    } else {
+                        MainActivity.this.finish();
+                        Log.d("Syso TAG", "The interstitial wasn't loaded yet.");
+                    }
                 }
             })
                 .setNegativeButton("ரத்து செய் ", new DialogInterface.OnClickListener() {
@@ -618,113 +610,6 @@ public class MainActivity extends AppCompatActivity {
             builder.create().show();
         }
     }
-
-    private void getPreviosValue() {
-        String prereadno = sharedPrefs.getString("prereadno", "");
-        if (prereadno.equalsIgnoreCase("")) {
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            try {
-                editor.clear();
-                editor.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                editor.putString("prereadno", String.valueOf(currentNo));
-                editor.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                currentNo = Integer.parseInt(prereadno);
-                todayKural = Integer.parseInt(sharedPrefs.getString("todaykuralno", "0"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (Exception ee) {
-                ee.printStackTrace();
-            }
-        }
-    }
-
-    /*private void setValue(int getInt) throws IndexOutOfBoundsException {
-        currentNo = getInt;
-        showButton(getInt);
-        palarr = getResources().getStringArray(R.array.nav_pal);
-        kuralarr = getResources().getStringArray(R.array.kural);
-        engkuralarr = getResources().getStringArray(R.array.english_trans);
-        iyalarr = getResources().getStringArray(R.array.nav_iyal);
-        athigaramarr = getResources().getStringArray(R.array.athigaram);
-        solomanarr = getResources().getStringArray(R.array.explain_salaman);
-        mkarr = getResources().getStringArray(R.array.explain_mk);
-        varathuarr = getResources().getStringArray(R.array.explain_varatharasanar);
-        parimalarr = getResources().getStringArray(R.array.explain_parimelagar);
-        manakadavurarr = getResources().getStringArray(R.array.explain_manakudavar);
-        englisharr = getResources().getStringArray(R.array.explain_english);
-
-        String kuralnostr = String.valueOf(getInt+1);
-        if (getInt < 10)
-            currentAgarathi = 0;
-        else {
-            currentAgarathi  = getInt / 10;
-        }
-
-        if (getInt < 381)
-            currentPal = 0;
-        else if (getInt < 1081)
-            currentPal = 1;
-        else
-            currentPal = 2;
-
-        if (getInt < 41)
-            currentIyal = 0;
-        else if (getInt < 241)
-            currentIyal = 1;
-        else if (getInt < 371)
-            currentIyal = 2;
-        else if (getInt < 381)
-            currentIyal = 3;
-        else if (getInt < 631)
-            currentIyal = 4;
-        else if (getInt < 731)
-            currentIyal = 5;
-        else if (getInt < 751)
-            currentIyal = 6;
-        else if (getInt < 761)
-            currentIyal = 7;
-        else if (getInt < 781)
-            currentIyal = 8;
-        else if (getInt < 951)
-            currentIyal = 9;
-        else if (getInt < 1081)
-            currentIyal = 10;
-        else if (getInt < 1151)
-            currentIyal = 11;
-        else
-            currentIyal = 12;
-
-        thirukural.setText(kuralarr[getInt]);
-        englishkural.setText(engkuralarr[getInt]);
-        pal.setText(palarr[currentPal]);
-        iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
-        athigaram.setText(athigaramarr[currentAgarathi]);
-        kuralno.setText("குறள் "+kuralnostr);
-        exp_varathan.setText("\t\t"+varathuarr[getInt]);
-        exp_soloman.setText("\t\t"+solomanarr[getInt]);
-        exp_mk.setText("\t\t"+mkarr[getInt]);
-        exp_parimel.setText("\t\t"+parimalarr[getInt]);
-        exp_manakudavar.setText("\t\t"+manakadavurarr[getInt]);
-        exp_english.setText("\t\t"+engkuralarr[getInt]);
-
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        try {
-            editor.putString("prereadno", String.valueOf(currentNo));
-            editor.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            FirebaseCrash.report(e);
-        }
-    }*/
 
     private void showButton (int getInt) {
         if (fromactivity.equalsIgnoreCase("ss")) {
@@ -741,12 +626,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAlerm() {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        /*Date futureDate = new Date(new Date().getTime() + 86400000);
-        futureDate.setHours(19);
-        futureDate.setMinutes(01);
-        futureDate.setSeconds(01);*/
-        System.out.println("Syso setAlerm Call");
 
         Date dat = new Date();
         Calendar cal_alarm = Calendar.getInstance();
@@ -836,7 +715,6 @@ public class MainActivity extends AppCompatActivity {
         if (cursor.moveToNext()) {
             thirukural.setText(cursor.getString(1));
             englishkural.setText(cursor.getString(7));
-            kuralno.setText("குறள் "+cursor.getString(0));
             exp_varathan.setText("\t\t"+cursor.getString(3));
             exp_soloman.setText("\t\t"+cursor.getString(4));
             exp_mk.setText("\t\t"+cursor.getString(2));
