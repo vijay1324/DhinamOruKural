@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:id="@+id/popup_ll"
-        android:orientation="vertical"
-        android:background="@drawable/bg">
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +18,7 @@
         android:id="@+id/shared_ll"
         android:padding="10dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/bg"
         android:orientation="vertical">
 
         <TextView
@@ -183,11 +183,19 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
             android:textSize="8sp"
             android:id="@+id/greatinget"
             android:hint="Enter your greeting message"/>
 
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/bottom_ll">
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/dk_adView"
@@ -229,7 +237,7 @@
                 android:id="@+id/exp_btn"
                 android:text="விளக்க உரை"/>
         </LinearLayout>
-
+        </LinearLayout>
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_close"

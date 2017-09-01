@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -58,7 +61,7 @@ public class IndrayaKural extends Activity {
     View rootView;
     Bitmap ss;
     static String filename = "", dirPath = "", greetingmsg = "", datestr = "";
-    LinearLayout btnll;
+    LinearLayout btnll, bottom_ll;
     SharedPreferences sharedPrefs;
     ArrayList<String> kuralnoarr;
 
@@ -70,7 +73,7 @@ public class IndrayaKural extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_dialog);
-        View bg = findViewById(R.id.popup_ll);
+        View bg = findViewById(R.id.shared_ll);
         Drawable backround = bg.getBackground();
         backround.setAlpha(60);
         FirebaseApp.initializeApp(this);
@@ -93,6 +96,7 @@ public class IndrayaKural extends Activity {
         date = (TextView) findViewById(R.id.date);
         fab_close = (FloatingActionButton) findViewById(R.id.fab_close);
         btnll = (LinearLayout) findViewById(R.id.btn_ll);
+        bottom_ll = findViewById(R.id.bottom_ll);
         greet = (EditText) findViewById(R.id.greatinget);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
 
@@ -177,13 +181,15 @@ public class IndrayaKural extends Activity {
                     greetingmsg = greet.getText().toString().trim();
                     greet.setVisibility(View.INVISIBLE);
                     fab_close.setVisibility(View.INVISIBLE);
-                    btnll.setVisibility(View.INVISIBLE);
+                    bottom_ll.setVisibility(View.GONE);
+//                    btnll.setVisibility(View.INVISIBLE);
                     mAdView.setVisibility(View.INVISIBLE);
                     ss = getScreenShot(rootView);
                     store(ss, filename);
                     greet.setVisibility(View.VISIBLE);
                     fab_close.setVisibility(View.VISIBLE);
-                    btnll.setVisibility(View.VISIBLE);
+                    bottom_ll.setVisibility(View.VISIBLE);
+//                    btnll.setVisibility(View.VISIBLE);
                     mAdView.setVisibility(View.VISIBLE);
                     shareImage(new File(dirPath, filename));
                 }
@@ -326,13 +332,26 @@ public class IndrayaKural extends Activity {
     }
 
     private void setValue() throws IndexOutOfBoundsException {
+        DBController controller = new DBController(this);
+        SQLiteDatabase db = controller.getReadableDatabase();
+        String noti_kural = "";
+        String qry = "SELECT thirukural, soloman_exp FROM kural where kuralno = '"+currentNo+"'";
+        System.out.println("Syso select qry : " +qry);
+        Cursor cursor = db.rawQuery(qry, null);
+        if (cursor.moveToNext()) {
+            noti_kural = cursor.getString(0);
+            thirukural.setText(cursor.getString(0));
+            exp.setText("குறள் "+cursor.getString(1));
+        } else
+            System.out.println("Syso empty db");
+        db.close();
+
         palarr = getResources().getStringArray(R.array.nav_pal);
-        kuralarr = getResources().getStringArray(R.array.kural);
         iyalarr = getResources().getStringArray(R.array.nav_iyal);
         athigaramarr = getResources().getStringArray(R.array.athigaram);
-        exparr = getResources().getStringArray(R.array.explain_salaman);
         String kuralnostr = String.valueOf(currentNo+1);
-        filename = "Thirukural_"+String.valueOf(currentNo+1)+".jpg";
+//        filename = "Thirukural_"+String.valueOf(currentNo+1)+".jpg";
+        filename = "Thirukural.jpg";
         if (currentNo < 10)
             currentAgarathi = 0;
         else {
@@ -374,14 +393,12 @@ public class IndrayaKural extends Activity {
             currentIyal = 12;
 
 
-        thirukural.setText(kuralarr[currentNo]);
         pal.setText(palarr[currentPal]);
         iyal.setText(iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
         kuralno.setText(kuralnostr);
-        exp.setText(exparr[currentNo]);
         date.setText(datestr);
-        showNotification(kuralarr[currentNo]);
+        showNotification(noti_kural);
     }
 
     private void showNotification(String todayKural) {
@@ -431,6 +448,7 @@ public class IndrayaKural extends Activity {
 
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
+        screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, view.getHeight());
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);

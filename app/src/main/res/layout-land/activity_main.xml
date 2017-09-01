@@ -280,6 +280,17 @@
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id_main"/>
+
+        <!--<com.google.android.gms.ads.NativeExpressAdView
+            android:id="@+id/main_adView"
+            android:layout_width="320dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="320x80"
+            ads:adUnitId="@string/native_ad_unit_id"
+            />-->
     </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

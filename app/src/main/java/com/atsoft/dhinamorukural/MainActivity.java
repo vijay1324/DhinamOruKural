@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -38,9 +41,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.NativeExpressAdView;
+import com.google.android.gms.ads.VideoController;
+import com.google.android.gms.ads.VideoOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private AdView mAdView;
+    //NativeExpressAdView adView;
+
+    DBController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         View bg = findViewById(R.id.toplinearlayout);
         Drawable backround = bg.getBackground();
         backround.setAlpha(80);
-        getAllPermission();
+        controller = new DBController(this);
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
         //MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
@@ -117,6 +132,25 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
         System.out.println("Syso devise id : "+android_id);
+        //adView = (NativeExpressAdView)findViewById(R.id.main_adView);
+
+        /*AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
+        adView.setVideoOptions(new VideoOptions.Builder()
+                .setStartMuted(true)
+                .build());
+
+        VideoController vc = adView.getVideoController();
+
+        vc.setVideoLifecycleCallbacks(new VideoController.VideoLifecycleCallbacks() {
+            public void onVideoEnd() {
+                // Here apps can take action knowing video playback is finished
+                // It's always a good idea to wait for playback to complete before
+                // replacing or refreshing a native ad, for example.
+                super.onVideoEnd();
+            }
+        });*/
+
 //        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         mAdView.loadAd(adRequest);
@@ -407,56 +441,6 @@ public class MainActivity extends AppCompatActivity {
                     drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                FirebaseCrash.log("onAdOpened");
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                FirebaseCrash.log("onAdLoaded");
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-                FirebaseCrash.log("onAdClicked");
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                FirebaseCrash.log("onAdFailedToLoad : "+i);
-            }
-
-            @Override
-            public void onAdImpression() {
-                super.onAdImpression();
-                FirebaseCrash.log("onAdImpression");
-            }
-        });
-    }
-
-    @Override
-    protected void onPause() {
-        mAdView.pause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        mAdView.resume();
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mAdView.destroy();
-        super.onDestroy();
     }
 
     private void searhByPal () {
@@ -663,7 +647,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setValue(int getInt) throws IndexOutOfBoundsException {
+    /*private void setValue(int getInt) throws IndexOutOfBoundsException {
         currentNo = getInt;
         showButton(getInt);
         palarr = getResources().getStringArray(R.array.nav_pal);
@@ -740,7 +724,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
-    }
+    }*/
 
     private void showButton (int getInt) {
         if (fromactivity.equalsIgnoreCase("ss")) {
@@ -782,25 +766,6 @@ public class MainActivity extends AppCompatActivity {
         am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
     }
 
-    private void getAllPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat
-                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat
-                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.EXPAND_STATUS_BAR) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat
-                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.EXPAND_STATUS_BAR}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat
-                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, 1);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
@@ -813,5 +778,87 @@ public class MainActivity extends AppCompatActivity {
         else
             drawerLayout.openDrawer(Gravity.LEFT);
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setValue(int getInt) {
+        currentNo = getInt;
+        showButton(getInt);
+        palarr = getResources().getStringArray(R.array.nav_pal);
+        iyalarr = getResources().getStringArray(R.array.nav_iyal);
+        athigaramarr = getResources().getStringArray(R.array.athigaram);
+
+        String kuralnostr = String.valueOf(getInt+1);
+        if (getInt < 10)
+            currentAgarathi = 0;
+        else {
+            currentAgarathi  = getInt / 10;
+        }
+
+        if (getInt < 381)
+            currentPal = 0;
+        else if (getInt < 1081)
+            currentPal = 1;
+        else
+            currentPal = 2;
+
+        if (getInt < 41)
+            currentIyal = 0;
+        else if (getInt < 241)
+            currentIyal = 1;
+        else if (getInt < 371)
+            currentIyal = 2;
+        else if (getInt < 381)
+            currentIyal = 3;
+        else if (getInt < 631)
+            currentIyal = 4;
+        else if (getInt < 731)
+            currentIyal = 5;
+        else if (getInt < 751)
+            currentIyal = 6;
+        else if (getInt < 761)
+            currentIyal = 7;
+        else if (getInt < 781)
+            currentIyal = 8;
+        else if (getInt < 951)
+            currentIyal = 9;
+        else if (getInt < 1081)
+            currentIyal = 10;
+        else if (getInt < 1151)
+            currentIyal = 11;
+        else
+            currentIyal = 12;
+
+
+        SQLiteDatabase db = controller.getReadableDatabase();
+        String qry = "SELECT kuralno, thirukural, mk_exp, varathu_exp, soloman_exp, parimelalagar_exp, manakadavure_exp, translate_kural, eng_exp FROM kural where kuralno = '"+kuralnostr+"'";
+        System.out.println("Syso select qry : " +qry);
+        Cursor cursor = db.rawQuery(qry, null);
+        if (cursor.moveToNext()) {
+            thirukural.setText(cursor.getString(1));
+            englishkural.setText(cursor.getString(7));
+            kuralno.setText("குறள் "+cursor.getString(0));
+            exp_varathan.setText("\t\t"+cursor.getString(3));
+            exp_soloman.setText("\t\t"+cursor.getString(4));
+            exp_mk.setText("\t\t"+cursor.getString(2));
+            exp_parimel.setText("\t\t"+cursor.getString(5));
+            exp_manakudavar.setText("\t\t"+cursor.getString(6));
+            exp_english.setText("\t\t"+cursor.getString(8));
+        } else
+            System.out.println("Syso empty db");
+        db.close();
+
+        pal.setText(palarr[currentPal]);
+        iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
+        athigaram.setText(athigaramarr[currentAgarathi]);
+        kuralno.setText("குறள் "+kuralnostr);
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        try {
+            editor.putString("prereadno", String.valueOf(currentNo));
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FirebaseCrash.report(e);
+        }
     }
 }
