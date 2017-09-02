@@ -728,7 +728,7 @@ public class MainActivity extends AppCompatActivity {
         pal.setText(palarr[currentPal]);
         iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
-        kuralno.setText("குறள் "+kuralnostr);
+        kuralno.setText("குறள் எண்: "+kuralnostr);
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
         try {

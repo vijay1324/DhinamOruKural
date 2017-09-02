@@ -330,13 +330,14 @@ public class IndrayaKural extends Activity {
         DBController controller = new DBController(this);
         SQLiteDatabase db = controller.getReadableDatabase();
         String noti_kural = "";
-        String qry = "SELECT thirukural, soloman_exp FROM kural where kuralno = '"+currentNo+"'";
+        String kuralnostr = String.valueOf(currentNo+1);
+        String qry = "SELECT thirukural, soloman_exp FROM kural where kuralno = '"+kuralnostr+"'";
         System.out.println("Syso select qry : " +qry);
         Cursor cursor = db.rawQuery(qry, null);
         if (cursor.moveToNext()) {
             noti_kural = cursor.getString(0);
             thirukural.setText(cursor.getString(0));
-            exp.setText("குறள் "+cursor.getString(1));
+            exp.setText(cursor.getString(1));
         } else
             System.out.println("Syso empty db");
         db.close();
@@ -344,7 +345,6 @@ public class IndrayaKural extends Activity {
         palarr = getResources().getStringArray(R.array.nav_pal);
         iyalarr = getResources().getStringArray(R.array.nav_iyal);
         athigaramarr = getResources().getStringArray(R.array.athigaram);
-        String kuralnostr = String.valueOf(currentNo+1);
 //        filename = "Thirukural_"+String.valueOf(currentNo+1)+".jpg";
         filename = "Thirukural.jpg";
         if (currentNo < 10)
