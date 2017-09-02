@@ -18,10 +18,12 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +42,7 @@ import com.google.firebase.crash.FirebaseCrash;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -100,13 +103,15 @@ public class IndrayaKural extends Activity {
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
 
         Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
+        int hour = Integer.parseInt(simpleDateFormat.format(calendar.getTime()));
+//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int noon = calendar.get(Calendar.AM_PM);
         int cdate = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
-        if (noon == Calendar.PM && hour != 12)
-            hour += 12;
+        /*if (noon == Calendar.PM && hour != 12)
+            hour += 12;*/
         System.out.println("Syso now hour : "+hour);
         if (hour < 12)
             greet.setText("காலை வணக்கம்");
@@ -458,9 +463,14 @@ public class IndrayaKural extends Activity {
     }
 
     private void shareImage(File file){
-        Uri uri = Uri.fromFile(file);
+        Uri uri;
+        if (Build.VERSION.SDK_INT <= 23)
+            uri = Uri.fromFile(file);
+        else
+            uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", file);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("image/*");
 
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.todays_kural));

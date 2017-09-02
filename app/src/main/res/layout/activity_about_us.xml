@@ -108,39 +108,39 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:padding="10dp"
-            android:textColor="@color/Black"
-            android:textStyle="bold"
-            android:textSize="13sp"
-            android:text="இந்த வலைத்தளத்திலிருந்து எடுக்கப்பட்டது"/>
+            <!--<TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:textColor="@color/Black"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:text="இந்த வலைத்தளத்திலிருந்து எடுக்கப்பட்டது"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/weblinktv"
-            android:gravity="right"
-            android:padding="10dp"
-            android:textColor="@color/blue"
-            android:textStyle="normal"
-            android:textSize="13sp"
-            android:text="http://www.thirukkural.com" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/weblinktv"
+                android:gravity="right"
+                android:padding="10dp"
+                android:textColor="@color/blue"
+                android:textStyle="normal"
+                android:textSize="13sp"
+                android:text="http://www.thirukkural.com" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/blue"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/blue"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>-->
 
         </LinearLayout>
         </ScrollView>

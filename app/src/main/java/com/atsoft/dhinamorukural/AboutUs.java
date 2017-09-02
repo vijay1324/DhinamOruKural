@@ -23,7 +23,7 @@ import com.google.firebase.crash.FirebaseCrash;
 
 public class AboutUs extends AppCompatActivity {
 
-    TextView weblink;
+    //TextView weblink;
     Button rate, share;
 
     private static final String TAG = "AboutUS";
@@ -38,14 +38,14 @@ public class AboutUs extends AppCompatActivity {
         Drawable backround = bg.getBackground();
         backround.setAlpha(80);
         FirebaseApp.initializeApp(this);
-        weblink = (TextView) findViewById(R.id.weblinktv);
+        //weblink = (TextView) findViewById(R.id.weblinktv);
         rate = (Button) findViewById(R.id.ratebtn);
         share = (Button) findViewById(R.id.sharebtn);
         FirebaseApp.initializeApp(this);
-        weblink.setClickable(true);
-        weblink.setMovementMethod(LinkMovementMethod.getInstance());
-        String text = "<a href='http://www.thirukkural.com'> www.thirukkural.com </a>";
-        weblink.setText(Html.fromHtml(text));
+        //weblink.setClickable(true);
+        //weblink.setMovementMethod(LinkMovementMethod.getInstance());
+        //String text = "<a href='http://www.thirukkural.com'> www.thirukkural.com </a>";
+        //weblink.setText(Html.fromHtml(text));
 
         mAdView = (AdView) findViewById(R.id.about_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
