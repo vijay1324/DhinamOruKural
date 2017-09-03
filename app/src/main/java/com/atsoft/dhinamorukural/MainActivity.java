@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
@@ -24,11 +25,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,15 +43,18 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_english;
+    TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_english,
+                header_saloman, header_mk, header_varathu, header_paramal, header_mana, header_explain;
     static int currentNo = 0;
     static int currentAgarathi = 0, currentPal = 0, currentIyal = 0;
     static int todayKural = 0;
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerLisener;
     private ListView listView;
-    String[] drawContent = {"இன்றைய குறள்", "குறள் எண் தேடல்", "பால் தேர்வு", "இயல் தேர்வு", "அதிகாரம் தேர்வு", "அமைப்புகள்", "எங்களை பற்றி"};
+    String[] drawContent = {"இன்றைய குறள்", "குறள் எண் தேடல்", "வார்த்தை தேடல்", "பால் தேர்வு", "இயல் தேர்வு", "அதிகாரம் தேர்வு", "அமைப்புகள்", "எங்களை பற்றி"};
     ArrayAdapter adapter;
 
     static int alarmHour = 8;
@@ -76,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         View bg = findViewById(R.id.toplinearlayout);
         Drawable backround = bg.getBackground();
-        backround.setAlpha(80);
+        backround.setAlpha(50);
         controller = new DBController(this);
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
@@ -105,6 +114,12 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
+        header_saloman = (TextView) findViewById(R.id.header_saloman);
+        header_mk = (TextView) findViewById(R.id.header_mk);
+        header_varathu = (TextView) findViewById(R.id.header_varathu);
+        header_paramal = (TextView) findViewById(R.id.header_paramal);
+        header_mana = (TextView) findViewById(R.id.header_mana);
+        header_explain = (TextView) findViewById(R.id.header_explain);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
@@ -133,20 +148,16 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
-        System.out.println("Syso Current No : "+currentNo);
-        //getPreviosValue();
         try {
             Bundle bundle = getIntent().getExtras();
             todayKural = Integer.parseInt(bundle.getString("todayKural"));
             currentNo = Integer.parseInt(bundle.getString("preread"));
             fromactivity = bundle.getString("fromactivity");
-            System.out.println("Syso Get value");
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
         currentNo = Integer.parseInt(sharedPrefs.getString("prereadno", "0"));
-        System.out.println("Syso Current No : "+currentNo);
 
         adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
         listView.setAdapter(adapter);
@@ -183,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
             setValue(todayKural);
         }
         //showNotification();
-        alarmHour = sharedPrefs.getInt("alermtime", 8);
         setAlerm();
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -253,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    FirebaseCrash.report(e);
                                 }
                             }
 
@@ -278,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    FirebaseCrash.report(e);
                                 }
                             }
                         });
@@ -291,9 +303,12 @@ public class MainActivity extends AppCompatActivity {
                         b.show();
                         break;
                     case 2:
-                        searhByPal();
+                        searchByWord();
                         break;
                     case 3:
+                        searhByPal();
+                        break;
+                    case 4:
                         AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
                         iyal_builderSingle.setIcon(R.drawable.mini2_icon_42);
                         iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
@@ -317,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                         });
                         iyal_builderSingle.show();
                         break;
-                    case 4:
+                    case 5:
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
                         builderSingle.setIcon(R.drawable.mini2_icon_42);
                         builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
@@ -342,17 +357,20 @@ public class MainActivity extends AppCompatActivity {
                         });
                         builderSingle.show();
                         break;
-                    case 5:
+                    case 6:
                         AlertDialog.Builder set_dialogBuilder = new AlertDialog.Builder(MainActivity.this);
                         LayoutInflater set_inflater = MainActivity.this.getLayoutInflater();
-                        final View set_dialogView = set_inflater.inflate(R.layout.edittext_dialog, null);
+                        final View set_dialogView = set_inflater.inflate(R.layout.settings, null);
                         set_dialogBuilder.setView(set_dialogView);
 
-                        final EditText set_edt = (EditText) set_dialogView.findViewById(R.id.kuralnoet);
+                        final EditText set_edt = (EditText) set_dialogView.findViewById(R.id.notifyet);
+                        final Switch sw_bigtext = set_dialogView.findViewById(R.id.switch_bigtxt);
+                            sw_bigtext.setChecked(sharedPrefs.getBoolean("bigtxt", false));
                         set_edt.setHint("0 ~ 23");
+                        set_edt.setText(alarmHour+"");
                         View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
                         Drawable set_backround = set_bg.getBackground();
-                        set_backround.setAlpha(80);
+                        set_backround.setAlpha(60);
 
                         set_edt.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -370,6 +388,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    FirebaseCrash.report(e);
                                 }
                             }
 
@@ -379,8 +398,18 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
 
-                        set_dialogBuilder.setTitle("அறிவிப்பு நேரம்");
-                        set_dialogBuilder.setMessage("அறிவிப்பு நேரத்தை மாற்றவும்");
+
+                        sw_bigtext.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                SharedPreferences.Editor editor = sharedPrefs.edit();
+                                editor.putBoolean("bigtxt", b);
+                                editor.commit();
+                            }
+                        });
+
+                        set_dialogBuilder.setTitle("அமைப்புகள்");
+                        //set_dialogBuilder.setMessage("அறிவிப்பு நேரத்தை மாற்றவும்");
                         set_dialogBuilder.setPositiveButton("அமை", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //do something with edt.getText().toString();
@@ -394,13 +423,16 @@ public class MainActivity extends AppCompatActivity {
                                         editor.putInt("alermtime", alarmHour);
                                         editor.commit();
                                         setAlerm();
+                                        setTheme();
                                     } else {
                                         Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
                                         set_edt.setText("");
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    FirebaseCrash.report(e);
                                 }
+
                             }
                         });
                         set_dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
@@ -414,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog set_b = set_dialogBuilder.create();
                         set_b.show();
                         break;
-                    case 6:
+                    case 7:
                         startActivity(new Intent(MainActivity.this, AboutUs.class));
                         MainActivity.this.finish();
                         break;
@@ -574,6 +606,96 @@ public class MainActivity extends AppCompatActivity {
         Athigaram_builderSingle.show();
     }
 
+    private void searchByWord() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.search_by_word, null);
+        dialogBuilder.setView(dialogView);
+
+        final ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String,String>>();
+
+        final AutoCompleteTextView edt = dialogView.findViewById(R.id.searchet);
+        final ListView lv = dialogView.findViewById(R.id.search_listview);
+        View bg = dialogView.findViewById(R.id.dialog_top_ll);
+        Drawable backround = bg.getBackground();
+        backround.setAlpha(80);
+        final AlertDialog adialog = dialogBuilder.create();
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (MainActivity.this,android.R.layout.simple_list_item_1,Defs.allwords);
+        edt.setAdapter(adapter);
+        edt.setThreshold(1);
+
+        edt.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if(event.getAction()==MotionEvent.ACTION_UP){
+
+                    if(event.getRawX() >= (edt.getRight() - edt.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        // your action here
+                        try {
+                            SQLiteDatabase db = controller.getReadableDatabase();
+                            String qry = "SELECT kuralno, thirukural FROM kural where thirukural like '%"+edt.getText().toString().trim()+"%'";
+                            Cursor cursor = db.rawQuery(qry, null);
+                            try {
+                                myList.clear();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            HashMap<String, String> map = null;
+                            if (cursor.moveToFirst()) {
+                                do {
+                                    map = new HashMap<String, String>();
+                                    map.put("kuralno", cursor.getString(0));
+                                    map.put("thirukural", cursor.getString(1));
+                                    myList.add(map);
+                                } while (cursor.moveToNext());
+                            }
+                            cursor.close();
+                            db.close();
+                            if (myList.size() == 0) {
+                                Toast.makeText(getApplicationContext(), "இந்த வார்த்தை கிடைக்கவில்லை, சரியான வார்த்தையை உள்ளிடவும்.", Toast.LENGTH_LONG).show();
+                            }
+                            edt.setText("");
+                            SimpleAdapter sadapter = new SimpleAdapter(MainActivity.this, myList,
+                                    R.layout.word_search_custom_listview, new String[]{"kuralno", "thirukural"}, new int[]{
+                                    R.id.search_kural_no, R.id.src_kural_tv});
+                            lv.setAdapter(sadapter);
+                            sadapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            FirebaseCrash.report(e);
+                        }
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int index = i;
+                String kno = myList.get(index).get("kuralno");
+                int xx = Integer.parseInt(kno) - 1;
+                setValue(xx);
+                adialog.dismiss();
+            }
+        });
+
+        dialogBuilder.setTitle("திருக்குறள்");
+        dialogBuilder.setMessage("வார்த்தை தேடல்");
+        dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+                dialog.dismiss();
+            }
+        });
+        adialog.show();
+    }
+
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(Gravity.LEFT))
@@ -625,6 +747,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAlerm() {
+        alarmHour = sharedPrefs.getInt("alermtime", 8);
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Date dat = new Date();
@@ -710,7 +833,6 @@ public class MainActivity extends AppCompatActivity {
 
         SQLiteDatabase db = controller.getReadableDatabase();
         String qry = "SELECT kuralno, thirukural, mk_exp, varathu_exp, soloman_exp, parimelalagar_exp, manakadavure_exp, translate_kural, eng_exp FROM kural where kuralno = '"+kuralnostr+"'";
-        System.out.println("Syso select qry : " +qry);
         Cursor cursor = db.rawQuery(qry, null);
         if (cursor.moveToNext()) {
             thirukural.setText(cursor.getString(1));
@@ -721,15 +843,14 @@ public class MainActivity extends AppCompatActivity {
             exp_parimel.setText("\t\t"+cursor.getString(5));
             exp_manakudavar.setText("\t\t"+cursor.getString(6));
             exp_english.setText("\t\t"+cursor.getString(8));
-        } else
-            System.out.println("Syso empty db");
+        }
         db.close();
 
         pal.setText(palarr[currentPal]);
         iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
         kuralno.setText("குறள் எண்: "+kuralnostr);
-
+        setTheme();
         SharedPreferences.Editor editor = sharedPrefs.edit();
         try {
             editor.putString("prereadno", String.valueOf(currentNo));
@@ -738,5 +859,54 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
+    }
+
+    private void setTheme() {
+        int h1 = 0,h2 = 0,text = 0;
+        boolean bigtext = sharedPrefs.getBoolean("bigtxt", false);
+
+        if (!bigtext && !isTablet(this)) {
+            h1 = (int) getResources().getDimension(R.dimen.mh1);
+            h2 = (int) getResources().getDimension(R.dimen.mh2);
+            text = (int) getResources().getDimension(R.dimen.mt1);
+        } else if (bigtext && isTablet(this)) {
+            h1 = (int) getResources().getDimension(R.dimen.tbh1);
+            h2 = (int) getResources().getDimension(R.dimen.tbh2);
+            text = (int) getResources().getDimension(R.dimen.tbt1);
+        } else {
+            h1 = (int) getResources().getDimension(R.dimen.th1);
+            h2 = (int) getResources().getDimension(R.dimen.th2);
+            text = (int) getResources().getDimension(R.dimen.tt1);
+        }
+
+        pal.setTextSize(h1);
+        
+        iyal.setTextSize(h2);
+        athigaram.setTextSize(h2);
+        kuralno.setTextSize(h2);
+        header_saloman.setTextSize(h2);
+        header_mk.setTextSize(h2);
+        header_varathu.setTextSize(h2);
+        header_paramal.setTextSize(h2);
+        header_mana.setTextSize(h2);
+        header_explain.setTextSize(h2);
+
+        thirukural.setTextSize(text);
+        englishkural.setTextSize(text);
+        iyal.setTextSize(text);
+        athigaram.setTextSize(text);
+        kuralno.setTextSize(text);
+        exp_soloman.setTextSize(text);
+        exp_mk.setTextSize(text);
+        exp_varathan.setTextSize(text);
+        exp_parimel.setTextSize(text);
+        exp_manakudavar.setTextSize(text);
+        exp_english.setTextSize(text);        
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

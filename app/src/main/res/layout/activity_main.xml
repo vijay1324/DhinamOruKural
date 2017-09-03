@@ -19,13 +19,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/toplinearlayout"
-        android:background="@drawable/thiruvalluvar"
+        android:background="@drawable/bg"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fadeScrollbars="false">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="match_parent"
             android:id="@+id/kural_ll"
             android:padding="10dp"
             android:orientation="vertical">
@@ -37,8 +43,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:typeface="normal"
-                android:textStyle="bold"
-                android:textSize="21sp"/>
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +62,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/athigaramtv"
-                    android:textSize="21sp"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:layout_weight="1"/>
@@ -106,6 +110,8 @@
 
         </LinearLayout>
 
+        </ScrollView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -117,7 +123,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:fadeScrollbars="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,6 +134,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_saloman"
                     android:text="@string/soloman_urai"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -148,6 +156,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_mk"
                     android:text="@string/mk_urai"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -169,6 +178,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_varathu"
                     android:text="@string/varathu_urai"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -190,6 +200,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_paramal"
                     android:text="@string/parimal_urai"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -211,6 +222,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_mana"
                     android:text="@string/manakudavar_urai"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -238,6 +250,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/header_explain"
                     android:text="@string/eng_exp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -274,8 +287,8 @@
             android:src="@drawable/previousround_42"
             android:scaleType="center"
             app:fabSize="mini"
-            app:layout_anchor="@id/kural_ll"
-            app:layout_anchorGravity="bottom|start|left"/>
+            app:layout_anchor="@id/toplinearlayout"
+            app:layout_anchorGravity="center|start|left"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_next"
@@ -286,8 +299,8 @@
             android:src="@drawable/nextround_42"
             android:scaleType="center"
             app:fabSize="mini"
-            app:layout_anchor="@id/kural_ll"
-            app:layout_anchorGravity="bottom|right|end"/>
+            app:layout_anchor="@id/toplinearlayout"
+            app:layout_anchorGravity="center|right|end"/>
 
     </android.support.design.widget.CoordinatorLayout>
     <ListView

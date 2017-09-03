@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/src_kural_tv"
+        android:textColor="@color/Black"
+        android:padding="5dp"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:text="ஊடுதல் காமத்திற்கு இன்பம் அதற்கின்பம்\n கூடி முயங்கப் பெறின்."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_kural_no"
+        android:textColor="@color/Black"
+        android:padding="5dp"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:text="Kuralno :"/>
+
+</LinearLayout>

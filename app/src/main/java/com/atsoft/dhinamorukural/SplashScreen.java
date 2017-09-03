@@ -1,12 +1,16 @@
 package com.atsoft.dhinamorukural;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,12 +41,20 @@ public class SplashScreen extends AppCompatActivity {
     private static final int REQUEST= 112;
 
     Context mContext = this;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         mAdView = (AdView) findViewById(R.id.ss_adView);
+        progress = new ProgressDialog(this);
+        progress.setTitle("Please wait.!");
+        progress.setMessage("Uploading...");
+        progress.setIcon(R.drawable.dialog_process);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setCancelable(false);
+        progress.setIndeterminate(false);
         FirebaseApp.initializeApp(this);
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -107,20 +119,57 @@ public class SplashScreen extends AppCompatActivity {
                     myOutput.close();
                     myOutput.flush();
                     myInput.close();
-                    Log.i("Database",
-                            "New database has been copied to device!");
-                    callNextActivity();
+                    Log.i("Syso Database",
+                            "New database has been copied to device!"+getApplicationContext().getDatabasePath("Thirukural.db"));
+                    //saveToSD();
+                    new GetValueFromDB().execute("");
 
                 }
                 catch(IOException e)
                 {
                     e.printStackTrace();
+                    FirebaseCrash.report(e);
                 }
             } else {
-                callNextActivity();
+                //saveToSD();
+                new GetValueFromDB().execute("");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseCrash.report(e);
+        }
+    }
+
+    private void saveToSD() {
+        byte[] buffer = new byte[1024];
+        OutputStream myOutput = null;
+        int length;
+        // Open your local db as the input stream
+        InputStream myInput = null;
+        try
+        {
+            myInput =getApplicationContext().getAssets().open("Thirukural.db");
+            // transfer bytes from the inputfile to the
+            // outputfile
+            File dir = Environment.getExternalStorageDirectory();
+            File desc = new File(dir, "Thirukural/Thirukural.db");
+            myOutput =new FileOutputStream(desc);
+            while((length = myInput.read(buffer)) > 0)
+            {
+                myOutput.write(buffer, 0, length);
+            }
+            myOutput.close();
+            myOutput.flush();
+            myInput.close();
+            Log.i("Syso Database",
+                    "New database has been copied to device!");
+            //new GetValueFromDB().execute("");
+
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            FirebaseCrash.report(e);
         }
     }
 
@@ -178,18 +227,64 @@ public class SplashScreen extends AppCompatActivity {
         return true;
     }
 
-    public void callNextActivity()
-    {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
-                intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
-                intent.putExtra("fromactivity", "ss");
-                startActivity(intent);
-                SplashScreen.this.finish();
+    private class GetValueFromDB extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            DBController controller = new DBController(mContext);
+            SQLiteDatabase db = controller.getReadableDatabase();
+            String qry = "SELECT words FROM allwords";
+            Cursor cursor = db.rawQuery(qry, null);
+            int count = 0;
+            Defs.allwords = new String[4968];
+            try {
+                while (cursor.moveToNext()) {
+                    try {
+                        Defs.allwords[count] = cursor.getString(cursor.getColumnIndex("words"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        FirebaseCrash.report(e);
+                    }
+                    count++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                FirebaseCrash.report(e);
             }
-        }, 3000);
+            db.close();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progress.dismiss();
+            //saveToSD();
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+            intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
+            intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+            intent.putExtra("fromactivity", "ss");
+            startActivity(intent);
+            SplashScreen.this.finish();
+            // might want to change "executed" for the returned string passed
+            // into onPostExecute() but that is upto you
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progress.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (progress != null) {
+            progress.dismiss();
+            progress = null;
+        }
     }
 }

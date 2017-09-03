@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mh1">8sp</dimen>
+    <dimen name="mh2">6sp</dimen>
+    <dimen name="mt1">4sp</dimen>
+
+    <dimen name="th1">10sp</dimen>
+    <dimen name="th2">8sp</dimen>
+    <dimen name="tt1">6sp</dimen>
+
+    <dimen name="tbh1">12sp</dimen>
+    <dimen name="tbh2">10sp</dimen>
+    <dimen name="tbt1">8sp</dimen>
+</resources>

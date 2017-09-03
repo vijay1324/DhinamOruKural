@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/toplinearlayout"
-        android:background="@drawable/thiruvalluvar"
+        android:background="@drawable/bg"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -33,7 +33,8 @@
             <ScrollView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:fadeScrollbars="false">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,8 +50,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:typeface="normal"
-                android:textStyle="bold"
-                android:textSize="21sp"/>
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -69,7 +69,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/athigaramtv"
-                    android:textSize="21sp"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:layout_weight="1"/>
@@ -132,7 +131,8 @@
 
                 <ScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:fadeScrollbars="false">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -144,6 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:id="@+id/header_saloman"
                             android:text="@string/soloman_urai"
                             android:textColor="@android:color/black"
                             android:textStyle="bold" />
@@ -164,6 +165,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/header_mk"
                             android:padding="5dp"
                             android:text="@string/mk_urai"
                             android:textColor="@android:color/black"
@@ -185,6 +187,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/header_varathu"
                             android:padding="5dp"
                             android:text="@string/varathu_urai"
                             android:textColor="@android:color/black"
@@ -206,6 +209,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/header_paramal"
                             android:padding="5dp"
                             android:text="@string/parimal_urai"
                             android:textColor="@android:color/black"
@@ -227,6 +231,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/header_mana"
                             android:padding="5dp"
                             android:text="@string/manakudavar_urai"
                             android:textColor="@android:color/black"
@@ -254,6 +259,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/header_explain"
                             android:padding="5dp"
                             android:text="@string/eng_exp"
                             android:textColor="@android:color/black"

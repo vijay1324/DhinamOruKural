@@ -26,6 +26,8 @@ public class DBController extends SQLiteOpenHelper {
 		String query;
 		query = "CREATE TABLE IF NOT EXISTS kural (kuralno TEXT, thirukural TEXT, mk_exp TEXT, varathu_exp TEXT, soloman_exp TEXT, parimelalagar_exp TEXT, manakadavure_exp TEXT, translate_kural TEXT, eng_exp TEXT)";
 		database.execSQL(query);
+		query = "CREATE TABLE IF NOT EXISTS allwords (words TEXT NOT NULL UNIQUE);";
+		database.execSQL(query);
 	}
 
 	@Override
