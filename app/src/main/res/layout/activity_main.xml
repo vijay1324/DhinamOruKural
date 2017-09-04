@@ -45,33 +45,41 @@
                 android:typeface="normal"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/iyaltv"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:gravity="right"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/athigaramtv"
+                    android:id="@+id/iyaltv"
+                    android:paddingLeft="10dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:text="Poruliyal"
+                    android:layout_weight="1.5"
                     android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
+                    android:gravity="left"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/kuralnotv"
+                    android:textStyle="bold"
                     android:layout_gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="kural no : 1320"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/athigaramtv"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:text="Arathupal"/>
 
             <TextView
                 android:layout_width="match_parent"

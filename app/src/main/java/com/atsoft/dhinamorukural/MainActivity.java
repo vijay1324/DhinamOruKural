@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -381,10 +382,13 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                                 try {
-                                    int kno = Integer.parseInt(set_edt.getText().toString().trim());
-                                    if (kno < 0 || kno > 23) {
-                                        Toast.makeText(getApplicationContext(), "சரியான நேரத்தை உள்ளிடவும்", Toast.LENGTH_LONG).show();
-                                        set_edt.setText("");
+                                    String edittexttest = set_edt.getText().toString().trim();
+                                    if (!edittexttest.equalsIgnoreCase("")) {
+                                        int kno = Integer.parseInt(edittexttest);
+                                        if (kno < 0 || kno > 23) {
+                                            Toast.makeText(getApplicationContext(), "சரியான நேரத்தை உள்ளிடவும்", Toast.LENGTH_LONG).show();
+                                            set_edt.setText("");
+                                        }
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -862,46 +866,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTheme() {
-        int h1 = 0,h2 = 0,text = 0;
+        float h1 = 0;
+        float h2 = 0;
+        float text = 0;
         boolean bigtext = sharedPrefs.getBoolean("bigtxt", false);
 
-        if (!bigtext && !isTablet(this)) {
-            h1 = (int) getResources().getDimension(R.dimen.mh1);
-            h2 = (int) getResources().getDimension(R.dimen.mh2);
-            text = (int) getResources().getDimension(R.dimen.mt1);
-        } else if (bigtext && isTablet(this)) {
-            h1 = (int) getResources().getDimension(R.dimen.tbh1);
-            h2 = (int) getResources().getDimension(R.dimen.tbh2);
-            text = (int) getResources().getDimension(R.dimen.tbt1);
-        } else {
-            h1 = (int) getResources().getDimension(R.dimen.th1);
-            h2 = (int) getResources().getDimension(R.dimen.th2);
-            text = (int) getResources().getDimension(R.dimen.tt1);
+        if (sharedPrefs.getFloat("defaultH1", 0) == 0) {
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            try {
+                editor.putFloat("defaultH1", pal.getTextSize());
+                editor.putFloat("defaultH2", iyal.getTextSize());
+                editor.putFloat("defaultText", thirukural.getTextSize());
+                editor.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                FirebaseCrash.report(e);
+            }
         }
 
-        pal.setTextSize(h1);
-        
-        iyal.setTextSize(h2);
-        athigaram.setTextSize(h2);
-        kuralno.setTextSize(h2);
-        header_saloman.setTextSize(h2);
-        header_mk.setTextSize(h2);
-        header_varathu.setTextSize(h2);
-        header_paramal.setTextSize(h2);
-        header_mana.setTextSize(h2);
-        header_explain.setTextSize(h2);
+        if (isTablet(this)) {
+            if (bigtext) {
 
-        thirukural.setTextSize(text);
-        englishkural.setTextSize(text);
-        iyal.setTextSize(text);
-        athigaram.setTextSize(text);
-        kuralno.setTextSize(text);
-        exp_soloman.setTextSize(text);
-        exp_mk.setTextSize(text);
-        exp_varathan.setTextSize(text);
-        exp_parimel.setTextSize(text);
-        exp_manakudavar.setTextSize(text);
-        exp_english.setTextSize(text);        
+                h1 = sharedPrefs.getFloat("defaultH1", 0) + 8;
+                h2 = sharedPrefs.getFloat("defaultH2", 0) + 6;
+                text = sharedPrefs.getFloat("defaultText", 0) + 4;
+            } else {
+                h1 = sharedPrefs.getFloat("defaultH1", 0);
+                h2 = sharedPrefs.getFloat("defaultH2", 0);
+                text = sharedPrefs.getFloat("defaultText", 0);
+            }
+        } else {
+            if (!bigtext && !isTablet(this)) {
+                h1 = (int) getResources().getDimension(R.dimen.mh1);
+                h2 = (int) getResources().getDimension(R.dimen.mh2);
+                text = (int) getResources().getDimension(R.dimen.mt1);
+            } else {
+                h1 = (int) getResources().getDimension(R.dimen.th1);
+                h2 = (int) getResources().getDimension(R.dimen.th2);
+                text = (int) getResources().getDimension(R.dimen.tt1);
+            }
+        }
+        System.out.println("Syso : h1 : "+h1);
+        System.out.println("Syso : h2 : "+h2);
+        System.out.println("Syso : text : "+text);
+
+            pal.setTextSize(h1);
+
+            iyal.setTextSize(h2);
+            athigaram.setTextSize(h2);
+            kuralno.setTextSize(h2);
+            header_saloman.setTextSize(h2);
+            header_mk.setTextSize(h2);
+            header_varathu.setTextSize(h2);
+            header_paramal.setTextSize(h2);
+            header_mana.setTextSize(h2);
+            header_explain.setTextSize(h2);
+
+            thirukural.setTextSize(text);
+            englishkural.setTextSize(text);
+            exp_soloman.setTextSize(text);
+            exp_mk.setTextSize(text);
+            exp_varathan.setTextSize(text);
+            exp_parimel.setTextSize(text);
+            exp_manakudavar.setTextSize(text);
+            exp_english.setTextSize(text);
     }
 
     public static boolean isTablet(Context context) {

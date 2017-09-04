@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:fadeScrollbars="false">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginLeft="25dp"
@@ -52,34 +52,42 @@
                 android:typeface="normal"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/iyaltv"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:gravity="right"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/athigaramtv"
+                    android:id="@+id/iyaltv"
+                    android:text="porliyal"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:textStyle="bold"
+                    android:padding="5dp"
                     android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:layout_weight="1"/>
+                    android:gravity="left"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/kuralnotv"
+                    android:text="kuralno 1234"
                     android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:paddingRight="10dp"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/athigaramtv"
+                android:text="kudaviatyl"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
