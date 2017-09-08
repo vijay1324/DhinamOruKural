@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
@@ -61,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
     static int todayKural = 0;
     String[] iyalarr, athigaramarr,palarr;
 
-    FloatingActionButton pre, next;
+    //FloatingActionButton pre, next;
+    ImageButton pre, next;
     SharedPreferences sharedPrefs;
     static String fromactivity = "";
 
@@ -84,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        View bg = findViewById(R.id.toplinearlayout);
+        /*View bg = findViewById(R.id.toplinearlayout);
         Drawable backround = bg.getBackground();
-        backround.setAlpha(50);
+        backround.setAlpha(50);*/
         controller = new DBController(this);
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
@@ -110,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
         exp_parimel = (TextView) findViewById(R.id.exp_pari_tv);
         exp_manakudavar = (TextView) findViewById(R.id.exp_manakuavar_tv);
         exp_english = (TextView) findViewById(R.id.exp_english_tv);
-        pre = (FloatingActionButton) findViewById(R.id.fab_previous);
-        next = (FloatingActionButton) findViewById(R.id.fab_next);
+        pre = (ImageButton) findViewById(R.id.pre_img_btn);
+        next = (ImageButton) findViewById(R.id.nxt_img_btn);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
@@ -244,9 +246,9 @@ public class MainActivity extends AppCompatActivity {
                         dialogBuilder.setView(dialogView);
 
                         final EditText edt = (EditText) dialogView.findViewById(R.id.kuralnoet);
-                        View bg = dialogView.findViewById(R.id.dialog_top_ll);
+                        /*View bg = dialogView.findViewById(R.id.dialog_top_ll);
                         Drawable backround = bg.getBackground();
-                        backround.setAlpha(80);
+                        backround.setAlpha(80);*/
 
                         edt.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -311,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 4:
                         AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
-                        iyal_builderSingle.setIcon(R.drawable.mini2_icon_42);
+                        iyal_builderSingle.setIcon(R.drawable.indrayakural_icon);
                         iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
 
                         String[] iyalarr = getResources().getStringArray(R.array.nav_iyal);
@@ -335,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 5:
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
-                        builderSingle.setIcon(R.drawable.mini2_icon_42);
+                        builderSingle.setIcon(R.drawable.indrayakural_icon);
                         builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
 
                         String[] adigaramarr = getResources().getStringArray(R.array.athigaram);
@@ -369,9 +371,9 @@ public class MainActivity extends AppCompatActivity {
                             sw_bigtext.setChecked(sharedPrefs.getBoolean("bigtxt", false));
                         set_edt.setHint("0 ~ 23");
                         set_edt.setText(alarmHour+"");
-                        View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
+                        /*View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
                         Drawable set_backround = set_bg.getBackground();
-                        set_backround.setAlpha(60);
+                        set_backround.setAlpha(60);*/
 
                         set_edt.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -467,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void searhByPal () {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
-        builderSingle.setIcon(R.drawable.mini2_icon_42);
+        builderSingle.setIcon(R.drawable.indrayakural_icon);
         builderSingle.setTitle("பாலை தேர்ந்தெடு:-");
 
         String[] palarr = getResources().getStringArray(R.array.nav_pal);
@@ -501,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
-                iyal_builderSingle.setIcon(R.drawable.mini2_icon_42);
+                iyal_builderSingle.setIcon(R.drawable.indrayakural_icon);
                 iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
 
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, iyalarr);
@@ -581,7 +583,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         AlertDialog.Builder Athigaram_builderSingle = new AlertDialog.Builder(MainActivity.this);
-        Athigaram_builderSingle.setIcon(R.drawable.mini2_icon_42);
+        Athigaram_builderSingle.setIcon(R.drawable.indrayakural_icon);
         Athigaram_builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, athigaramarr);
@@ -620,9 +622,9 @@ public class MainActivity extends AppCompatActivity {
 
         final AutoCompleteTextView edt = dialogView.findViewById(R.id.searchet);
         final ListView lv = dialogView.findViewById(R.id.search_listview);
-        View bg = dialogView.findViewById(R.id.dialog_top_ll);
+        /*View bg = dialogView.findViewById(R.id.dialog_top_ll);
         Drawable backround = bg.getBackground();
-        backround.setAlpha(80);
+        backround.setAlpha(80);*/
         final AlertDialog adialog = dialogBuilder.create();
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (MainActivity.this,android.R.layout.simple_list_item_1,Defs.allwords);
@@ -689,6 +691,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        dialogBuilder.setIcon(R.drawable.indrayakural_icon);
         dialogBuilder.setTitle("திருக்குறள்");
         dialogBuilder.setMessage("வார்த்தை தேடல்");
         dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
@@ -711,7 +714,7 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(false);
             builder.setTitle(R.string.app_name);
-            builder.setIcon(R.drawable.mini_icon_42);
+            builder.setIcon(R.drawable.indrayakural_icon);
             builder.setMessage("நீங்கள் வெளியேற விரும்புகிறீர்களா?");
             builder.setPositiveButton("வெளியேறு", new DialogInterface.OnClickListener() {
                 @Override
@@ -851,9 +854,9 @@ public class MainActivity extends AppCompatActivity {
         db.close();
 
         pal.setText(palarr[currentPal]);
-        iyal.setText("குறள் இயல்: "+ iyalarr[currentIyal]);
+        iyal.setText(iyalarr[currentIyal]);
         athigaram.setText(athigaramarr[currentAgarathi]);
-        kuralno.setText("குறள் எண்: "+kuralnostr);
+        kuralno.setText(kuralnostr);
         setTheme();
         SharedPreferences.Editor editor = sharedPrefs.edit();
         try {
@@ -871,49 +874,31 @@ public class MainActivity extends AppCompatActivity {
         float text = 0;
         boolean bigtext = sharedPrefs.getBoolean("bigtxt", false);
 
-        if (sharedPrefs.getFloat("defaultH1", 0) == 0) {
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            try {
-                editor.putFloat("defaultH1", pal.getTextSize());
-                editor.putFloat("defaultH2", iyal.getTextSize());
-                editor.putFloat("defaultText", thirukural.getTextSize());
-                editor.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-                FirebaseCrash.report(e);
-            }
-        }
-
-        if (isTablet(this)) {
-            if (bigtext) {
-
-                h1 = sharedPrefs.getFloat("defaultH1", 0) + 8;
-                h2 = sharedPrefs.getFloat("defaultH2", 0) + 6;
-                text = sharedPrefs.getFloat("defaultText", 0) + 4;
-            } else {
-                h1 = sharedPrefs.getFloat("defaultH1", 0);
-                h2 = sharedPrefs.getFloat("defaultH2", 0);
-                text = sharedPrefs.getFloat("defaultText", 0);
-            }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && bigtext) {
+            h1 = getResources().getDimension(R.dimen.header_text_land_big) / getResources().getDisplayMetrics().density;
+            h2 = getResources().getDimension(R.dimen.sub_header_land_big) / getResources().getDisplayMetrics().density;
+            text = getResources().getDimension(R.dimen.normal_text_land_big) / getResources().getDisplayMetrics().density;
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            h1 = getResources().getDimension(R.dimen.header_text_land) / getResources().getDisplayMetrics().density;
+            h2 = getResources().getDimension(R.dimen.sub_header_land) / getResources().getDisplayMetrics().density;
+            text = getResources().getDimension(R.dimen.normal_text_land) / getResources().getDisplayMetrics().density;
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && bigtext) {
+            h1 = getResources().getDimension(R.dimen.header_text_big) / getResources().getDisplayMetrics().density;
+            h2 = getResources().getDimension(R.dimen.sub_header_big) / getResources().getDisplayMetrics().density;
+            text = getResources().getDimension(R.dimen.normal_text_big) / getResources().getDisplayMetrics().density;
         } else {
-            if (!bigtext && !isTablet(this)) {
-                h1 = (int) getResources().getDimension(R.dimen.mh1);
-                h2 = (int) getResources().getDimension(R.dimen.mh2);
-                text = (int) getResources().getDimension(R.dimen.mt1);
-            } else {
-                h1 = (int) getResources().getDimension(R.dimen.th1);
-                h2 = (int) getResources().getDimension(R.dimen.th2);
-                text = (int) getResources().getDimension(R.dimen.tt1);
-            }
+            h1 = getResources().getDimension(R.dimen.header_text) / getResources().getDisplayMetrics().density;
+            h2 = getResources().getDimension(R.dimen.sub_header) / getResources().getDisplayMetrics().density;
+            text = getResources().getDimension(R.dimen.normal_text) / getResources().getDisplayMetrics().density;
         }
         System.out.println("Syso : h1 : "+h1);
         System.out.println("Syso : h2 : "+h2);
         System.out.println("Syso : text : "+text);
 
             pal.setTextSize(h1);
+            athigaram.setTextSize(h1);
 
             iyal.setTextSize(h2);
-            athigaram.setTextSize(h2);
             kuralno.setTextSize(h2);
             header_saloman.setTextSize(h2);
             header_mk.setTextSize(h2);

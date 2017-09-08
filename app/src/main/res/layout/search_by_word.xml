@@ -3,23 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:padding="20dp"
+    android:padding="@dimen/margin20"
     android:layout_margin="30dp"
-    android:background="@drawable/bg"
+    android:background="@drawable/brownbg"
     android:id="@+id/dialog_top_ll"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="வார்த்தை தேடல்"
+        android:textSize="@dimen/header_text"
+        android:textColor="@color/dark_red"/>
 
     <AutoCompleteTextView
         android:id="@+id/searchet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="தமிழ் வார்த்தைகளை மட்டும் உள்ளிடவும்"
-        android:textSize="12sp"
+        android:textSize="@dimen/normal_text"
         android:drawableRight="@android:drawable/ic_menu_search" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:minHeight="150dp"
         android:id="@+id/search_listview"/>
 
 </LinearLayout>

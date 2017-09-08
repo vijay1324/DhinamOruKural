@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:padding="20dp"
+    android:padding="@dimen/margin20"
     android:layout_margin="30dp"
-    android:background="@drawable/bg"
+    android:background="@drawable/brownbg"
     android:id="@+id/dialog_top_ll"
     android:orientation="vertical">
 
@@ -14,12 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_margin="@dimen/margin10">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="@dimen/normal_text"
             android:textColor="@color/Black"
             android:text="@string/notification_time"/>
 
@@ -28,9 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/notifyet"
-            android:layout_margin="10dp"
             android:textColor="@color/Black"
-            android:textSize="12sp"
+            android:textSize="@dimen/normal_text"
             android:hint="0 ~ 23"
             android:digits="0123456789"
             android:inputType="number"/>
@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/Black"
+            android:textSize="@dimen/normal_text"
             android:text="@string/big_font_size"/>
         <LinearLayout
             android:layout_width="0dp"

@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:padding="20dp"
+    android:padding="@dimen/margin20"
     android:layout_margin="30dp"
-    android:background="@drawable/bg"
+    android:background="@drawable/brownbg"
     android:id="@+id/dialog_top_ll"
     android:orientation="vertical">
 
@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/kuralnoet"
-        android:layout_margin="10dp"
-        android:textSize="12sp"
+        android:layout_margin="@dimen/margin10"
+        android:textSize="@dimen/normal_text"
         android:hint="குறள் எண்"
         android:digits="0123456789"
         android:inputType="number"/>

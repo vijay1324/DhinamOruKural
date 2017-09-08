@@ -34,9 +34,9 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        View bg = findViewById(R.id.aboutus_top_ll);
+        /*View bg = findViewById(R.id.aboutus_top_ll);
         Drawable backround = bg.getBackground();
-        backround.setAlpha(80);
+        backround.setAlpha(80);*/
         FirebaseApp.initializeApp(this);
         //weblink = (TextView) findViewById(R.id.weblinktv);
         rate = (Button) findViewById(R.id.ratebtn);

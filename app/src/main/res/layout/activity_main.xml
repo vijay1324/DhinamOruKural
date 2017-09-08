@@ -7,126 +7,187 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
+    android:background="@drawable/brownbg"
     tools:context="com.atsoft.dhinamorukural.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:layout_height="fill_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/toplinearlayout"
-        android:background="@drawable/bg"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_marginTop="@dimen/margin5"
+        android:id="@+id/toplinearlayout">
 
-        <ScrollView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fadeScrollbars="false">
+            android:layout_height="wrap_content"
+            android:id="@+id/paltv"
+            android:text="அறத்துப்பால்"
+            android:padding="@dimen/margin5"
+            android:gravity="center"
+            android:textColor="@color/dark_red"
+            android:textSize="@dimen/header_text"
+            android:typeface="normal"
+            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/kural_ll"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin5"
+            android:padding="@dimen/margin5">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/paltv"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:typeface="normal"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iyaltv"
-                    android:paddingLeft="10dp"
-                    android:padding="5dp"
-                    android:textStyle="bold"
-                    android:text="Poruliyal"
-                    android:layout_weight="1.5"
-                    android:textColor="@android:color/black"
-                    android:gravity="left"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/kuralnotv"
-                    android:textStyle="bold"
-                    android:layout_gravity="right"
-                    android:paddingRight="10dp"
-                    android:text="kural no : 1320"
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/athigaramtv"
+                android:text="@string/kuraliyal"
+                android:paddingLeft="@dimen/margin10"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:text="Arathupal"/>
+                android:textSize="@dimen/sub_header"
+                android:textColor="@android:color/holo_red_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="10dp"
-                android:background="@android:color/holo_blue_dark"/>
-
-            <TextView
-                android:id="@+id/thirukuraltv"
-                android:layout_width="match_parent"
+                android:id="@+id/iyaltv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_weight="1.5"
                 android:gravity="left"
-                android:paddingLeft="15dp"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="5dp"
-                android:textColor="@android:color/black"
+                android:paddingBottom="@dimen/margin5"
+                android:paddingLeft="3dp"
+                android:text="அரசியல்."
+                android:textColor="@color/blue"
+                android:textSize="@dimen/sub_header"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/darker_gray"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kuralno"
+                android:paddingLeft="@dimen/margin10"
+                android:textStyle="bold"
+                android:textSize="@dimen/sub_header"
+                android:textColor="@android:color/holo_red_dark"/>
 
             <TextView
-                android:id="@+id/eng_thirukuraltv"
-                android:layout_width="match_parent"
+                android:id="@+id/kuralnotv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:gravity="center" />
-
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="@dimen/margin10"
+                android:text="1320"
+                android:textSize="@dimen/sub_header"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        </ScrollView>
+        <TextView
+            android:id="@+id/athigaramtv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/margin5"
+            android:text="பொச்சாவாமை"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/header_text"
+            android:textStyle="normal" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="75dp"
-            android:layout_marginBottom="10dp"
-            android:background="@android:color/holo_blue_dark"/>
+            android:layout_marginLeft="@dimen/margin5"
+            android:background="@android:color/holo_blue_dark" />
+
+        <!--<ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:paddingBottom="@dimen/margin10"
+            android:fadeScrollbars="false">-->
+
+            <LinearLayout
+                android:id="@+id/kural_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/thirukuraltv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:layout_marginTop="@dimen/margin5"
+                    android:paddingBottom="@dimen/margin5"
+                    android:paddingLeft="@dimen/margin15"
+                    android:paddingRight="@dimen/margin5"
+                    android:paddingTop="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
+                    android:text="பொச்சாப்புக் கொல்லும் புகழை அறிவினை \nநிச்ச நிரப்புக்கொன் றாங்கு."
+                    android:textColor="@color/dark_red"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin5"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/eng_thirukuraltv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
+                    android:text="Perpetual, poverty is death to wisdom of the wise; When man forgets himself his glory dies!."
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+        <!--</ScrollView>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="@dimen/nav_img_size"
+                android:layout_height="@dimen/nav_img_size"
+                android:id="@+id/pre_img_btn"
+                android:layout_marginLeft="@dimen/margin10"
+                android:scaleType="fitCenter"
+                android:layout_gravity="left"
+                android:background="@android:color/transparent"
+                android:src="@drawable/previousround_42"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/villaka_vurai"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/dark_red"
+                android:textSize="@dimen/header_text"
+                android:typeface="normal"
+                android:textStyle="bold"/>
+            <ImageButton
+                android:layout_width="@dimen/nav_img_size"
+                android:layout_height="@dimen/nav_img_size"
+                android:id="@+id/nxt_img_btn"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="@dimen/margin10"
+                android:background="@android:color/transparent"
+                android:layout_gravity="right"
+                android:src="@drawable/nextround_42"/>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -137,28 +198,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
+                android:padding="@dimen/margin10"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/header_saloman"
                     android:text="@string/soloman_urai"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_salamon_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -166,21 +229,23 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/header_mk"
                     android:text="@string/mk_urai"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_mk_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -188,21 +253,23 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/header_varathu"
                     android:text="@string/varathu_urai"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_varathu_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -210,21 +277,23 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/header_paramal"
                     android:text="@string/parimal_urai"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_pari_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -232,27 +301,30 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/header_mana"
                     android:text="@string/manakudavar_urai"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_manakuavar_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:textSize="@dimen/normal_text"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -260,15 +332,17 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/header_explain"
                     android:text="@string/eng_exp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/dark_red"
                     android:textStyle="bold"
-                    android:padding="5dp"/>
+                    android:textSize="@dimen/normal_text"
+                    android:padding="@dimen/margin5"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/exp_english_tv"
-                    android:padding="5dp"
+                    android:padding="@dimen/margin5"
+                    android:textSize="@dimen/normal_text"
                     android:textColor="@android:color/black"/>
             </LinearLayout>
 
@@ -285,30 +359,6 @@
             ads:adUnitId="@string/banner_ad_unit_id_main" />
 
     </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:src="@drawable/previousround_42"
-            android:scaleType="center"
-            app:fabSize="mini"
-            app:layout_anchor="@id/toplinearlayout"
-            app:layout_anchorGravity="center|start|left"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:src="@drawable/nextround_42"
-            android:scaleType="center"
-            app:fabSize="mini"
-            app:layout_anchor="@id/toplinearlayout"
-            app:layout_anchorGravity="center|right|end"/>
 
     </android.support.design.widget.CoordinatorLayout>
     <ListView

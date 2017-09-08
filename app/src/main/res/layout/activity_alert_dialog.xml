@@ -4,41 +4,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:id="@+id/popup_ll"
         android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="@dimen/popup_ss_height"
         android:id="@+id/shared_ll"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg"
+        android:padding="@dimen/margin10"
+        android:background="@drawable/brownbg"
         android:gravity="center"
         android:orientation="vertical">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/indrayakural_icon"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/todays_kural"
-            android:paddingTop="5dp"
-            android:gravity="center"
-            android:textSize="18sp"
+            android:gravity="left"
+            android:paddingLeft="@dimen/margin10"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/header_text_tk"
             android:textColor="@color/blue"
             android:textStyle="bold|italic"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/date"
-            android:paddingBottom="5dp"
             android:gravity="center"
-            android:textSize="13sp"
+            android:textSize="@dimen/sub_header_tk"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold" />
 
@@ -46,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="@dimen/margin5">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -56,22 +68,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="குறள் பால் : "
-                android:textSize="9sp"
+                android:text="பால் : "
+                android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:id="@+id/dia_paltv"
                 android:gravity="center"
                 android:textColor="@color/blue"
                 android:typeface="normal"
                 android:textStyle="normal"
                 android:text="@string/arathupal"
-                android:textSize="9sp"/>
+                android:textSize="@dimen/normal_text_tk"/>
             </LinearLayout>
 
             <LinearLayout
@@ -82,8 +93,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/kuraliyal"
-                android:textSize="9sp"
+                android:text="இயல்: "
+                android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark"/>
 
@@ -91,8 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dia_iyaltv"
-                android:textSize="9sp"
-                android:layout_marginLeft="4dp"
+                android:textSize="@dimen/normal_text_tk"
                 android:textColor="@color/blue"
                 android:text="பாயிரவியல்"
                 android:gravity="right"/>
@@ -102,7 +112,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="@dimen/margin5"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -114,8 +124,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/athigaram"
-                android:textSize="9sp"
+                android:text="அதிகாரம்: "
+                android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark" />
 
@@ -123,8 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dia_athigaramtv"
-                android:layout_marginLeft="4dp"
-                android:textSize="9sp"
+                android:textSize="@dimen/normal_text_tk"
                 android:textColor="@color/blue"
                 android:text="கடவுள் வாழ்த்து"/>
             </LinearLayout>
@@ -137,8 +146,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/kuralno"
-                android:textSize="9sp"
+                android:text="எண்: "
+                android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark"/>
 
@@ -146,8 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dia_kuralnotv"
-                android:textSize="9sp"
-                android:layout_marginLeft="4dp"
+                android:textSize="@dimen/normal_text_tk"
                 android:text="4"
                 android:layout_weight=".5"
                 android:textColor="@android:color/black"/>
@@ -157,8 +165,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin5"
+            android:layout_marginBottom="@dimen/margin10"
             android:background="@android:color/holo_blue_dark"/>
 
         <TextView
@@ -167,19 +175,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="left"
-            android:padding="5dp"
-            android:textSize="9sp"
+            android:paddingLeft="@dimen/margin5"
+            android:textSize="@dimen/normal_text_tk"
             android:textColor="@android:color/black"
             android:text="வேண்டுதல் வேண்டாமை இலானடி சேர்ந்தார்க்கு \nயாண்டும் இடும்பை இல."
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin10"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/urai"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="9sp"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin10"
+            android:textSize="@dimen/normal_text_tk"
             android:textStyle="bold"
             android:textColor="@android:color/holo_red_dark" />
 
@@ -189,22 +204,22 @@
             android:id="@+id/dia_urai"
             android:layout_gravity="left"
             android:gravity="left"
-            android:padding="5dp"
-            android:textSize="8sp"
+            android:padding="@dimen/margin5"
+            android:textSize="@dimen/normal_text_tk"
             android:textColor="@android:color/black"
-            android:text="வேண்டுதல் வேண்டாமை இலானடி சேர்ந்தார்க்கு \nயாண்டும் இடும்பை இல."
+            android:text="வேண்டுதல் வேண்டாமை இலானடி சேர்ந்தார்க்கு \nயாண்டும் இடும்பை இல.இலானடி சேர்ந்தார்க்கு \nயாண்டும் இடும்பை இல"
             android:textStyle="normal" />
+
+    </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="bottom"
-            android:textSize="8sp"
+            android:textSize="@dimen/normal_text_tk"
             android:id="@+id/greatinget"
             android:hint="Enter your greeting message"/>
-
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -233,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:text="பகிர்"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="@dimen/sub_header_tk"
                 android:background="@null"
                 android:layout_weight="1"
                 android:id="@+id/share_btn"/>
@@ -247,10 +262,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="@dimen/sub_header_tk"
                 android:background="@android:color/transparent"
                 android:id="@+id/exp_btn"
-                android:text="விளக்க உரை"/>
+                android:text="@string/villaka_vurai"/>
         </LinearLayout>
         </LinearLayout>
     </LinearLayout>

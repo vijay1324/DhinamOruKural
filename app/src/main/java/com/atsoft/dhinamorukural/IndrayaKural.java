@@ -71,14 +71,17 @@ public class IndrayaKural extends Activity {
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
 
+    static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_dialog);
-        View bg = findViewById(R.id.shared_ll);
+        /*View bg = findViewById(R.id.shared_ll);
         Drawable backround = bg.getBackground();
-        backround.setAlpha(60);
+        backround.setAlpha(60);*/
         FirebaseApp.initializeApp(this);
+        context = this;
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         mAdView = (AdView) findViewById(R.id.dk_adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -323,7 +326,13 @@ public class IndrayaKural extends Activity {
 
     @Override
     public void onBackPressed() {
-
+        if (mInterstitialAd.isLoaded()) {
+            Log.d("Syso TAG ", "The interstitial was loaded yet.");
+            mInterstitialAd.show();
+        } else {
+            IndrayaKural.this.finish();
+            Log.d("Syso TAG", "The interstitial wasn't loaded yet.");
+        }
     }
 
     private void setValue() throws IndexOutOfBoundsException {
@@ -399,8 +408,8 @@ public class IndrayaKural extends Activity {
     private void showNotification(String todayKural) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getBaseContext())
-                        .setSmallIcon(R.mipmap.notify_sml_icon)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.mini2_icon_42))
+                        .setSmallIcon(R.drawable.indrayakural_icon)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.indrayakural_icon))
                         .setContentTitle(getResources().getString(R.string.todays_kural))
                         .setContentText(todayKural)
                         .setAutoCancel(true)
@@ -437,7 +446,7 @@ public class IndrayaKural extends Activity {
 
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
-        screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, view.getHeight());
+        screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, (int) context.getResources().getDimension(R.dimen.popup_ss_height) + 75);
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);

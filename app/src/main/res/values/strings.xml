@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">தினம் ஒரு திருக்குறள்</string>
     <string name="todays_kural">இன்றைய திருக்குறள்</string>
-    <string name="kuraliyal">குறள் இயல்: </string>
-    <string name="kuralno">குறள் எண்: </string>
+    <string name="kuraliyal">இயல்: </string>
+    <string name="kuralno">எண்: </string>
     <string name="athigaram">அதிகாரம்: </string>
     <string name="urai">உரை: </string>
     <string name="arathupal">அறத்துப்பால்</string>
@@ -23,6 +23,7 @@
     <string name="banner_ad_unit_aboutus">ca-app-pub-7239546305821659/2336612596</string>
     <string name="notification_time">அறிவிப்பு நேரம் : </string>
     <string name="big_font_size">பெரிய எழுத்துரு அளவு :</string>
+    <string name="villaka_vurai">விளக்க உரை</string>
     <!--> Test Unit ID <-->
    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
     </resources>

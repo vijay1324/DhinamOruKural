@@ -7,4 +7,5 @@
     <color name="Black">#000000</color>
     <color name="pressed_color">#4d90fe</color>
     <color name="default_color">#E3D968</color>
+    <color name="dark_red">#540606</color>
 </resources>
