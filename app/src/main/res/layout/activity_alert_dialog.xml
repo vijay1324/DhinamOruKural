@@ -41,7 +41,7 @@
             android:paddingLeft="@dimen/margin10"
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/header_text_tk"
-            android:textColor="@color/blue"
+            android:textColor="@color/dark_red"
             android:textStyle="bold|italic"/>
         </LinearLayout>
 
@@ -71,7 +71,7 @@
                 android:text="பால் : "
                 android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@color/dark_red"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                 android:text="இயல்: "
                 android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@color/dark_red"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                 android:text="அதிகாரம்: "
                 android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textColor="@color/dark_red" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                 android:text="எண்: "
                 android:textSize="@dimen/normal_text_tk"
                 android:textStyle="bold"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@color/dark_red"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                 android:textSize="@dimen/normal_text_tk"
                 android:text="4"
                 android:layout_weight=".5"
-                android:textColor="@android:color/black"/>
+                android:textColor="@color/blue"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -196,7 +196,7 @@
             android:layout_marginLeft="@dimen/margin10"
             android:textSize="@dimen/normal_text_tk"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@color/dark_red" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -275,8 +275,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:clickable="true"
-        android:src="@drawable/close_42"
-        android:scaleType="center"
+        android:src="@drawable/ic_clear_white_24dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:scaleType="fitCenter"
         app:layout_anchor="@id/popup_ll"
         app:fabSize="mini"
         app:layout_anchorGravity="top|end|right"/>

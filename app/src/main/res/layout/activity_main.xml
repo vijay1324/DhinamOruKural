@@ -18,8 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/margin5"
-        android:id="@+id/toplinearlayout">
+        android:layout_marginTop="@dimen/margin5">
 
         <TextView
             android:layout_width="match_parent"
@@ -47,7 +46,7 @@
                 android:paddingLeft="@dimen/margin10"
                 android:textStyle="bold"
                 android:textSize="@dimen/sub_header"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@color/dark_red"/>
 
             <TextView
                 android:id="@+id/iyaltv"
@@ -69,7 +68,7 @@
                 android:paddingLeft="@dimen/margin10"
                 android:textStyle="bold"
                 android:textSize="@dimen/sub_header"
-                android:textColor="@android:color/holo_red_dark"/>
+                android:textColor="@color/dark_red"/>
 
             <TextView
                 android:id="@+id/kuralnotv"
@@ -109,7 +108,6 @@
             android:fadeScrollbars="false">-->
 
             <LinearLayout
-                android:id="@+id/kural_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -166,7 +164,7 @@
                 android:scaleType="fitCenter"
                 android:layout_gravity="left"
                 android:background="@android:color/transparent"
-                android:src="@drawable/previousround_42"/>
+                android:src="@drawable/previous"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -186,7 +184,7 @@
                 android:layout_marginRight="@dimen/margin10"
                 android:background="@android:color/transparent"
                 android:layout_gravity="right"
-                android:src="@drawable/nextround_42"/>
+                android:src="@drawable/next"/>
         </LinearLayout>
 
         <ScrollView

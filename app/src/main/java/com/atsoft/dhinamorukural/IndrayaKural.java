@@ -84,11 +84,13 @@ public class IndrayaKural extends Activity {
         context = this;
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         mAdView = (AdView) findViewById(R.id.dk_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.loadAd(adRequest);
         rootView = getWindow().getDecorView().findViewById(R.id.shared_ll);
         expbtn = (Button) findViewById(R.id.exp_btn);
         sharebtn = (Button) findViewById(R.id.share_btn);
@@ -145,7 +147,8 @@ public class IndrayaKural extends Activity {
             @Override
             public void onAdClosed() {
                 IndrayaKural.this.finish();
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                mInterstitialAd.loadAd(adRequest);
             }
         });
 

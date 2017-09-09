@@ -48,7 +48,8 @@ public class AboutUs extends AppCompatActivity {
         //weblink.setText(Html.fromHtml(text));
 
         mAdView = (AdView) findViewById(R.id.about_adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         mAdView.setAdListener(new AdListener() {

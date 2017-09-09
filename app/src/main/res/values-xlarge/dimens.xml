@@ -26,10 +26,6 @@
     <dimen name="margin15">20dp</dimen>
     <dimen name="margin5">10dp</dimen>
     <dimen name="margin20">25dp</dimen>
-    <dimen name="margin25">30dp</dimen>
-
-    <dimen name="img_size">35dp</dimen>
 
     <dimen name="popup_ss_height">500dp</dimen>
-    <dimen name="popup_height">650dp</dimen>
 </resources>

@@ -10,7 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:id="@+id/aboutus_top_ll"
         android:background="@drawable/brownbg">
 
         <ScrollView
@@ -42,7 +41,7 @@
             android:textColor="@color/Black"
             android:textStyle="normal"
             android:textSize="13sp"
-            android:text="பதிப்பு எண் 1.0" />
+            android:text="பதிப்பு எண் 2.0" />
 
         <TextView
             android:layout_width="match_parent"

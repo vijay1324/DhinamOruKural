@@ -3,6 +3,7 @@ package com.atsoft.dhinamorukural;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,8 +12,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +60,8 @@ public class SplashScreen extends AppCompatActivity {
         progress.setIndeterminate(false);
         FirebaseApp.initializeApp(this);
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
         getAllPermission();
@@ -211,6 +215,26 @@ public class SplashScreen extends AppCompatActivity {
                 } else {
                     Log.d("TAG","@@@ PERMISSIONS Denied");
                     Toast.makeText(mContext, "PERMISSIONS Denied", Toast.LENGTH_LONG).show();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreen.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("அனுமதி மறுக்கப்பட்டது");
+                    builder.setIcon(R.drawable.indrayakural_icon);
+                    builder.setMessage("நீங்கள் அனுமதி கொடுக்கவில்லை என்றால், இந்த பயன்பாடு வேலை செய்யாது");
+                    builder.setPositiveButton("அனுமதி", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        getAllPermission();
+                        }
+                    })
+                            .setNegativeButton("வெளியேறு", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SplashScreen.this.finish();
+                                }
+                            });
+
+                    // Create the AlertDialog object and return it
+                    builder.create().show();
                 }
             }
         }
@@ -260,12 +284,17 @@ public class SplashScreen extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progress.dismiss();
             //saveToSD();
-            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-            intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
-            intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
-            intent.putExtra("fromactivity", "ss");
-            startActivity(intent);
-            SplashScreen.this.finish();
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
+                    intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+                    intent.putExtra("fromactivity", "ss");
+                    startActivity(intent);
+                    SplashScreen.this.finish();
+                }
+            }, 2000);
             // might want to change "executed" for the returned string passed
             // into onPostExecute() but that is upto you
         }

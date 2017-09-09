@@ -35,7 +35,7 @@
                     android:scaleType="fitCenter"
                     android:layout_gravity="left"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/previousround_42"/>
+                    android:src="@drawable/previous"/>
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +128,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
-                android:id="@+id/kural_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -364,7 +363,7 @@
                 android:layout_marginRight="@dimen/margin10"
                 android:background="@android:color/transparent"
                 android:layout_gravity="right"
-                android:src="@drawable/nextround_42"/>
+                android:src="@drawable/next"/>
         </LinearLayout>
 
         </LinearLayout>

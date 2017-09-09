@@ -7,7 +7,6 @@
     android:padding="@dimen/margin20"
     android:layout_margin="30dp"
     android:background="@drawable/brownbg"
-    android:id="@+id/dialog_top_ll"
     android:orientation="vertical">
 
     <LinearLayout
@@ -31,6 +30,7 @@
             android:id="@+id/notifyet"
             android:textColor="@color/Black"
             android:textSize="@dimen/normal_text"
+            android:imeOptions="actionDone"
             android:hint="0 ~ 23"
             android:digits="0123456789"
             android:inputType="number"/>
@@ -60,6 +60,32 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/switch_bigtxt"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/normal_text"
+            android:text="@string/stop_popup"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="right">
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/switch_off_popup"/>
         </LinearLayout>
     </LinearLayout>
 

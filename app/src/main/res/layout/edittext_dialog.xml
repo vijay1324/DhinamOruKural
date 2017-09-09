@@ -7,7 +7,6 @@
     android:padding="@dimen/margin20"
     android:layout_margin="30dp"
     android:background="@drawable/brownbg"
-    android:id="@+id/dialog_top_ll"
     android:orientation="vertical">
 
     <EditText
@@ -15,6 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/kuralnoet"
         android:layout_margin="@dimen/margin10"
+        android:imeOptions="actionDone"
         android:textSize="@dimen/normal_text"
         android:hint="குறள் எண்"
         android:digits="0123456789"

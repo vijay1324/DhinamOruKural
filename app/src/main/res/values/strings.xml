@@ -3,7 +3,6 @@
     <string name="todays_kural">இன்றைய திருக்குறள்</string>
     <string name="kuraliyal">இயல்: </string>
     <string name="kuralno">எண்: </string>
-    <string name="athigaram">அதிகாரம்: </string>
     <string name="urai">உரை: </string>
     <string name="arathupal">அறத்துப்பால்</string>
     <string name="soloman_urai"><u>சாலமன் பாப்பையா உரை:</u></string>
@@ -14,16 +13,24 @@
     <string name="eng_exp"><u>English Explanation:</u></string>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
-    <string name="YOUR_ADMOB_APP_ID">ca-app-pub-7239546305821659~2626039592</string>
+    <!--<string name="YOUR_ADMOB_APP_ID">ca-app-pub-7239546305821659~2626039592</string>-->
     <!--<string name="banner_ad_unit_id">ca-app-pub-7239546305821659/7223760152</string>-->
-    <string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
+    <!--<string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
     <string name="banner_ad_unit_id_main">ca-app-pub-7239546305821659/7223760152</string>
     <string name="banner_ad_unit_id_ss">ca-app-pub-7239546305821659/5262158830</string>
     <string name="banner_ad_unit_id_it">ca-app-pub-7239546305821659/6253954103</string>
-    <string name="banner_ad_unit_aboutus">ca-app-pub-7239546305821659/2336612596</string>
+    <string name="banner_ad_unit_aboutus">ca-app-pub-7239546305821659/2336612596</string>-->
     <string name="notification_time">அறிவிப்பு நேரம் : </string>
     <string name="big_font_size">பெரிய எழுத்துரு அளவு :</string>
     <string name="villaka_vurai">விளக்க உரை</string>
+    <string name="stop_popup">மேல் தோன்றும் காட்சி சாளரத்தை (Popup Window) நிறுத்தவும்</string>
     <!--> Test Unit ID <-->
    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!-->Raemmadi account<-->
+    <string name="YOUR_ADMOB_APP_ID">ca-app-pub-3418152441595815~2754143473</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3418152441595815/8142201527</string>
+    <string name="banner_ad_unit_id_main">ca-app-pub-3418152441595815/9629832570</string>
+    <string name="banner_ad_unit_id_ss">ca-app-pub-3418152441595815/9629832570</string>
+    <string name="banner_ad_unit_id_it">ca-app-pub-3418152441595815/9629832570</string>
+    <string name="banner_ad_unit_aboutus">ca-app-pub-3418152441595815/9629832570</string>
     </resources>

@@ -2,6 +2,7 @@ package com.atsoft.dhinamorukural;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +12,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +30,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,6 +51,9 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton pre, next;
     SharedPreferences sharedPrefs;
     static String fromactivity = "";
+    static boolean hideIcon = true;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerLisener;
@@ -86,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*View bg = findViewById(R.id.toplinearlayout);
-        Drawable backround = bg.getBackground();
-        backround.setAlpha(50);*/
         controller = new DBController(this);
         FirebaseApp.initializeApp(this);
         FirebaseCrash.log("Activity created");
@@ -124,9 +131,13 @@ public class MainActivity extends AppCompatActivity {
         header_mana = (TextView) findViewById(R.id.header_mana);
         header_explain = (TextView) findViewById(R.id.header_explain);
 
+        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+//        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+        mAdView.loadAd(adRequest);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.loadAd(adRequest);
         System.out.println("Syso devise id : "+android_id);
         //adView = (NativeExpressAdView)findViewById(R.id.main_adView);
 
@@ -147,9 +158,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-//        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        mAdView.loadAd(adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
         try {
             Bundle bundle = getIntent().getExtras();
@@ -164,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
         listView.setAdapter(adapter);
-        drawerLisener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
+        drawerLisener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_menu_open, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 //Toast.makeText(getApplicationContext(), "Drawer Open", Toast.LENGTH_LONG).show();
@@ -190,10 +198,12 @@ public class MainActivity extends AppCompatActivity {
         if (fromactivity.equalsIgnoreCase("ss")) {
             next.setVisibility(View.VISIBLE);
             pre.setVisibility(View.VISIBLE);
+            hideIcon = true;
             setValue(currentNo);
         } else {
             next.setVisibility(View.INVISIBLE);
             pre.setVisibility(View.INVISIBLE);
+            hideIcon = false;
             setValue(todayKural);
         }
         //showNotification();
@@ -227,7 +237,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClosed() {
                 MainActivity.this.finish();
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                mInterstitialAd.loadAd(adRequest);
             }
         });
 
@@ -236,8 +247,13 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        startActivity(new Intent(MainActivity.this, IndrayaKural.class));
-                        MainActivity.this.finish();
+                        fromactivity = "ad";
+                        next.setVisibility(View.INVISIBLE);
+                        pre.setVisibility(View.INVISIBLE);
+                        hideIcon = false;
+                        setValue(todayKural);
+                        //startActivity(new Intent(MainActivity.this, IndrayaKural.class));
+                        //MainActivity.this.finish();
                         break;
                     case 1:
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -368,7 +384,9 @@ public class MainActivity extends AppCompatActivity {
 
                         final EditText set_edt = (EditText) set_dialogView.findViewById(R.id.notifyet);
                         final Switch sw_bigtext = set_dialogView.findViewById(R.id.switch_bigtxt);
+                        final Switch sw_onoff_popup = set_dialogView.findViewById(R.id.switch_off_popup);
                             sw_bigtext.setChecked(sharedPrefs.getBoolean("bigtxt", false));
+                            sw_onoff_popup.setChecked(sharedPrefs.getBoolean("popup_onoff", false));
                         set_edt.setHint("0 ~ 23");
                         set_edt.setText(alarmHour+"");
                         /*View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
@@ -410,6 +428,15 @@ public class MainActivity extends AppCompatActivity {
                             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                                 SharedPreferences.Editor editor = sharedPrefs.edit();
                                 editor.putBoolean("bigtxt", b);
+                                editor.commit();
+                            }
+                        });
+
+                        sw_onoff_popup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                SharedPreferences.Editor editor = sharedPrefs.edit();
+                                editor.putBoolean("popup_onoff", b);
                                 editor.commit();
                             }
                         });
@@ -772,20 +799,36 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, PopUpReceiver.class);
 
         PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
+        boolean alarmOnOff = sharedPrefs.getBoolean("popup_onoff", false);
+        if (!alarmOnOff) {
+            am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
+        } else {
+            am.cancel(sender);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /*MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        if (!hideIcon){
+            menu.findItem(R.id.action_share).setVisible(false);
+        }else{
+            menu.findItem(R.id.action_share).setVisible(true);
+        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT))
-            drawerLayout.closeDrawer(Gravity.LEFT);
-        else
-            drawerLayout.openDrawer(Gravity.LEFT);
+        /*if (item.getItemId() == R.id.action_share)
+            shareKural();
+        else {*/
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            else
+                drawerLayout.openDrawer(Gravity.LEFT);
+        //}
         return super.onOptionsItemSelected(item);
     }
 
@@ -915,6 +958,30 @@ public class MainActivity extends AppCompatActivity {
             exp_parimel.setTextSize(text);
             exp_manakudavar.setTextSize(text);
             exp_english.setTextSize(text);
+    }
+
+    private void shareKural() {
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Thirukural/Screenshots", "Thirukural.jpg");
+        Uri uri;
+        if (Build.VERSION.SDK_INT <= 23)
+            uri = Uri.fromFile(file);
+        else
+            uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("image/*");
+
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.todays_kural));
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try {
+            startActivity(Intent.createChooser(intent, "Share Thirukural"));
+            //IndrayaKural.this.finish();
+        } catch (ActivityNotFoundException e) {
+            FirebaseCrash.report(e);
+            Toast.makeText(getApplicationContext(), "No App Available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static boolean isTablet(Context context) {
