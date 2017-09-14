@@ -7,8 +7,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="blue">#0000FF</color>
     <color name="Black">#000000</color>
-    <color name="pressed_color">#4d90fe</color>
-    <color name="default_color">#E3D968</color>
     <color name="dark_red">#540606</color>
     <color name="start_head_grad">#ae7611</color>
     <color name="mid_head_grad">#c69337</color>

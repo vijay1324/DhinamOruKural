@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -33,7 +31,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,8 +52,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static int todayKural = 0;
     String[] iyalarr, athigaramarr,palarr;
 
-    //FloatingActionButton pre, next;
     FloatingActionButton fullscreen;
     ImageButton pre, next;
     SharedPreferences sharedPrefs;
@@ -81,17 +75,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static boolean hideIcon = true;
 
     private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerLisener;
-    //private ListView listView;
-    String[] drawContent = {"இன்றைய குறள்", "குறள் எண் தேடல்", "வார்த்தை தேடல்", "பால் தேர்வு", "இயல் தேர்வு", "அதிகாரம் தேர்வு", "அமைப்புகள்", "எங்களை பற்றி"};
-    ArrayAdapter adapter;
 
     static int alarmHour = 8;
 
 
     private AdView mAdView;
     private InterstitialAd mInterstitialAd;
-    //NativeExpressAdView adView;
 
     DBController controller;
 
@@ -125,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pre = (ImageButton) findViewById(R.id.pre_img_btn);
         next = (ImageButton) findViewById(R.id.nxt_img_btn);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
         header_saloman = (TextView) findViewById(R.id.header_saloman);
         header_mk = (TextView) findViewById(R.id.header_mk);
@@ -138,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdView.loadAd(Defs.adRequest);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
-//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.loadAd(Defs.adRequest);
         System.out.println("Syso devise id : "+android_id);
 
@@ -149,25 +136,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //adView = (NativeExpressAdView)findViewById(R.id.main_adView);
-
-        /*AdRequest request = new AdRequest.Builder().build();
-        adView.loadAd(request);
-        adView.setVideoOptions(new VideoOptions.Builder()
-                .setStartMuted(true)
-                .build());
-
-        VideoController vc = adView.getVideoController();
-
-        vc.setVideoLifecycleCallbacks(new VideoController.VideoLifecycleCallbacks() {
-            public void onVideoEnd() {
-                // Here apps can take action knowing video playback is finished
-                // It's always a good idea to wait for playback to complete before
-                // replacing or refreshing a native ad, for example.
-                super.onVideoEnd();
-            }
-        });*/
 
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
         try {
@@ -181,31 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         currentNo = Integer.parseInt(sharedPrefs.getString("prereadno", "0"));
 
-        //adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
-        //listView.setAdapter(adapter);
-        /*drawerLisener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_menu_open, R.string.drawer_open, R.string.drawer_close){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //Toast.makeText(getApplicationContext(), "Drawer Open", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                //Toast.makeText(getApplicationContext(), "Drawer Close", Toast.LENGTH_LONG).show();
-            }
-        };
-
-        drawerLayout.setDrawerListener(drawerLisener);*/
-        //getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       /* navDrawer.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });*/
-
         if (fromactivity.equalsIgnoreCase("ss")) {
             next.setVisibility(View.VISIBLE);
             pre.setVisibility(View.VISIBLE);
@@ -217,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             hideIcon = false;
             setValue(todayKural);
         }
-        //showNotification();
+
         setAlerm();
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -266,16 +209,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mInterstitialAd.loadAd(Defs.adRequest);
             }
         });
-
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-                if(drawerLayout.isDrawerOpen(Gravity.LEFT))
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-            }
-        });*/
     }
 
     private void searhByPal () {
@@ -593,26 +526,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        if (!hideIcon){
-            menu.findItem(R.id.action_share).setVisible(false);
-        }else{
-            menu.findItem(R.id.action_share).setVisible(true);
-        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*if (item.getItemId() == R.id.action_share)
-            shareKural();
-        else {*/
-            if (drawerLayout.isDrawerOpen(Gravity.LEFT))
-                drawerLayout.closeDrawer(Gravity.LEFT);
-            else
-                drawerLayout.openDrawer(Gravity.LEFT);
-        //}
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        else
+            drawerLayout.openDrawer(Gravity.LEFT);
         return super.onOptionsItemSelected(item);
     }
 
@@ -761,17 +683,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "திருக்குறளை பகிர்"));
-            //IndrayaKural.this.finish();
         } catch (ActivityNotFoundException e) {
             FirebaseCrash.report(e);
             Toast.makeText(getApplicationContext(), "பயன்பாடு இல்லை", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static boolean isTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override
@@ -797,9 +712,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialogBuilder.setView(dialogView);
 
                 final EditText edt = (EditText) dialogView.findViewById(R.id.kuralnoet);
-                        /*View bg = dialogView.findViewById(R.id.dialog_top_ll);
-                        Drawable backround = bg.getBackground();
-                        backround.setAlpha(80);*/
 
                 edt.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -924,9 +836,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 sw_onoff_popup.setChecked(sharedPrefs.getBoolean("popup_onoff", false));
                 set_edt.setHint("0 ~ 23");
                 set_edt.setText(alarmHour+"");
-                        /*View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
-                        Drawable set_backround = set_bg.getBackground();
-                        set_backround.setAlpha(60);*/
 
                 set_edt.addTextChangedListener(new TextWatcher() {
                     @Override

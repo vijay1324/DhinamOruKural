@@ -11,8 +11,6 @@
     <string name="parimal_urai"><u>பரிமேலழகர் உரை:</u></string>
     <string name="manakudavar_urai"><u>மணக்குடவர் உரை:</u></string>
     <string name="eng_exp"><u>English Explanation:</u></string>
-    <string name="drawer_open">Open Navigation Drawer</string>
-    <string name="drawer_close">Close Navigation Drawer</string>
     <!--<string name="YOUR_ADMOB_APP_ID">ca-app-pub-7239546305821659~2626039592</string>-->
     <!--<string name="banner_ad_unit_id">ca-app-pub-7239546305821659/7223760152</string>-->
     <!--<string name="interstitial_ad_unit_id">ca-app-pub-7239546305821659/2872795061</string>
@@ -36,4 +34,5 @@
     <string name="banner_ad_unit_id_ss">ca-app-pub-3418152441595815/9629832570</string>
     <string name="banner_ad_unit_id_it">ca-app-pub-3418152441595815/9629832570</string>
     <string name="banner_ad_unit_aboutus">ca-app-pub-3418152441595815/9629832570</string>
+    <string name="appwidget_text">நோவற்க நொந்தது அறியார்க்கு மேவற்க \nமென்மை பகைவர் அகத்து.</string>
 </resources>

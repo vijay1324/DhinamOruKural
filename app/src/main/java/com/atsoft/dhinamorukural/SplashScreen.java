@@ -314,6 +314,11 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public class VersionChecker extends AsyncTask<String, String, String> {
 
         String newVersion;

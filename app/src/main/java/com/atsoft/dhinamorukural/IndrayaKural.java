@@ -350,6 +350,7 @@ public class IndrayaKural extends Activity {
             exp.setText(cursor.getString(1));
         } else
             System.out.println("Syso empty db");
+        cursor.close();
         db.close();
 
         palarr = getResources().getStringArray(R.array.nav_pal);

@@ -37,7 +37,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_saloman"
                 android:text="@string/soloman_urai"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
@@ -61,7 +60,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_mk"
                 android:text="@string/mk_urai"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
@@ -85,7 +83,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_varathu"
                 android:text="@string/varathu_urai"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
@@ -109,7 +106,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_paramal"
                 android:text="@string/parimal_urai"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
@@ -133,7 +129,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_mana"
                 android:text="@string/manakudavar_urai"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
@@ -164,7 +159,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/full_screen_header_explain"
                 android:text="@string/eng_exp"
                 android:textColor="@color/dark_red"
                 android:textStyle="bold"
