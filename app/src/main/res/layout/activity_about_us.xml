@@ -36,12 +36,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/version_name"
             android:gravity="right"
             android:padding="10dp"
             android:textColor="@color/Black"
             android:textStyle="normal"
             android:textSize="13sp"
-            android:text="பதிப்பு எண் 2.0" />
+            android:text="பதிப்பு எண் 2.1" />
 
         <TextView
             android:layout_width="match_parent"
@@ -154,38 +155,6 @@
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_aboutus">
         </com.google.android.gms.ads.AdView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratebtn"
-                android:layout_weight="1"
-                android:textColor="@color/Black"
-                android:textStyle="bold"
-                android:background="@null"
-                android:text="மதிப்பிடவும்"/>
-
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/blue"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/sharebtn"
-                android:layout_weight="1"
-                android:textColor="@color/Black"
-                android:textStyle="bold"
-                android:background="@null"
-                android:text="பகிர்"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

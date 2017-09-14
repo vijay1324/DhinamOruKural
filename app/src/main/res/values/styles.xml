@@ -17,4 +17,8 @@
         <item name="actionBarTheme">@style/Theme.AppCompat.Light.DarkActionBar</item>
     </style>
 
+    <style name="AppTheme.DrawerTheme" parent="AppTheme">
+        <item name="android:textSize">@dimen/normal_text_tk</item>
+    </style>
+
 </resources>

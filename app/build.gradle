@@ -7,8 +7,8 @@ android {
         applicationId "com.atsoft.dhinamorukural"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 4
-        versionName "2.0"
+        versionCode 5
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -37,15 +37,17 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.firebase:firebase-crash:11.2.0'
     compile 'com.google.firebase:firebase-ads:11.2.0'
     compile 'com.google.android.gms:play-services:11.2.0'
     compile 'com.google.firebase:firebase-messaging:11.2.0'
     compile 'com.android.support:multidex:1.0.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-ads:11.2.0'
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'
+    testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

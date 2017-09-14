@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/brownbg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin10"
+            android:text="@string/villaka_vurai"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/dark_red"
+            android:textSize="@dimen/header_text"
+            android:typeface="normal"
+            android:textStyle="bold"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/full_screen_fab_scrollView"
+        android:fadeScrollbars="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin10"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_saloman"
+                android:text="@string/soloman_urai"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_salamon_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_mk"
+                android:text="@string/mk_urai"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_mk_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_varathu"
+                android:text="@string/varathu_urai"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_varathu_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_paramal"
+                android:text="@string/parimal_urai"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_pari_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_mana"
+                android:text="@string/manakudavar_urai"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_manakuavar_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin15"
+                android:textSize="@dimen/normal_text"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_header_explain"
+                android:text="@string/eng_exp"
+                android:textColor="@color/dark_red"
+                android:textStyle="bold"
+                android:textSize="@dimen/normal_text"
+                android:padding="@dimen/margin5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/full_screen_exp_english_tv"
+                android:padding="@dimen/margin5"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/full_screen_main_adView"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id_main" />
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/full_screen_fab_fullscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin20"
+        android:clickable="true"
+        android:src="@drawable/ic_fullscreen_exit_white_24dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:scaleType="fitCenter"
+        app:layout_anchor="@id/full_screen_fab_scrollView"
+        app:fabSize="mini"
+        app:layout_anchorGravity="bottom|end|right"/>
+</android.support.design.widget.CoordinatorLayout>

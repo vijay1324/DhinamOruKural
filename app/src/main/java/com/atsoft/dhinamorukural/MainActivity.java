@@ -16,9 +16,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -59,10 +62,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView thirukural, englishkural, pal, iyal, athigaram, kuralno, exp_soloman, exp_mk, exp_varathan, exp_parimel, exp_manakudavar, exp_english,
                 header_saloman, header_mk, header_varathu, header_paramal, header_mana, header_explain;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     String[] iyalarr, athigaramarr,palarr;
 
     //FloatingActionButton pre, next;
+    FloatingActionButton fullscreen;
     ImageButton pre, next;
     SharedPreferences sharedPrefs;
     static String fromactivity = "";
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerLisener;
-    private ListView listView;
+    //private ListView listView;
     String[] drawContent = {"இன்றைய குறள்", "குறள் எண் தேடல்", "வார்த்தை தேடல்", "பால் தேர்வு", "இயல் தேர்வு", "அதிகாரம் தேர்வு", "அமைப்புகள்", "எங்களை பற்றி"};
     ArrayAdapter adapter;
 
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         pre = (ImageButton) findViewById(R.id.pre_img_btn);
         next = (ImageButton) findViewById(R.id.nxt_img_btn);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        listView = (ListView) findViewById(R.id.mylistview);
+        //listView = (ListView) findViewById(R.id.mylistview);
         mAdView = (AdView) findViewById(R.id.main_adView);
         header_saloman = (TextView) findViewById(R.id.header_saloman);
         header_mk = (TextView) findViewById(R.id.header_mk);
@@ -130,15 +133,23 @@ public class MainActivity extends AppCompatActivity {
         header_paramal = (TextView) findViewById(R.id.header_paramal);
         header_mana = (TextView) findViewById(R.id.header_mana);
         header_explain = (TextView) findViewById(R.id.header_explain);
+        fullscreen = (FloatingActionButton) findViewById(R.id.fab_fullscreen);
 
-        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-//        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(Defs.adRequest);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 //        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.loadAd(Defs.adRequest);
         System.out.println("Syso devise id : "+android_id);
+
+        android.support.v7.app.ActionBarDrawerToggle toggle = new android.support.v7.app.ActionBarDrawerToggle(
+                this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         //adView = (NativeExpressAdView)findViewById(R.id.main_adView);
 
         /*AdRequest request = new AdRequest.Builder().build();
@@ -170,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
         }
         currentNo = Integer.parseInt(sharedPrefs.getString("prereadno", "0"));
 
-        adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
-        listView.setAdapter(adapter);
-        drawerLisener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_menu_open, R.string.drawer_open, R.string.drawer_close){
+        //adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, drawContent);
+        //listView.setAdapter(adapter);
+        /*drawerLisener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_menu_open, R.string.drawer_open, R.string.drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 //Toast.makeText(getApplicationContext(), "Drawer Open", Toast.LENGTH_LONG).show();
@@ -184,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        drawerLayout.setDrawerListener(drawerLisener);
+        drawerLayout.setDrawerListener(drawerLisener);*/
         //getSupportActionBar().setHomeButtonEnabled(true);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        /* navDrawer.setOnClickListener(new View.OnClickListener() {
@@ -225,7 +236,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        fullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Intent intent = new Intent(MainActivity.this, FullScreenExplainActivity.class);
+                    intent.putExtra("salaman", exp_soloman.getText().toString());
+                    intent.putExtra("mk", exp_mk.getText().toString());
+                    intent.putExtra("varathu", exp_varathan.getText().toString());
+                    intent.putExtra("palam", exp_parimel.getText().toString());
+                    intent.putExtra("mana", exp_manakudavar.getText().toString());
+                    intent.putExtra("exp_eng", exp_english.getText().toString());
+                    startActivity(intent);
+                }
+            }
+        });
 
         mInterstitialAd.setAdListener(new AdListener() {
 
@@ -238,260 +263,19 @@ public class MainActivity extends AppCompatActivity {
             public void onAdClosed() {
                 MainActivity.this.finish();
 //                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                mInterstitialAd.loadAd(adRequest);
+                mInterstitialAd.loadAd(Defs.adRequest);
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:
-                        fromactivity = "ad";
-                        next.setVisibility(View.INVISIBLE);
-                        pre.setVisibility(View.INVISIBLE);
-                        hideIcon = false;
-                        setValue(todayKural);
-                        //startActivity(new Intent(MainActivity.this, IndrayaKural.class));
-                        //MainActivity.this.finish();
-                        break;
-                    case 1:
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-                        final View dialogView = inflater.inflate(R.layout.edittext_dialog, null);
-                        dialogBuilder.setView(dialogView);
 
-                        final EditText edt = (EditText) dialogView.findViewById(R.id.kuralnoet);
-                        /*View bg = dialogView.findViewById(R.id.dialog_top_ll);
-                        Drawable backround = bg.getBackground();
-                        backround.setAlpha(80);*/
-
-                        edt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                try {
-                                    int kno = Integer.parseInt(edt.getText().toString().trim());
-                                    if (kno < 1 || kno > 1330) {
-                                        Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
-                                        edt.setText("");
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    FirebaseCrash.report(e);
-                                }
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-
-                        dialogBuilder.setTitle("குறள் எண் தேடல்");
-                        dialogBuilder.setPositiveButton("தேடு", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //do something with edt.getText().toString();
-                                try {
-                                    int kuralno = Integer.parseInt(edt.getText().toString().trim());
-                                    if (kuralno < 1331) {
-                                        if (drawerLayout.isDrawerOpen(Gravity.LEFT))
-                                            drawerLayout.closeDrawer(Gravity.LEFT);
-                                        setValue(kuralno - 1);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
-                                        edt.setText("");
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    FirebaseCrash.report(e);
-                                }
-                            }
-                        });
-                        dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //pass
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog b = dialogBuilder.create();
-                        b.show();
-                        break;
-                    case 2:
-                        searchByWord();
-                        break;
-                    case 3:
-                        searhByPal();
-                        break;
-                    case 4:
-                        AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
-                        iyal_builderSingle.setIcon(R.drawable.indrayakural_icon);
-                        iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
-
-                        String[] iyalarr = getResources().getStringArray(R.array.nav_iyal);
-
-                        final ArrayAdapter<String> iyalarrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, iyalarr);
-
-                        iyal_builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        iyal_builderSingle.setAdapter(iyalarrayAdapter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int posision) {
-                                searchByIyal(posision);
-                            }
-                        });
-                        iyal_builderSingle.show();
-                        break;
-                    case 5:
-                        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
-                        builderSingle.setIcon(R.drawable.indrayakural_icon);
-                        builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
-
-                        String[] adigaramarr = getResources().getStringArray(R.array.athigaram);
-
-                        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adigaramarr);
-
-                        builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int posision) {
-                                String strName = posision + "1";
-                                setValue(Integer.parseInt(strName) - 1);
-                            }
-                        });
-                        builderSingle.show();
-                        break;
-                    case 6:
-                        AlertDialog.Builder set_dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                        LayoutInflater set_inflater = MainActivity.this.getLayoutInflater();
-                        final View set_dialogView = set_inflater.inflate(R.layout.settings, null);
-                        set_dialogBuilder.setView(set_dialogView);
-
-                        final EditText set_edt = (EditText) set_dialogView.findViewById(R.id.notifyet);
-                        final Switch sw_bigtext = set_dialogView.findViewById(R.id.switch_bigtxt);
-                        final Switch sw_onoff_popup = set_dialogView.findViewById(R.id.switch_off_popup);
-                            sw_bigtext.setChecked(sharedPrefs.getBoolean("bigtxt", false));
-                            sw_onoff_popup.setChecked(sharedPrefs.getBoolean("popup_onoff", false));
-                        set_edt.setHint("0 ~ 23");
-                        set_edt.setText(alarmHour+"");
-                        /*View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
-                        Drawable set_backround = set_bg.getBackground();
-                        set_backround.setAlpha(60);*/
-
-                        set_edt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                try {
-                                    String edittexttest = set_edt.getText().toString().trim();
-                                    if (!edittexttest.equalsIgnoreCase("")) {
-                                        int kno = Integer.parseInt(edittexttest);
-                                        if (kno < 0 || kno > 23) {
-                                            Toast.makeText(getApplicationContext(), "சரியான நேரத்தை உள்ளிடவும்", Toast.LENGTH_LONG).show();
-                                            set_edt.setText("");
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    FirebaseCrash.report(e);
-                                }
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-
-
-                        sw_bigtext.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                                SharedPreferences.Editor editor = sharedPrefs.edit();
-                                editor.putBoolean("bigtxt", b);
-                                editor.commit();
-                            }
-                        });
-
-                        sw_onoff_popup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                                SharedPreferences.Editor editor = sharedPrefs.edit();
-                                editor.putBoolean("popup_onoff", b);
-                                editor.commit();
-                            }
-                        });
-
-                        set_dialogBuilder.setTitle("அமைப்புகள்");
-                        //set_dialogBuilder.setMessage("அறிவிப்பு நேரத்தை மாற்றவும்");
-                        set_dialogBuilder.setPositiveButton("அமை", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //do something with edt.getText().toString();
-                                try {
-                                    int kuralno = Integer.parseInt(set_edt.getText().toString().trim());
-                                    if (kuralno < 24) {
-                                        if (drawerLayout.isDrawerOpen(Gravity.LEFT))
-                                            drawerLayout.closeDrawer(Gravity.LEFT);
-                                        alarmHour = kuralno;
-                                        SharedPreferences.Editor editor = sharedPrefs.edit();
-                                        editor.putInt("alermtime", alarmHour);
-                                        editor.commit();
-                                        setAlerm();
-                                        setTheme();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
-                                        set_edt.setText("");
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    FirebaseCrash.report(e);
-                                }
-
-                            }
-                        });
-                        set_dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //pass
-                                if(drawerLayout.isDrawerOpen(Gravity.LEFT))
-                                    drawerLayout.closeDrawer(Gravity.LEFT);
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog set_b = set_dialogBuilder.create();
-                        set_b.show();
-                        break;
-                    case 7:
-                        startActivity(new Intent(MainActivity.this, AboutUs.class));
-                        MainActivity.this.finish();
-                        break;
-                    default:
-                        Toast.makeText(getApplicationContext(), "Not Listed", Toast.LENGTH_LONG).show();
-                        break;
-                }
 
                 if(drawerLayout.isDrawerOpen(Gravity.LEFT))
                     drawerLayout.closeDrawer(Gravity.LEFT);
             }
-        });
+        });*/
     }
 
     private void searhByPal () {
@@ -846,36 +630,36 @@ public class MainActivity extends AppCompatActivity {
             currentAgarathi  = getInt / 10;
         }
 
-        if (getInt < 381)
+        if (getInt < 380)
             currentPal = 0;
-        else if (getInt < 1081)
+        else if (getInt < 1080)
             currentPal = 1;
         else
             currentPal = 2;
 
-        if (getInt < 41)
+        if (getInt < 40)
             currentIyal = 0;
-        else if (getInt < 241)
+        else if (getInt < 240)
             currentIyal = 1;
-        else if (getInt < 371)
+        else if (getInt < 370)
             currentIyal = 2;
-        else if (getInt < 381)
+        else if (getInt < 380)
             currentIyal = 3;
-        else if (getInt < 631)
+        else if (getInt < 630)
             currentIyal = 4;
-        else if (getInt < 731)
+        else if (getInt < 730)
             currentIyal = 5;
-        else if (getInt < 751)
+        else if (getInt < 750)
             currentIyal = 6;
-        else if (getInt < 761)
+        else if (getInt < 760)
             currentIyal = 7;
-        else if (getInt < 781)
+        else if (getInt < 780)
             currentIyal = 8;
-        else if (getInt < 951)
+        else if (getInt < 950)
             currentIyal = 9;
-        else if (getInt < 1081)
+        else if (getInt < 1080)
             currentIyal = 10;
-        else if (getInt < 1151)
+        else if (getInt < 1150)
             currentIyal = 11;
         else
             currentIyal = 12;
@@ -976,11 +760,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
-            startActivity(Intent.createChooser(intent, "Share Thirukural"));
+            startActivity(Intent.createChooser(intent, "திருக்குறளை பகிர்"));
             //IndrayaKural.this.finish();
         } catch (ActivityNotFoundException e) {
             FirebaseCrash.report(e);
-            Toast.makeText(getApplicationContext(), "No App Available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "பயன்பாடு இல்லை", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -988,5 +772,294 @@ public class MainActivity extends AppCompatActivity {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_today_kural_explain:
+                fromactivity = "ad";
+                next.setVisibility(View.INVISIBLE);
+                pre.setVisibility(View.INVISIBLE);
+                hideIcon = false;
+                setValue(todayKural);
+                break;
+            case R.id.nav_today_kural_popup:
+                startActivity(new Intent(MainActivity.this, IndrayaKural.class));
+                MainActivity.this.finish();
+                break;
+            case R.id.nav_no_search:
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.edittext_dialog, null);
+                dialogBuilder.setView(dialogView);
+
+                final EditText edt = (EditText) dialogView.findViewById(R.id.kuralnoet);
+                        /*View bg = dialogView.findViewById(R.id.dialog_top_ll);
+                        Drawable backround = bg.getBackground();
+                        backround.setAlpha(80);*/
+
+                edt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        try {
+                            int kno = Integer.parseInt(edt.getText().toString().trim());
+                            if (kno < 1 || kno > 1330) {
+                                Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
+                                edt.setText("");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            FirebaseCrash.report(e);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                dialogBuilder.setTitle("குறள் எண் தேடல்");
+                dialogBuilder.setPositiveButton("தேடு", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //do something with edt.getText().toString();
+                        try {
+                            int kuralno = Integer.parseInt(edt.getText().toString().trim());
+                            if (kuralno < 1331) {
+                                if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+                                    drawerLayout.closeDrawer(Gravity.LEFT);
+                                setValue(kuralno - 1);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
+                                edt.setText("");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            FirebaseCrash.report(e);
+                        }
+                    }
+                });
+                dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+                break;
+            case R.id.nav_word_search:
+                searchByWord();
+                break;
+            case R.id.nav_pal_select:
+                searhByPal();
+                break;
+            case R.id.nav_iyal_select:
+                AlertDialog.Builder iyal_builderSingle = new AlertDialog.Builder(MainActivity.this);
+                iyal_builderSingle.setIcon(R.drawable.indrayakural_icon);
+                iyal_builderSingle.setTitle("இயலை தேர்ந்தெடு:-");
+
+                String[] iyalarr = getResources().getStringArray(R.array.nav_iyal);
+
+                final ArrayAdapter<String> iyalarrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, iyalarr);
+
+                iyal_builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                iyal_builderSingle.setAdapter(iyalarrayAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int posision) {
+                        searchByIyal(posision);
+                    }
+                });
+                iyal_builderSingle.show();
+                break;
+            case R.id.nav_adhigaram_select:
+                AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+                builderSingle.setIcon(R.drawable.indrayakural_icon);
+                builderSingle.setTitle("அதிகாரத்தை தேர்ந்தெடு:-");
+
+                String[] adigaramarr = getResources().getStringArray(R.array.athigaram);
+
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adigaramarr);
+
+                builderSingle.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int posision) {
+                        String strName = posision + "1";
+                        setValue(Integer.parseInt(strName) - 1);
+                    }
+                });
+                builderSingle.show();
+                break;
+            case R.id.nav_settings:
+                AlertDialog.Builder set_dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater set_inflater = MainActivity.this.getLayoutInflater();
+                final View set_dialogView = set_inflater.inflate(R.layout.settings, null);
+                set_dialogBuilder.setView(set_dialogView);
+
+                final EditText set_edt = (EditText) set_dialogView.findViewById(R.id.notifyet);
+                final Switch sw_bigtext = set_dialogView.findViewById(R.id.switch_bigtxt);
+                final Switch sw_onoff_popup = set_dialogView.findViewById(R.id.switch_off_popup);
+                sw_bigtext.setChecked(sharedPrefs.getBoolean("bigtxt", false));
+                sw_onoff_popup.setChecked(sharedPrefs.getBoolean("popup_onoff", false));
+                set_edt.setHint("0 ~ 23");
+                set_edt.setText(alarmHour+"");
+                        /*View set_bg = set_dialogView.findViewById(R.id.dialog_top_ll);
+                        Drawable set_backround = set_bg.getBackground();
+                        set_backround.setAlpha(60);*/
+
+                set_edt.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        try {
+                            String edittexttest = set_edt.getText().toString().trim();
+                            if (!edittexttest.equalsIgnoreCase("")) {
+                                int kno = Integer.parseInt(edittexttest);
+                                if (kno < 0 || kno > 23) {
+                                    Toast.makeText(getApplicationContext(), "சரியான நேரத்தை உள்ளிடவும்", Toast.LENGTH_LONG).show();
+                                    set_edt.setText("");
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            FirebaseCrash.report(e);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+
+                sw_bigtext.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putBoolean("bigtxt", b);
+                        editor.commit();
+                    }
+                });
+
+                sw_onoff_popup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putBoolean("popup_onoff", b);
+                        editor.commit();
+                    }
+                });
+
+                set_dialogBuilder.setTitle("அமைப்புகள்");
+                //set_dialogBuilder.setMessage("அறிவிப்பு நேரத்தை மாற்றவும்");
+                set_dialogBuilder.setPositiveButton("அமை", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //do something with edt.getText().toString();
+                        try {
+                            int kuralno = Integer.parseInt(set_edt.getText().toString().trim());
+                            if (kuralno < 24) {
+                                if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+                                    drawerLayout.closeDrawer(Gravity.LEFT);
+                                alarmHour = kuralno;
+                                SharedPreferences.Editor editor = sharedPrefs.edit();
+                                editor.putInt("alermtime", alarmHour);
+                                editor.commit();
+                                setAlerm();
+                                setTheme();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "சரியான எண்ணை உள்ளிடவும்", Toast.LENGTH_LONG).show();
+                                set_edt.setText("");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            FirebaseCrash.report(e);
+                        }
+
+                    }
+                });
+                set_dialogBuilder.setNegativeButton("ரத்து செய்", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                        if(drawerLayout.isDrawerOpen(Gravity.LEFT))
+                            drawerLayout.closeDrawer(Gravity.LEFT);
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog set_b = set_dialogBuilder.create();
+                set_b.show();
+                break;
+            case R.id.nav_about_us:
+                startActivity(new Intent(MainActivity.this, AboutUs.class));
+                MainActivity.this.finish();
+                break;
+            case R.id.nav_rating:
+                Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                // To count with Play market backstack, After pressing back button,
+                // to taken back to our application, we need to add following flags to intent.
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                try {
+                    startActivity(goToMarket);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
+                    FirebaseCrash.report(e);
+                } catch (Exception e) {
+                    FirebaseCrash.report(e);
+                }
+                break;
+            case R.id.nav_send:
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
+                    String sAux = "\nஇந்த செயலியை நான் பரிந்துரைக்கிறேன்\n\n";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "செயலியை பகிர்"));
+                } catch(Exception e) {
+                    //e.toString();
+                    FirebaseCrash.report(e);
+                }
+                break;
+            case R.id.nav_share:
+                shareKural();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Not Listed", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

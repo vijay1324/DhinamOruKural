@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="இன்றைய குறள்">
+        <menu>
+        <item
+            android:id="@+id/nav_today_kural_explain"
+            android:icon="@drawable/ic_event_white_24dp"
+            android:title="இன்றைய குறள் விளக்கம்" />
+        <item
+            android:id="@+id/nav_today_kural_popup"
+            android:icon="@drawable/ic_event_white_24dp"
+            android:title="மேல் தோன்றும் சாளரம்" />
+        </menu>
+    </item>
+    <item android:title="தேடல்">
+        <menu>
+            <item
+                android:id="@+id/nav_no_search"
+                android:icon="@drawable/search_no_icon"
+                android:title="குறள் எண் தேடல்"/>
+            <item
+                android:id="@+id/nav_word_search"
+                android:icon="@drawable/search_word_icon"
+                android:title="வார்த்தை தேடல்"/>
+        </menu>
+    </item>
+
+    <item android:title="தேர்ந்தெடு">
+        <menu>
+            <item
+                android:id="@+id/nav_pal_select"
+                android:icon="@drawable/ic_list_white_24dp"
+                android:title="பால் தேர்வு"/>
+            <item
+                android:id="@+id/nav_iyal_select"
+                android:icon="@drawable/ic_list_white_24dp"
+                android:title="இயல் தேர்வு"/>
+            <item
+                android:id="@+id/nav_adhigaram_select"
+                android:icon="@drawable/ic_list_white_24dp"
+                android:title="அதிகாரம் தேர்வு"/>
+        </menu>
+    </item>
+
+    <item android:title="தகவல்">
+        <menu>
+            <!--<item android:id="@+id/nav_about_thirukural"
+                android:icon="@drawable/ic_info_outline_white_24dp"
+                android:title="திருக்குறளை பற்றி"/>-->
+            <item android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_info_outline_white_24dp"
+                android:title="எங்களை பற்றி"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings_white_18dp"
+        android:title="அமைப்புகள்" />
+
+    <item android:title="தொடர்பு">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share_white_18dp"
+                android:title="பகிர்" />
+            <item
+                android:id="@+id/nav_rating"
+                android:icon="@drawable/ic_star_rate_white_18dp"
+                android:title="மதிப்பிடவும்" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_send_white_24dp"
+                android:title="நண்பர்களுக்கு பரிந்துரைக்கவும்" />
+        </menu>
+    </item>
+
+</menu>

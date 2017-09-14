@@ -2,6 +2,7 @@ package com.atsoft.dhinamorukural;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,24 +10,26 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
+
+import org.jsoup.Jsoup;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,9 +63,7 @@ public class SplashScreen extends AppCompatActivity {
         progress.setIndeterminate(false);
         FirebaseApp.initializeApp(this);
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-//        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(Defs.adRequest);
         sharedPrefs = getSharedPreferences("kural", Context.MODE_PRIVATE);
         getAllPermission();
 
@@ -287,12 +288,8 @@ public class SplashScreen extends AppCompatActivity {
             new Handler().postDelayed(new Runnable(){
                 @Override
                 public void run() {
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-                    intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
-                    intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
-                    intent.putExtra("fromactivity", "ss");
-                    startActivity(intent);
-                    SplashScreen.this.finish();
+                    VersionChecker versionChecker = new VersionChecker();
+                    versionChecker.execute();
                 }
             }, 2000);
             // might want to change "executed" for the returned string passed
@@ -314,6 +311,93 @@ public class SplashScreen extends AppCompatActivity {
         if (progress != null) {
             progress.dismiss();
             progress = null;
+        }
+    }
+
+    public class VersionChecker extends AsyncTask<String, String, String> {
+
+        String newVersion;
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName() + "&hl=en")
+                        .timeout(30000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select("div[itemprop=softwareVersion]")
+                        .first()
+                        .ownText();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return newVersion;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+            String currentVersion = "";
+            try {
+                currentVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            Log.d("Syso : new version ", s);
+            if (s.equalsIgnoreCase(currentVersion)) {
+                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
+                intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+                intent.putExtra("fromactivity", "ss");
+                startActivity(intent);
+                SplashScreen.this.finish();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreen.this);
+                builder.setCancelable(false);
+                builder.setTitle(R.string.app_name);
+                builder.setIcon(R.drawable.indrayakural_icon);
+                builder.setMessage("புதிய பதிப்பு உள்ளது, நீங்கள் புதுப்பித்துக்கொள்கிறீர்களா?");
+                builder.setPositiveButton("புதுப்பி", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                        // To count with Play market backstack, After pressing back button,
+                        // to taken back to our application, we need to add following flags to intent.
+                        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        try {
+                            startActivity(goToMarket);
+                        } catch (ActivityNotFoundException e) {
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
+                            FirebaseCrash.report(e);
+                        } catch (Exception e) {
+                            FirebaseCrash.report(e);
+                        }
+                        SplashScreen.this.finish();
+                    }
+                })
+                        .setNegativeButton("இப்போது வேண்டாம்", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                                intent.putExtra("todayKural", sharedPrefs.getString("todaykuralno", "0"));
+                                intent.putExtra("preread", sharedPrefs.getString("prereadno", "0"));
+                                intent.putExtra("fromactivity", "ss");
+                                startActivity(intent);
+                                SplashScreen.this.finish();
+                            }
+                        });
+
+                // Create the AlertDialog object and return it
+                builder.create().show();
+            }
         }
     }
 }

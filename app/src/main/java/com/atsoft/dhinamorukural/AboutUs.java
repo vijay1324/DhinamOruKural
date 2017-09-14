@@ -17,14 +17,14 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.google.firebase.FirebaseApp;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.crash.FirebaseCrash;
 
 public class AboutUs extends AppCompatActivity {
 
     //TextView weblink;
-    Button rate, share;
+    //Button rate, share;
+    TextView versionName;
 
     private static final String TAG = "AboutUS";
 
@@ -34,13 +34,15 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        versionName = (TextView) findViewById(R.id.version_name);
+        versionName.setText("பதிப்பு எண் "+Defs.currentVersionName);
         /*View bg = findViewById(R.id.aboutus_top_ll);
         Drawable backround = bg.getBackground();
         backround.setAlpha(80);*/
         FirebaseApp.initializeApp(this);
         //weblink = (TextView) findViewById(R.id.weblinktv);
-        rate = (Button) findViewById(R.id.ratebtn);
-        share = (Button) findViewById(R.id.sharebtn);
+//        rate = (Button) findViewById(R.id.ratebtn);
+//        share = (Button) findViewById(R.id.sharebtn);
         FirebaseApp.initializeApp(this);
         //weblink.setClickable(true);
         //weblink.setMovementMethod(LinkMovementMethod.getInstance());
@@ -48,9 +50,7 @@ public class AboutUs extends AppCompatActivity {
         //weblink.setText(Html.fromHtml(text));
 
         mAdView = (AdView) findViewById(R.id.about_adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-//        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(Defs.adRequest);
 
         mAdView.setAdListener(new AdListener() {
             @Override
@@ -81,46 +81,6 @@ public class AboutUs extends AppCompatActivity {
             public void onAdImpression() {
                 super.onAdImpression();
                 FirebaseCrash.log("onAdImpression");
-            }
-        });
-
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("text/plain");
-                    i.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
-                    String sAux = "\nஇந்த செயலியை நான் பரிந்துரைக்கிறேன்\n\n";
-                    sAux = sAux + "https://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n";
-                    i.putExtra(Intent.EXTRA_TEXT, sAux);
-                    startActivity(Intent.createChooser(i, "choose one"));
-                } catch(Exception e) {
-                    //e.toString();
-                    FirebaseCrash.report(e);
-                }
-            }
-        });
-
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                // To count with Play market backstack, After pressing back button,
-                // to taken back to our application, we need to add following flags to intent.
-                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                try {
-                    startActivity(goToMarket);
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
-                    FirebaseCrash.report(e);
-                } catch (Exception e) {
-                    FirebaseCrash.report(e);
-                }
             }
         });
 

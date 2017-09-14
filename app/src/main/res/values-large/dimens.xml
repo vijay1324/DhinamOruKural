@@ -28,4 +28,5 @@
     <dimen name="margin20">22dp</dimen>
 
     <dimen name="popup_ss_height">450dp</dimen>
+    <dimen name="nav_header_height">180dp</dimen>
 </resources>

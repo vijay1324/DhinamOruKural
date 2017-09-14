@@ -191,6 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/_fab_scrollView"
             android:fadeScrollbars="false">
 
             <LinearLayout
@@ -358,8 +359,32 @@
 
     </LinearLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin20"
+            android:clickable="true"
+            android:src="@drawable/ic_fullscreen_white_24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:scaleType="fitCenter"
+            app:layout_anchor="@id/_fab_scrollView"
+            app:fabSize="mini"
+            app:layout_anchorGravity="bottom|end|right"/>
+
     </android.support.design.widget.CoordinatorLayout>
-    <ListView
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer"
+        app:theme="@style/AppTheme.DrawerTheme"/>
+
+    <!--<ListView
         android:id="@+id/mylistview"
         android:layout_width="250dp"
         android:layout_height="match_parent"
@@ -367,5 +392,5 @@
         android:divider="#FFFFFF"
         android:dividerHeight="1dp"
         android:smoothScrollbar="true"
-        android:layout_gravity="left"/>
+        android:layout_gravity="left"/>-->
 </android.support.v4.widget.DrawerLayout>

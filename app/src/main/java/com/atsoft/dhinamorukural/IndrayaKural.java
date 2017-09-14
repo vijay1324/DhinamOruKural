@@ -84,13 +84,11 @@ public class IndrayaKural extends Activity {
         context = this;
         MobileAds.initialize(getApplicationContext(), String.valueOf(R.string.YOUR_ADMOB_APP_ID));
         mAdView = (AdView) findViewById(R.id.dk_adView);
-        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("4c2da3293cd5f88b").addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-//        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(Defs.adRequest);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 //        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.loadAd(Defs.adRequest);
         rootView = getWindow().getDecorView().findViewById(R.id.shared_ll);
         expbtn = (Button) findViewById(R.id.exp_btn);
         sharebtn = (Button) findViewById(R.id.share_btn);
@@ -148,7 +146,7 @@ public class IndrayaKural extends Activity {
             public void onAdClosed() {
                 IndrayaKural.this.finish();
 //                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                mInterstitialAd.loadAd(adRequest);
+                mInterstitialAd.loadAd(Defs.adRequest);
             }
         });
 
@@ -489,7 +487,7 @@ public class IndrayaKural extends Activity {
         intent.putExtra(android.content.Intent.EXTRA_TEXT, greetingmsg+"\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
-            startActivity(Intent.createChooser(intent, "Share Thirukural"));
+            startActivity(Intent.createChooser(intent, "திருக்குறளை பகிர்"));
             //IndrayaKural.this.finish();
         } catch (ActivityNotFoundException e) {
             FirebaseCrash.report(e);
