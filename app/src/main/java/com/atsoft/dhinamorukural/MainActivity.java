@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
@@ -52,12 +54,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import com.google.android.gms.ads.AdView;
+
+import org.jsoup.Jsoup;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Bundle bundle = getIntent().getExtras();
             todayKural = Integer.parseInt(bundle.getString("todayKural"));
             currentNo = Integer.parseInt(bundle.getString("preread"));
+            System.out.println("Syso : currentno : "+currentNo+"\n syso : fromactivity : "+fromactivity);
             fromactivity = bundle.getString("fromactivity");
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,14 +159,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             next.setVisibility(View.VISIBLE);
             pre.setVisibility(View.VISIBLE);
             hideIcon = true;
-            setValue(currentNo);
+            System.out.println("Syso : currentno : "+currentNo+"\n syso : fromactivity : "+fromactivity);
+            setValueToday(currentNo);
         } else {
             next.setVisibility(View.INVISIBLE);
             pre.setVisibility(View.INVISIBLE);
             hideIcon = false;
             setValue(todayKural);
         }
-
+System.out.println("Syso : currentno : "+currentNo+"\n syso : fromactivity : "+fromactivity);
         setAlerm();
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -516,12 +523,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(MainActivity.this, PopUpReceiver.class);
 
         PendingIntent sender = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        boolean alarmOnOff = sharedPrefs.getBoolean("popup_onoff", false);
-        if (!alarmOnOff) {
-            am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
-        } else {
+
+        am.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
+        /*} else {
             am.cancel(sender);
-        }
+        }*/
     }
 
     @Override
@@ -539,6 +545,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setValue(int getInt) {
+        currentNo = getInt;
+        showButton(getInt);
+        palarr = getResources().getStringArray(R.array.nav_pal);
+        iyalarr = getResources().getStringArray(R.array.nav_iyal);
+        athigaramarr = getResources().getStringArray(R.array.athigaram);
+
+        String kuralnostr = String.valueOf(getInt+1);
+        if (getInt < 10)
+            currentAgarathi = 0;
+        else {
+            currentAgarathi  = getInt / 10;
+        }
+
+        if (getInt < 380)
+            currentPal = 0;
+        else if (getInt < 1080)
+            currentPal = 1;
+        else
+            currentPal = 2;
+
+        if (getInt < 40)
+            currentIyal = 0;
+        else if (getInt < 240)
+            currentIyal = 1;
+        else if (getInt < 370)
+            currentIyal = 2;
+        else if (getInt < 380)
+            currentIyal = 3;
+        else if (getInt < 630)
+            currentIyal = 4;
+        else if (getInt < 730)
+            currentIyal = 5;
+        else if (getInt < 750)
+            currentIyal = 6;
+        else if (getInt < 760)
+            currentIyal = 7;
+        else if (getInt < 780)
+            currentIyal = 8;
+        else if (getInt < 950)
+            currentIyal = 9;
+        else if (getInt < 1080)
+            currentIyal = 10;
+        else if (getInt < 1150)
+            currentIyal = 11;
+        else
+            currentIyal = 12;
+
+
+        SQLiteDatabase db = controller.getReadableDatabase();
+        String qry = "SELECT kuralno, thirukural, mk_exp, varathu_exp, soloman_exp, parimelalagar_exp, manakadavure_exp, translate_kural, eng_exp FROM kural where kuralno = '"+kuralnostr+"'";
+        Cursor cursor = db.rawQuery(qry, null);
+        if (cursor.moveToNext()) {
+            thirukural.setText(cursor.getString(1));
+            englishkural.setText(cursor.getString(7));
+            exp_varathan.setText("\t\t"+cursor.getString(3));
+            exp_soloman.setText("\t\t"+cursor.getString(4));
+            exp_mk.setText("\t\t"+cursor.getString(2));
+            exp_parimel.setText("\t\t"+cursor.getString(5));
+            exp_manakudavar.setText("\t\t"+cursor.getString(6));
+            exp_english.setText("\t\t"+cursor.getString(8));
+        }
+        db.close();
+
+        pal.setText(palarr[currentPal]);
+        iyal.setText(iyalarr[currentIyal]);
+        athigaram.setText(athigaramarr[currentAgarathi]);
+        kuralno.setText(kuralnostr);
+        setTheme();
+    }
+
+    private void setValueToday(int getInt) {
         currentNo = getInt;
         showButton(getInt);
         palarr = getResources().getStringArray(R.array.nav_pal);

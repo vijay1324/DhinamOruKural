@@ -358,7 +358,7 @@
                 android:visibility="gone"
                 android:clickable="true"
                 android:src="@drawable/ic_fullscreen_white_24dp"
-                android:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
                 android:scaleType="fitCenter"
                 app:layout_anchor="@id/_fab_scrollView"
                 app:fabSize="mini"

@@ -64,7 +64,7 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share_white_18dp"
-                android:title="பகிர்" />
+                android:title="இன்றைய திருக்குறளை பகிர்" />
             <item
                 android:id="@+id/nav_rating"
                 android:icon="@drawable/ic_star_rate_white_18dp"
