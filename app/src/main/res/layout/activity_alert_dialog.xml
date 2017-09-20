@@ -276,7 +276,7 @@
         android:layout_margin="1dp"
         android:clickable="true"
         android:src="@drawable/ic_clear_white_24dp"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
         android:scaleType="fitCenter"
         app:layout_anchor="@id/popup_ll"
         app:fabSize="mini"
