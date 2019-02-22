@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,18 +15,18 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
-import android.os.Bundle;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
@@ -48,9 +51,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import java.util.StringTokenizer;
 
 public class IndrayaKural extends Activity {
 
@@ -63,7 +64,7 @@ public class IndrayaKural extends Activity {
     FloatingActionButton fab_close;
     View rootView;
     Bitmap ss;
-    static String filename = "", dirPath = "", greetingmsg = "", datestr = "";
+    static String filename = "", dirPath = "", greetingmsg = "", datestr = "", notyGreet = "";
     LinearLayout btnll, bottom_ll;
     SharedPreferences sharedPrefs;
     ArrayList<String> kuralnoarr;
@@ -72,11 +73,13 @@ public class IndrayaKural extends Activity {
     private AdView mAdView;
 
     static Context context;
+    Defs defs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_dialog);
+        defs = new Defs();
         /*View bg = findViewById(R.id.shared_ll);
         Drawable backround = bg.getBackground();
         backround.setAlpha(60);*/
@@ -116,14 +119,19 @@ public class IndrayaKural extends Activity {
         /*if (noon == Calendar.PM && hour != 12)
             hour += 12;*/
         System.out.println("Syso now hour : "+hour);
-        if (hour < 12)
+        if (hour < 12) {
             greet.setText("காலை வணக்கம்");
-        else if (hour < 16)
+            notyGreet = "காலை வணக்கம்";
+        } else if (hour < 16) {
             greet.setText("மதிய வணக்கம்");
-        else if (hour < 20)
+            notyGreet = "மதிய வணக்கம்";
+        } else if (hour < 20) {
             greet.setText("மாலை வணக்கம்");
-        else
+            notyGreet = "மாலை வணக்கம்";
+        } else {
             greet.setText("இனிய இரவு");
+            notyGreet = "இனிய இரவு";
+        }
 
         datestr = new DecimalFormat("00").format(cdate) + "-" + new DecimalFormat("00").format(month) + "-" + year;
         String todaydate = sharedPrefs.getString("todaydate", "");
@@ -166,6 +174,7 @@ public class IndrayaKural extends Activity {
         sharebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sharebtn.setEnabled(false);
                 ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
                 if (netInfo == null){
@@ -190,14 +199,16 @@ public class IndrayaKural extends Activity {
 //                    btnll.setVisibility(View.INVISIBLE);
                     mAdView.setVisibility(View.INVISIBLE);
                     ss = getScreenShot(rootView);
-                    store(ss, filename);
-                    greet.setVisibility(View.VISIBLE);
-                    fab_close.setVisibility(View.VISIBLE);
-                    bottom_ll.setVisibility(View.VISIBLE);
+                    if (store(ss, filename)) {
+                        greet.setVisibility(View.VISIBLE);
+                        fab_close.setVisibility(View.VISIBLE);
+                        bottom_ll.setVisibility(View.VISIBLE);
 //                    btnll.setVisibility(View.VISIBLE);
-                    mAdView.setVisibility(View.VISIBLE);
-                    shareImage(new File(dirPath, filename));
+                        mAdView.setVisibility(View.VISIBLE);
+                        shareImage(new File(dirPath, filename));
+                    }
                 }
+                sharebtn.setEnabled(true);
             }
         });
 
@@ -411,7 +422,7 @@ public class IndrayaKural extends Activity {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getBaseContext())
                         .setSmallIcon(R.drawable.indrayakural_icon)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.indrayakural_icon))
+//                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.indrayakural_icon))
                         .setContentTitle(getResources().getString(R.string.todays_kural))
                         .setContentText(todayKural)
                         .setAutoCancel(true)
@@ -420,6 +431,58 @@ public class IndrayaKural extends Activity {
 
         /* Add Big View Specific Configuration */
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        StringTokenizer stringTokenizer = new StringTokenizer(defs.getValue(context), "$");
+        int k = 0;
+        String shareno = "", shareiyal = "", sharepal = "", shareathigaram = "", sharekural = "", shareurai = "";
+        while (stringTokenizer.hasMoreTokens()) {
+            switch (k) {
+                case 0:
+                    shareno = stringTokenizer.nextToken();
+                    break;
+                case 1:
+                    sharepal = stringTokenizer.nextToken();
+                    break;
+                case 2:
+                    shareiyal = stringTokenizer.nextToken();
+                    break;
+                case 3:
+                    shareathigaram = stringTokenizer.nextToken();
+                    break;
+                case 4:
+                    sharekural = stringTokenizer.nextToken();
+                    break;
+                case 5:
+                    shareurai = stringTokenizer.nextToken();
+                    break;
+            }
+            k++;
+        }
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("text/html");
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.todays_kural));
+//        intent.putExtra(android.content.Intent.EXTRA_TEXT, greetingmsg+"\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural ");
+        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml("<b>   இன்றைய திருக்குறள்   </b>") + "\n\n" +
+                sharepal + " - " + shareiyal + "\n" + shareno + " - " + shareathigaram + "\n\n" + Html.fromHtml("<b>திருக்குறள்: </b>") + "\n" +
+                sharekural + "\n\n" + Html.fromHtml("<b> உரை:  </b>") + "\n" + shareurai + "\n\n" + greetingmsg + "\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
+        PendingIntent shareIntent = PendingIntent.getActivity(context, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        RemoteInput remoteInput;
+        NotificationCompat.Action action;
+        if (Build.VERSION.SDK_INT >= 20) {
+            //remoteInput = new RemoteInput.Builder("Reply Key").setLabel(greetingmsg).build();
+
+            action = new NotificationCompat.Action.Builder(R.drawable.ic_share_white_18dp,
+                    "பகிர்", shareIntent)
+                    //.addRemoteInput(remoteInput)
+                    .build();
+            mBuilder.addAction(action);
+        } else {
+            Log.i("Syso else : ","Verison below");
+        }
 
         String[] events = todayKural.split("\n");
 
@@ -444,18 +507,28 @@ public class IndrayaKural extends Activity {
         // Add as notification
         NotificationManager manager = (NotificationManager) getSystemService(getApplicationContext().NOTIFICATION_SERVICE);
         manager.notify(0, mBuilder.build());
+
+        Intent widgetRefreshIntent = new Intent(context, ThirukuralWidget.class);
+        widgetRefreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+// since it seems the onUpdate() is only fired on that:
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), ThirukuralWidget.class));
+        widgetRefreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(widgetRefreshIntent);
     }
 
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
-        screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, (int) context.getResources().getDimension(R.dimen.popup_ss_height) + 75);
+//        screenView.layout(0, 0, Resources.getSystem().getDisplayMetrics().widthPixels, (int) context.getResources().getDimension(R.dimen.popup_ss_height) + 75);
+        screenView.layout(0, 0, screenView.getMeasuredWidth(), (int) (context.getResources().getDimension(R.dimen.popup_ss_height)
+                + context.getResources().getDimension(R.dimen.margin15)));
         screenView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
         screenView.setDrawingCacheEnabled(false);
         return bitmap;
     }
 
-    public void store(Bitmap bm, String fileName){
+    public boolean store(Bitmap bm, String fileName){
         dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Thirukural/Screenshots";
 //        dirPath = getFilesDir().getAbsolutePath() + "/Thirukural/Screenshots";
         File dir = new File(dirPath);
@@ -467,9 +540,11 @@ public class IndrayaKural extends Activity {
             bm.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
+            return false;
         }
     }
 
@@ -484,8 +559,8 @@ public class IndrayaKural extends Activity {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("image/*");
 
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getResources().getString(R.string.todays_kural));
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, greetingmsg+"\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.todays_kural));
+        intent.putExtra(Intent.EXTRA_TEXT, greetingmsg+"\n\nhttps://play.google.com/store/apps/details?id=com.atsoft.dhinamorukural \n\n");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         try {
             startActivity(Intent.createChooser(intent, "திருக்குறளை பகிர்"));
